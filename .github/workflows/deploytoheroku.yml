@@ -48,7 +48,7 @@ jobs:
     needs: build-backend
     environment:
       name: Produktion Heroku
-      url: https://cgn-java-22-2-zoomanagement.herokuapp.com
+      url: https://products-gallery.herokuapp.com
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
@@ -60,6 +60,6 @@ jobs:
       - name: Login to Heroku
         run: heroku container:login
       - name: Push Docker Image
-        run: heroku container:push web -a cgn-java-22-2-zoomanagement
+        run: heroku container:push web -a products-gallery
       - name: Release Docker Container
-        run: heroku container:release web -a cgn-java-22-2-zoomanagement
+        run: heroku container:release web -a products-gallery
