@@ -8,6 +8,9 @@ type ProductProps = {
 export default function ProductCard(props: ProductProps) {
 
     return <>
-        {props.product.title}
+        <p> {props.product.title} </p>
+        <p> {props.product.description} </p>
+        <img src={props.product.pictureUrls[0]}
+             alt={"Bild mit dem Titel " + props.product.title + "wird geladen"}/>
     </>
 }

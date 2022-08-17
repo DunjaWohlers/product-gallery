@@ -5,6 +5,7 @@ import ProductCard from "./component/ProductCard";
 
 function App() {
     const {allProducts} = useProducts();
+
     return (
         <div className="App">
             {!allProducts && <div>Lade Produkt-Liste</div>}
