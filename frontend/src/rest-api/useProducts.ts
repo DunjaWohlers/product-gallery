@@ -8,7 +8,7 @@ export default function useProducts() {
 
     useEffect(
         () => {
-            axios.get("product-gallery/")
+            axios.get("api")
                 .then(response => response.data)
                 .then(setAllProducts)
                 .catch(error => console.error(error));
