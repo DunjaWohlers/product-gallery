@@ -1,5 +1,6 @@
 package de.neuefische.cgnjava222.productgallery;
 
+import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,9 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@RequestBody NewProduct newProduct) {
         return productService.addProduct(
-                new Product(product.title(), product.description(),
-                        product.pictureUrls(), product.price(), product.availableCount())
+                new Product(newProduct)
         );
     }
 }

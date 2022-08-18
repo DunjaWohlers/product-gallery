@@ -10,7 +10,8 @@ class ProductTest {
 
     @Test
     void nonCanonicalArgsConstructorCreatesID() {
-        Product product = new Product("Biber", "knuffig, flauschig", List.of("http://google.de"), 4, 5);
+        NewProduct newProduct = new NewProduct("Biber", "knuffig, flauschig", List.of("http://google.de"), 4, 5);
+        Product product = new Product(newProduct);
         String productID = product.id();
         Integer expected = 36;
         Integer actual = productID.length();

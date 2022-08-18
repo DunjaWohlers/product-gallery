@@ -1,6 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -19,8 +20,23 @@ public record Product(
         @NotNull
         Integer availableCount
 ) {
-        public Product(String title, String description, List<String> pictureUrls, Integer price, Integer availableCount) {
-                this(UUID.randomUUID().toString(), title, description, pictureUrls, price, availableCount);
+        @PersistenceConstructor
+        public Product(String id, @NotNull
+        String title, @NotNull
+                       String description, @NotNull
+                       List<String> pictureUrls, @NotNull
+                       Integer price, @NotNull
+                       Integer availableCount) {
+                this.id = id;
+                this.title = title;
+                this.description = description;
+                this.pictureUrls = pictureUrls;
+                this.price = price;
+                this.availableCount = availableCount;
+        }
 
+        public Product(NewProduct product) {
+                this(UUID.randomUUID().toString(), product.title(), product.description(),
+                        product.pictureUrls(), product.price(), product.availableCount());
         }
 }

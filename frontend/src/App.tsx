@@ -4,9 +4,10 @@ import useProducts from "./rest-api/useProducts";
 import ProductCard from "./component/ProductCard";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
+import AddProductFormular from "./component/AddProductFormular";
 
 export default function App() {
-    const {allProducts} = useProducts();
+    const {allProducts, addProduct} = useProducts();
 
     return (
         <div className="App">
@@ -17,6 +18,7 @@ export default function App() {
                     <ProductCard product={product}
                                  key={product.id}/>
                 )}
+                <AddProductFormular addProduct={addProduct}/>
             </main>
             <Footer/>
         </div>
