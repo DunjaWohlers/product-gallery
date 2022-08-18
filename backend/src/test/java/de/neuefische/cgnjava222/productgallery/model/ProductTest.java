@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductTest {
 
-
     @Test
     void nonCanonicalArgsConstructorCreatesID() {
         Product product = new Product("Biber", "knuffig, flauschig", List.of("http://google.de"), 4, 5);

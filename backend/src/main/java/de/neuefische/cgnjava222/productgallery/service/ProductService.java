@@ -11,7 +11,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepo productRepo;
+
     public List<Product> getAllProducts() {
         return productRepo.findAll();
+    }
+
+    public Product addProduct(Product product) {
+        return productRepo.save(product);
     }
 }
