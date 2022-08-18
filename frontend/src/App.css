@@ -34,6 +34,6 @@ footer {
 }
 
 main {
-    height: calc(100vh - 80pt);
+    min-height: calc(100vh - 100pt);
 }
 
