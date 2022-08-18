@@ -20,7 +20,7 @@ class ProductIntegrationTest {
     void getProducts() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/product-gallery/")
+                .perform(MockMvcRequestBuilders.get("/api/")
                 )
                 .andExpect(status().isOk());
     }
