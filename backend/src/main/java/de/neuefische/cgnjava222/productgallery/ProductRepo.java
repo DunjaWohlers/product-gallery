@@ -1,4 +1,4 @@
-package de.neuefische.cgnjava222.productgallery.service;
+package de.neuefische.cgnjava222.productgallery;
 
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
