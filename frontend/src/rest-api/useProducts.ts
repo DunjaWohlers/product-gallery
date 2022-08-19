@@ -29,5 +29,10 @@ export default function useProducts() {
             .catch(error => console.error(error));
     }
 
-    return {allProducts, addProduct, deleteProduct}
+    const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
+        return axios.put("/api/product/" + id, newUpdateProduct)
+            .catch(error => console.error(error))
+    }
+
+    return {allProducts, addProduct, deleteProduct, updateProduct}
 }

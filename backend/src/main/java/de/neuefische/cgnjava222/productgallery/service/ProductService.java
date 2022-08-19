@@ -1,6 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
 import de.neuefische.cgnjava222.productgallery.ProductRepo;
+import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class ProductService {
             return true;
         }
         return false;
+    }
+
+    public Product updateProduct(String id, NewProduct newProduct) {
+        return productRepo.save(new Product(id, newProduct));
     }
 }

@@ -7,7 +7,7 @@ import Footer from "./component/Footer";
 import AddProductFormular from "./component/AddProductFormular";
 
 export default function App() {
-    const {allProducts, addProduct, deleteProduct} = useProducts();
+    const {allProducts, addProduct, deleteProduct, updateProduct} = useProducts();
     const admin = true;
 
     return (
@@ -19,9 +19,11 @@ export default function App() {
                     <ProductCard product={product}
                                  deleteProduct={deleteProduct}
                                  admin={admin}
+                                 updateProduct={updateProduct}
                                  key={product.id}/>
                 )}
                 <AddProductFormular addProduct={addProduct}/>
+
             </main>
             <Footer/>
         </div>

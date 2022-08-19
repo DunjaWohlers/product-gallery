@@ -1,10 +1,12 @@
 import React from "react";
-import {Product} from "../type/Product";
+import {NewProduct, Product} from "../type/Product";
+import EditProductFormular from "./EditProductFormular";
 
 type ProductProps = {
     product: Product,
     deleteProduct: (id: string) => Promise<number | void>,
-    admin: boolean
+    admin: boolean,
+    updateProduct: (id: string, newProduct: NewProduct) => void
 }
 
 export default function ProductCard(props: ProductProps) {
@@ -19,5 +21,6 @@ export default function ProductCard(props: ProductProps) {
         <img src={props.product.pictureUrls[0]}
              alt={"Bild mit dem Titel " + props.product.title + "wird geladen"}/>
         {props.admin && <button onClick={handleDelete}> delete </button>}
+        <EditProductFormular updateProduct={props.updateProduct} product={props.product}/>
     </>
 }

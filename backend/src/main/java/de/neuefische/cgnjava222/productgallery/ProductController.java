@@ -37,4 +37,10 @@ public class ProductController {
         boolean deleteSuccess = productService.deleteProduct(id);
         return new ResponseEntity<>(deleteSuccess ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/product/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
+        return productService.updateProduct(id, newProduct);
+    }
 }

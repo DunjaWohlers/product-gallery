@@ -42,4 +42,9 @@ public record Product(
         this(UUID.randomUUID().toString(), product.title(), product.description(),
                 product.pictureUrls(), product.price(), product.availableCount());
     }
+
+    public Product(String id, NewProduct product) {
+        this(id, product.title(), product.description(),
+                product.pictureUrls(), product.price(), product.availableCount());
+    }
 }
