@@ -24,10 +24,8 @@ class ProductIntegrationTest {
     @Autowired
     ObjectMapper objectMapper;
 
-
     @Test
     void getProducts() throws Exception {
-
         mockMvc
                 .perform(get("/api/")
                 )
@@ -72,5 +70,4 @@ class ProductIntegrationTest {
         mockMvc.perform(delete("/api/" + notExistingID))
                 .andExpect(status().is(404));
     }
-
 }
