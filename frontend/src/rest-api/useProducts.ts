@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Product} from "../type/Product";
+import {NewProduct, Product} from "../type/Product";
 import axios from "axios";
 
 export default function useProducts() {
@@ -15,5 +15,10 @@ export default function useProducts() {
         }, []
     );
 
-    return {allProducts}
+    const addProduct = (newProduct: NewProduct) => {
+        return axios.post("/api/", newProduct)
+            .then(response => response.data)
+    }
+
+    return {allProducts, addProduct}
 }

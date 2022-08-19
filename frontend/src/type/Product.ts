@@ -6,3 +6,5 @@ export type Product = {
     price: number,
     available: number,
 }
+
+export type NewProduct = Omit<Product, "id">
