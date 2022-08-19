@@ -39,7 +39,6 @@ export default function AddProductFormular(props: AddProductFormProps) {
                    defaultValue={"Anzahl verfügbar"} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
 
-
             <button type={"submit"}> save</button>
         </form>
     </>
