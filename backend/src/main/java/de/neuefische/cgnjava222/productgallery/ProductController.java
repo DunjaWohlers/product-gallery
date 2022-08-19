@@ -4,6 +4,7 @@ import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,5 +30,11 @@ public class ProductController {
         return productService.addProduct(
                 new Product(newProduct)
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAnimal(@PathVariable String id) {
+        boolean deleteSuccess = productService.deleteProduct(id);
+        return new ResponseEntity<>(deleteSuccess ? HttpStatus.ACCEPTED : HttpStatus.NOT_FOUND);
     }
 }

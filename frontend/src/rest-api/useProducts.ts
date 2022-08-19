@@ -6,19 +6,28 @@ export default function useProducts() {
 
     const [allProducts, setAllProducts] = useState<Product[]>()
 
+    const getAllProducts = () => {
+        axios.get("/api/")
+            .then(response => response.data)
+            .then(setAllProducts)
+            .catch(error => console.error(error));
+    }
     useEffect(
-        () => {
-            axios.get("/api/")
-                .then(response => response.data)
-                .then(setAllProducts)
-                .catch(error => console.error(error));
-        }, []
+        getAllProducts, []
     );
 
     const addProduct = (newProduct: NewProduct) => {
         return axios.post("/api/", newProduct)
             .then(response => response.data)
+            .catch(error => console.error(error));
     }
 
-    return {allProducts, addProduct}
+    const deleteProduct = (id: string) => {
+        return axios.delete(`/api/${id}`)
+            .then(response => response.status)
+            .then(getAllProducts)
+            .catch(error => console.error(error));
+    }
+
+    return {allProducts, addProduct, deleteProduct}
 }
