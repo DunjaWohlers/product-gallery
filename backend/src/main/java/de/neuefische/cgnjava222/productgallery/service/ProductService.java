@@ -19,4 +19,12 @@ public class ProductService {
     public Product addProduct(Product product) {
         return productRepo.save(product);
     }
+
+    public boolean deleteProduct(String id) {
+        if (productRepo.existsById(id)) {
+            productRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

@@ -10,13 +10,13 @@ export default function AddProductFormular(props: AddProductFormProps) {
     const [description, setDescription] = useState<string>();
     const [pictureUrls, setPictureUrls] = useState<string[]>();
     const [price, setPrice] = useState<number>();
-    const [available, setAvailable] = useState<number>();
+    const [availableCount, setAvailable] = useState<number>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (title && description && pictureUrls && price && available &&
+        if (title && description && pictureUrls && price && availableCount &&
             title.length > 0 && description.length > 0 && pictureUrls.length > 0) {
-            const prod = props.addProduct({title, description, pictureUrls, price, available})
+            const prod = props.addProduct({title, description, pictureUrls, price, availableCount})
             console.log(prod);
         } else {
             console.error("Produktinformationen fehlen")

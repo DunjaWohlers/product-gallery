@@ -4,7 +4,7 @@ export type Product = {
     description: string,
     pictureUrls: string[]
     price: number,
-    available: number,
+    availableCount: number,
 }
 
 export type NewProduct = Omit<Product, "id">
