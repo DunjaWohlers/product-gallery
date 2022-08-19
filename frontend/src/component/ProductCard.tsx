@@ -10,7 +10,7 @@ type ProductProps = {
 export default function ProductCard(props: ProductProps) {
 
     const handleDelete = () => {
-        let existedAndDeleted: Promise<void | number> = props.deleteProduct(props.product.id);
+        props.deleteProduct(props.product.id);
     }
 
     return <>
