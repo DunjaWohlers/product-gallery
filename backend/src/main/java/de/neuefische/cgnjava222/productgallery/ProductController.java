@@ -28,7 +28,7 @@ public class ProductController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public Product addProduct(@RequestBody NewProduct newProduct) {
         return productService.addProduct(
-                new Product(newProduct)
+                Product.ProductFactory.create(newProduct)
         );
     }
 

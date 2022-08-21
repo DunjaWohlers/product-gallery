@@ -1,28 +1,38 @@
-#logo {
-    background-image: url("https://picsum.photos/60/60");
-    width: 40pt;
-    height: 40pt;
-}
-
 header h1 {
-    color: white;
+    color: inherit;
     font-size: 18pt;
 }
 
+.navLink {
+    text-decoration: none;
+    font-weight: inherit;
+    color: inherit;
+    font-size: inherit;
+}
+
 header {
+    color: white;
     height: 50pt;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    background-image: url("https://picsum.photos/160/70");
+    background-color: var(--defaultColor);
 }
 
 header button {
     color: white;
-    font-size: 14pt;
+    font-size: 12pt;
     background-color: transparent;
     border: none;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 100pt);
+    justify-content: center;
+    align-content: flex-start;
 }
 
 footer {
@@ -30,10 +40,11 @@ footer {
     color: white;
     height: 30pt;
     width: 100%;
-    background-image: url("https://picsum.photos/160/70");
+    background-color: var(--defaultColor);
 }
 
-main {
-    min-height: calc(100vh - 100pt);
+#logo {
+    background-image: url("http://placeimg.com/60/60/animals");
+    width: 40pt;
+    height: 40pt;
 }
-
