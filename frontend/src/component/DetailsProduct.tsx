@@ -30,8 +30,6 @@ export default function DetailsProduct(props: DetailsProductProps) {
                     Nachricht, wenn Sie es dennoch wünschen, bei genügend Anfragen kann es
                     eventuell wieder angeboten werden. </p>
             }
-
-
         </div>
     )
 }

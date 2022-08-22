@@ -8,12 +8,14 @@ import AllRoutes from "./AllRoutes";
 export default function App() {
 
     return (
-        <div className="App">
+        <>
             <BrowserRouter>
                 <HeaderNav/>
-                <AllRoutes/>
+                <main>
+                    <AllRoutes/>
+                </main>
                 <Footer/>
             </BrowserRouter>
-        </div>
+        </>
     )
 }

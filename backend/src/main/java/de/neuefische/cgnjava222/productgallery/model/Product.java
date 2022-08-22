@@ -26,13 +26,23 @@ public record Product(
         }
 
         public static Product create(NewProduct product) {
-            return new Product(UUID.randomUUID().toString(), product.title(), product.description(),
-                    product.pictureUrls(), product.price(), product.availableCount());
+            return new Product(
+                    UUID.randomUUID().toString(),
+                    product.title(),
+                    product.description(),
+                    product.pictureUrls(),
+                    product.price(),
+                    product.availableCount());
         }
 
         public static Product create(String id, NewProduct product) {
-            return new Product(id, product.title(), product.description(),
-                    product.pictureUrls(), product.price(), product.availableCount());
+            return new Product(
+                    id,
+                    product.title(),
+                    product.description(),
+                    product.pictureUrls(),
+                    product.price(),
+                    product.availableCount());
         }
     }
 }
