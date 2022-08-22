@@ -36,6 +36,31 @@ class ProductIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getProductPerId() throws Exception {
+        String saveResult = mockMvc.perform(post("/api/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title": "Birne"}
+                                """)
+                )
+                .andExpect(status().is(201))
+                .andExpect(content().json("""
+                        {
+                        "title": "Birne"
+                        }
+                        """))
+                .andReturn().getResponse().getContentAsString();
+        Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
+
+        String content = mockMvc.perform(get("/api/details/" + saveResultProduct.id())
+                ).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        Product actualProduct = objectMapper.readValue(content, Product.class);
+
+        Assertions.assertEquals(actualProduct, saveResultProduct);
+    }
+
     @DirtiesContext
     @Test
     void addProducts() throws Exception {
@@ -110,4 +135,5 @@ class ProductIntegrationTest {
         Assertions.assertEquals(saveResultProduct.id(), actualProduct.id());
         Assertions.assertEquals(expectedProduct, actualProduct);
     }
+
 }

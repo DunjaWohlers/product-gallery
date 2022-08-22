@@ -24,6 +24,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/details/{id}")
+    public Product getDetailsPerId(@PathVariable String id) {
+        return productService.getDetailsOf(id).get();
+    }
+
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Product addProduct(@RequestBody NewProduct newProduct) {
@@ -43,4 +48,6 @@ public class ProductController {
     public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
         return productService.updateProduct(id, newProduct);
     }
+
+
 }
