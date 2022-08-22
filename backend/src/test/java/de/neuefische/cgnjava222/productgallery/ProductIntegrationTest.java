@@ -1,7 +1,9 @@
 package de.neuefische.cgnjava222.productgallery;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -69,5 +73,41 @@ class ProductIntegrationTest {
         String notExistingID = "ABC123";
         mockMvc.perform(delete("/api/" + notExistingID))
                 .andExpect(status().is(404));
+    }
+
+    @DirtiesContext
+    @Test
+    void updateProduct() throws Exception {
+        String saveResult = mockMvc.perform(post("/api/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title": "Birne"}
+                                """)
+                )
+                .andExpect(status().is(201))
+                .andExpect(content().json("""
+                        {
+                        "title": "Birne"
+                        }
+                        """))
+                .andReturn().getResponse().getContentAsString();
+        Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
+
+        NewProduct newProduct = new NewProduct("Product1", "1a Qualitaet",
+                List.of("http://www.bla.de"), 5, 6);
+        Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
+        System.out.println("hi");
+        System.out.println(expectedProduct);
+        String updateResponse = mockMvc.perform(put("/api/product/" + saveResultProduct.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expectedProduct))
+                )
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+        Product actualProduct = objectMapper.readValue(updateResponse, Product.class);
+        System.out.println("ho");
+        System.out.println(actualProduct);
+        Assertions.assertEquals(saveResultProduct.id(), actualProduct.id());
+        Assertions.assertEquals(expectedProduct, actualProduct);
     }
 }

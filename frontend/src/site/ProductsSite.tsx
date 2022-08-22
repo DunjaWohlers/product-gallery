@@ -12,7 +12,7 @@ type ProductsSiteProps = {
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<void | AxiosResponse<any, any>>,
 }
 export default function ProductsSite(props: ProductsSiteProps) {
-    const admin = false;
+    const admin = true;
     return (<>
             {!props.allProducts && <div>Lade Produkt-Liste</div>}
             {props.allProducts && props.allProducts.map(product =>
