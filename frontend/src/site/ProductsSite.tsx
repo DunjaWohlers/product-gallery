@@ -10,6 +10,7 @@ type ProductsSiteProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>,
     deleteProduct: (id: string) => Promise<void>,
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<void | AxiosResponse<any, any>>,
+    getOneProductPerId: (id: string) => void,
 }
 export default function ProductsSite(props: ProductsSiteProps) {
     const admin = true;
@@ -20,7 +21,8 @@ export default function ProductsSite(props: ProductsSiteProps) {
                              deleteProduct={props.deleteProduct}
                              admin={admin}
                              updateProduct={props.updateProduct}
-                             key={product.id}/>
+                             key={product.id}
+                             getOneProductPerId={props.getOneProductPerId}/>
             )}
             {admin &&
                 <NavLink to={"/product/new"} className={"addNav cardContainer"}> + </NavLink>

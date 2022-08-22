@@ -6,11 +6,12 @@ import "./editAddDetails.css";
 type EditProductFormProps = {
     products: Product[] | undefined,
     updateProduct: (id: string, newProduct: NewProduct) => void,
+    detailProduct: Product | undefined,
 }
 
 export default function EditProductFormular(props: EditProductFormProps) {
     let {id} = useParams();
-    const thisProduct: Product | undefined = props.products?.find(element => element.id === id);
+    const thisProduct = props.detailProduct;
 
     const [title, setTitle] = useState<string>(thisProduct ? thisProduct.title : "");
     const [description, setDescription] = useState<string>(thisProduct ? thisProduct.description : "");

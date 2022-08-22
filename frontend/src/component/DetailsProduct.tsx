@@ -1,16 +1,14 @@
 import React from "react";
-import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 import {Product} from "../type/Product";
 
 type DetailsProductProps = {
     products: Product[] | undefined,
+    detailProduct: Product | undefined,
 }
+
 export default function DetailsProduct(props: DetailsProductProps) {
-    let {id} = useParams();
-
-    const thisProduct: Product | undefined = props.products?.find(element => element.id === id);
-
+    const thisProduct = props.detailProduct;
     return (
         <div className={"fullView"}>
             <h3>{thisProduct?.title}</h3>

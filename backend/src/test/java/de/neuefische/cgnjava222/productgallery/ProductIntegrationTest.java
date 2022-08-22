@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -115,10 +116,10 @@ class ProductIntegrationTest {
                         "title": "Birne"
                         }
                         """))
-                .andReturn().getResponse().getContentAsString();
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
-        NewProduct newProduct = new NewProduct("Product1", "1a Qualitaet",
+        NewProduct newProduct = new NewProduct("Product1", "1a Qualität",
                 List.of("http://www.bla.de"), 5, 6);
         Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
         System.out.println("hi");
@@ -128,7 +129,7 @@ class ProductIntegrationTest {
                         .content(objectMapper.writeValueAsString(expectedProduct))
                 )
                 .andExpect(status().is(200))
-                .andReturn().getResponse().getContentAsString();
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product actualProduct = objectMapper.readValue(updateResponse, Product.class);
         System.out.println("ho");
         System.out.println(actualProduct);

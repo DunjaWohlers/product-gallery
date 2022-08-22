@@ -26,7 +26,8 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     public Product getDetailsPerId(@PathVariable String id) {
-        return productService.getDetailsOf(id).orElseThrow(() -> new RuntimeException("not Found"));
+        return productService.getDetailsOf(id).orElseThrow(() ->
+                new RuntimeException("not Found"));
     }
 
     @PostMapping

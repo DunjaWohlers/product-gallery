@@ -5,7 +5,8 @@ import {useNavigate} from "react-router-dom";
 
 export default function useProducts() {
 
-    const [allProducts, setAllProducts] = useState<Product[]>()
+    const [allProducts, setAllProducts] = useState<Product[]>();
+    const [detailProduct, setDetailProduct] = useState<Product>();
     const navigate = useNavigate();
 
     const getAllProducts = () => {
@@ -17,6 +18,13 @@ export default function useProducts() {
     useEffect(
         getAllProducts, []
     );
+
+    const getOneProductPerId = (id: string) => {
+        axios.get("/api/details/" + id)
+            .then(response => response.data)
+            .then(setDetailProduct)
+            .catch(error => console.error(error));
+    }
 
     const addProduct = (newProduct: NewProduct) => {
         return axios.post("/api/", newProduct)
@@ -40,5 +48,8 @@ export default function useProducts() {
             .then(() => navigate("/"))
     }
 
-    return {allProducts, addProduct, deleteProduct, updateProduct}
+    return {
+        allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
+        , detailProduct
+    }
 }
