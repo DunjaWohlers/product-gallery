@@ -1,28 +1,56 @@
-#logo {
-    background-image: url("https://picsum.photos/60/60");
-    width: 40pt;
-    height: 40pt;
-}
-
-header h1 {
-    color: white;
-    font-size: 18pt;
+.navLink {
+    text-decoration: none;
+    font-weight: inherit;
+    color: inherit;
+    font-size: inherit;
 }
 
 header {
+    color: white;
     height: 50pt;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    background-image: url("https://picsum.photos/160/70");
+    background-color: var(--defaultColor);
 }
 
 header button {
     color: white;
-    font-size: 14pt;
+    font-size: 10pt;
     background-color: transparent;
     border: none;
+}
+
+header button, header .navLink {
+    color: inherit;
+    margin: 0;
+    box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.67);
+    height: 27pt;
+    border-radius: 5pt;
+    padding: 3pt;
+    opacity: 80%;
+    text-decoration: none;
+}
+
+header .navLink {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+header .navLink h1 {
+    color: inherit;
+    text-decoration: inherit;
+    font-size: 12pt;
+    margin: 6pt 1pt 5pt 2pt;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 100pt);
+    justify-content: center;
+    align-content: flex-start;
 }
 
 footer {
@@ -30,10 +58,21 @@ footer {
     color: white;
     height: 30pt;
     width: 100%;
-    background-image: url("https://picsum.photos/160/70");
+    background-color: var(--defaultColor);
 }
 
-main {
-    min-height: calc(100vh - 100pt);
+#logo {
+    opacity: 80%;
+    width: 40pt;
+    height: 25pt;
+    box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.67);
+    border-radius: 6pt;
+    padding: 1pt;
+    background-color: #706065;
 }
 
+#logo img {
+    width: 100%;
+    height: 100%;
+    filter: invert(80%);
+}

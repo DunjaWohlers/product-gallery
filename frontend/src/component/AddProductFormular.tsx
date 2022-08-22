@@ -1,8 +1,9 @@
 import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useState} from "react";
+import "./editAddDetails.css";
 
 type AddProductFormProps = {
-    addProduct: (newProduct: NewProduct) => Promise<Product>;
+    addProduct: (newProduct: NewProduct) => Promise<Product | void>
 }
 
 export default function AddProductFormular(props: AddProductFormProps) {
@@ -16,15 +17,14 @@ export default function AddProductFormular(props: AddProductFormProps) {
         event.preventDefault();
         if (title && description && pictureUrls && price && availableCount &&
             title.length > 0 && description.length > 0 && pictureUrls.length > 0) {
-            const prod = props.addProduct({title, description, pictureUrls, price, availableCount})
-            console.log(prod);
+            props.addProduct({title, description, pictureUrls, price, availableCount});
         } else {
             console.error("Produktinformationen fehlen")
         }
     }
 
     return <>
-        <form onSubmit={handleSubmit}>
+        <form className={"fullView"} onSubmit={handleSubmit}>
             <input type="text" onFocus={(event) => event.target.select()}
                    defaultValue={"Titel"} name={"title"} onChange={(event) => setTitle(event.target.value)}/>
             <input type="text" onFocus={(event) => event.target.select()}
