@@ -34,11 +34,9 @@ class ProductServiceTest {
         ProductRepo productRepo = mock(ProductRepo.class);
         when(productRepo.findAll()).thenReturn(productsFromRepo);
 
-        ProductListType prod1 = new ProductListType(product1.id(), product1.title(), product1.pictureUrls().get(0), product1.price());
-        ProductListType prod2 = new ProductListType(product2.id(), product2.title(), product2.pictureUrls().get(0), product2.price());
-        ProductListType prod3 = new ProductListType(product3.id(), product3.title(), product3.pictureUrls().get(0), product3.price());
-
-        List<ProductListType> expectedProducts = List.of(prod1, prod2, prod3);
+        List<ProductListType> expectedProducts = productsFromRepo.stream()
+                .map(element -> new ProductListType(element.id(), element.title(), element.pictureUrls().get(0), element.price()))
+                .toList();
         ProductService productService = new ProductService(productRepo);
         List<ProductListType> actualProducts = productService.getAllProducts();
 
