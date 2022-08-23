@@ -37,6 +37,4 @@ public class ProductService {
     public Product updateProduct(String id, NewProduct newProduct) {
         return productRepo.save(Product.ProductFactory.create(id, newProduct));
     }
-
-
 }
