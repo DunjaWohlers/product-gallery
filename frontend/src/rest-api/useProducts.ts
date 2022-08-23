@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 export default function useProducts() {
 
     const [allProducts, setAllProducts] = useState<Product[]>();
-    const [detailProduct, setDetailProduct] = useState<Product>();
     const navigate = useNavigate();
 
     const getAllProducts = () => {
@@ -20,10 +19,7 @@ export default function useProducts() {
     );
 
     const getOneProductPerId = (id: string) => {
-        axios.get("/api/details/" + id)
-            .then(response => response.data)
-            .then(setDetailProduct)
-            .catch(error => console.error(error));
+
     }
 
     const addProduct = (newProduct: NewProduct) => {
@@ -50,6 +46,6 @@ export default function useProducts() {
 
     return {
         allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
-        , detailProduct
+
     }
 }

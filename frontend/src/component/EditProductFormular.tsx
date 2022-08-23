@@ -1,17 +1,26 @@
 import {NewProduct, Product} from "../type/Product";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
+import axios from "axios";
 
 type EditProductFormProps = {
     products: Product[] | undefined,
     updateProduct: (id: string, newProduct: NewProduct) => void,
-    detailProduct: Product | undefined,
+    getOneProductPerId: (id: string) => void,
 }
 
 export default function EditProductFormular(props: EditProductFormProps) {
-    let {id} = useParams();
-    const thisProduct = props.detailProduct;
+    const {id} = useParams();
+    const [thisProduct, setDetailProduct] = useState<Product | undefined>();
+    useEffect(() => {
+        if (id) {
+            axios.get("/api/details/" + id)
+                .then(response => response.data)
+                .then(setDetailProduct)
+                .catch(error => console.error(error));
+        }
+    }, [id])
 
     const [title, setTitle] = useState<string>(thisProduct ? thisProduct.title : "");
     const [description, setDescription] = useState<string>(thisProduct ? thisProduct.description : "");

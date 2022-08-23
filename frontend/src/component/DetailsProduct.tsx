@@ -1,14 +1,26 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./editAddDetails.css";
 import {Product} from "../type/Product";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 type DetailsProductProps = {
     products: Product[] | undefined,
-    detailProduct: Product | undefined,
+    getOneProductPerId: (id: string) => void,
 }
 
 export default function DetailsProduct(props: DetailsProductProps) {
-    const thisProduct = props.detailProduct;
+    const {id} = useParams();
+    const [thisProduct, setDetailProduct] = useState<Product>();
+    useEffect(() => {
+        if (id) {
+            axios.get("/api/details/" + id)
+                .then(response => response.data)
+                .then(setDetailProduct)
+                .catch(error => console.error(error));
+        }
+
+    }, [])
     return (
         <div className={"fullView"}>
             <h3>{thisProduct?.title}</h3>

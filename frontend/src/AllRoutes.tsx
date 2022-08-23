@@ -9,7 +9,6 @@ import AddProductFormular from "./component/AddProductFormular";
 export default function AllRoutes() {
     const {
         allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
-        , detailProduct
     } = useProducts();
 
     return (<>
@@ -19,7 +18,6 @@ export default function AllRoutes() {
                     deleteProduct={deleteProduct}
                     addProduct={addProduct}
                     allProducts={allProducts}
-                    getOneProductPerId={getOneProductPerId}
                 />}/>
                 <Route path={"/newProduct"}/>
                 <Route path={"/editProduct"}/>
@@ -28,14 +26,15 @@ export default function AllRoutes() {
                        element={
                            <DetailsProduct
                                products={allProducts}
-                               detailProduct={detailProduct}
+                               getOneProductPerId={getOneProductPerId}
                            />}/>
                 <Route path={"product/edit/:id"
                 }
                        element={
                            <EditProductFormular products={allProducts}
                                                 updateProduct={updateProduct}
-                                                detailProduct={detailProduct}
+                                                getOneProductPerId={getOneProductPerId}
+
 
                            />}/>
                 <Route path={"product/new"} element={<AddProductFormular addProduct={addProduct}/>}/>

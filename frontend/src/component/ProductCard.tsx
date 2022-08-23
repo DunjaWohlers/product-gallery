@@ -8,7 +8,6 @@ type ProductProps = {
     deleteProduct: (id: string) => Promise<number | void>,
     admin: boolean,
     updateProduct: (id: string, newProduct: NewProduct) => void,
-    getOneProductPerId: (id: string) => void,
 }
 
 export default function ProductCard(props: ProductProps) {
@@ -19,8 +18,7 @@ export default function ProductCard(props: ProductProps) {
     return (
         <div className={"cardContainer"}>
             {props.admin && <button onClick={handleDelete}> delete </button>}
-            <NavLink className="navLink" onClick={() => props.getOneProductPerId(props.product.id)
-            }
+            <NavLink className="navLink"
                      to={
                          !props.admin
                              ? "/product/" + props.product.id
