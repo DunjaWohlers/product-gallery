@@ -25,7 +25,6 @@ export default function AllRoutes() {
                 }
                        element={
                            <DetailsProduct
-                               products={allProducts}
                                getOneProductPerId={getOneProductPerId}
                            />}/>
                 <Route path={"product/edit/:id"

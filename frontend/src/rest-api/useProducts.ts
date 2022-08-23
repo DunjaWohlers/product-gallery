@@ -19,7 +19,8 @@ export default function useProducts() {
     );
 
     const getOneProductPerId = (id: string) => {
-
+        return axios.get("/api/details/" + id)
+            .then(response => response.data)
     }
 
     const addProduct = (newProduct: NewProduct) => {

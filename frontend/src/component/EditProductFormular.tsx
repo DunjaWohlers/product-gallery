@@ -2,31 +2,35 @@ import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
-import axios from "axios";
 
 type EditProductFormProps = {
     products: Product[] | undefined,
     updateProduct: (id: string, newProduct: NewProduct) => void,
-    getOneProductPerId: (id: string) => void,
+    getOneProductPerId: (id: string) => Promise<Product>,
 }
 
 export default function EditProductFormular(props: EditProductFormProps) {
+
     const {id} = useParams();
-    const [thisProduct, setDetailProduct] = useState<Product | undefined>();
     useEffect(() => {
         if (id) {
-            axios.get("/api/details/" + id)
-                .then(response => response.data)
-                .then(setDetailProduct)
+            props.getOneProductPerId(id)
+                .then((data) => {
+                    setTitle(data.title);
+                    setDescription(data.description);
+                    setAvailable(data.availableCount);
+                    setPrice(data.price);
+                    setPictureUrls(data.pictureUrls)
+                })
                 .catch(error => console.error(error));
         }
-    }, [id])
+    }, [id, props])
 
-    const [title, setTitle] = useState<string>(thisProduct ? thisProduct.title : "");
-    const [description, setDescription] = useState<string>(thisProduct ? thisProduct.description : "");
-    const [pictureUrls, setPictureUrls] = useState<string[]>(thisProduct ? thisProduct.pictureUrls : []);
-    const [price, setPrice] = useState<number>(thisProduct ? thisProduct.price : 0);
-    const [availableCount, setAvailable] = useState<number>(thisProduct ? thisProduct.availableCount : 0);
+    const [title, setTitle] = useState<string>();
+    const [description, setDescription] = useState<string>();
+    const [pictureUrls, setPictureUrls] = useState<string[]>();
+    const [price, setPrice] = useState<number>();
+    const [availableCount, setAvailable] = useState<number>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
