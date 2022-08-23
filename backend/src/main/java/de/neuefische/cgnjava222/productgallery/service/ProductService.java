@@ -18,6 +18,10 @@ public class ProductService {
         return productRepo.findAll();
     }
 
+    public Optional<Product> getDetailsOf(String id) {
+        return productRepo.findById(id);
+    }
+
     public Product addProduct(Product product) {
         return productRepo.save(product);
     }
@@ -32,9 +36,5 @@ public class ProductService {
 
     public Product updateProduct(String id, NewProduct newProduct) {
         return productRepo.save(Product.ProductFactory.create(id, newProduct));
-    }
-
-    public Optional<Product> getDetailsOf(String id) {
-        return productRepo.findById(id);
     }
 }

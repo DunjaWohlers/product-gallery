@@ -20,7 +20,8 @@ export default function ProductsSite(props: ProductsSiteProps) {
                              deleteProduct={props.deleteProduct}
                              admin={admin}
                              updateProduct={props.updateProduct}
-                             key={product.id}/>
+                             key={product.id}
+                           />
             )}
             {admin &&
                 <NavLink to={"/product/new"} className={"addNav cardContainer"}> + </NavLink>

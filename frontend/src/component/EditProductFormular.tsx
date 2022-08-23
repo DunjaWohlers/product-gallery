@@ -1,22 +1,36 @@
 import {NewProduct, Product} from "../type/Product";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 
 type EditProductFormProps = {
     products: Product[] | undefined,
     updateProduct: (id: string, newProduct: NewProduct) => void,
+    getOneProductPerId: (id: string) => Promise<Product>,
 }
 
 export default function EditProductFormular(props: EditProductFormProps) {
-    let {id} = useParams();
-    const thisProduct: Product | undefined = props.products?.find(element => element.id === id);
 
-    const [title, setTitle] = useState<string>(thisProduct ? thisProduct.title : "");
-    const [description, setDescription] = useState<string>(thisProduct ? thisProduct.description : "");
-    const [pictureUrls, setPictureUrls] = useState<string[]>(thisProduct ? thisProduct.pictureUrls : []);
-    const [price, setPrice] = useState<number>(thisProduct ? thisProduct.price : 0);
-    const [availableCount, setAvailable] = useState<number>(thisProduct ? thisProduct.availableCount : 0);
+    const {id} = useParams();
+    useEffect(() => {
+        if (id) {
+            props.getOneProductPerId(id)
+                .then((data) => {
+                    setTitle(data.title);
+                    setDescription(data.description);
+                    setAvailable(data.availableCount);
+                    setPrice(data.price);
+                    setPictureUrls(data.pictureUrls)
+                })
+                .catch(error => console.error(error));
+        }
+    }, [id, props])
+
+    const [title, setTitle] = useState<string>();
+    const [description, setDescription] = useState<string>();
+    const [pictureUrls, setPictureUrls] = useState<string[]>();
+    const [price, setPrice] = useState<number>();
+    const [availableCount, setAvailable] = useState<number>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
