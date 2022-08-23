@@ -15,16 +15,12 @@ import static org.mockito.Mockito.*;
 
 class ProductServiceTest {
 
-    ProductListType productListType1 = new ProductListType("ff2", "Brot123 mit Sahne", "ggg.bb.cu", 4);
-    ProductListType productListType2 = new ProductListType("ff3", "Brot13 ohne Brot", "omw.na.gj", 1000);
-
     Product product1 = new Product("1", "Biber", "knuffig, flauschig",
             List.of("http://google.de"), 4, 5);
     Product product2 = new Product("2", "Pferd", "braun, holzig",
             List.of("http://google.de"), 4, 5);
     Product product3 = new Product("3", "Brett", "Frühstücksbrett, Schneidebrett",
             List.of("http://google.de"), 4, 5);
-
     NewProduct newProduct3 = new NewProduct("Brett", "Frühstücksbrett, Schneidebrett",
             List.of("http://google.de"), 4, 5);
 
