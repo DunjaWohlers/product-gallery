@@ -4,7 +4,6 @@ import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 
 type EditProductFormProps = {
-    products: Product[] | undefined,
     updateProduct: (id: string, newProduct: NewProduct) => void,
     getOneProductPerId: (id: string) => Promise<Product>,
 }

@@ -1,10 +1,11 @@
 import React from "react";
-import {NewProduct, Product} from "../type/Product";
+import {NewProduct} from "../type/Product";
 import {NavLink} from "react-router-dom";
 import "./productCard.css";
+import {ProductListType} from "../type/ProductListType";
 
 type ProductProps = {
-    product: Product,
+    product: ProductListType,
     deleteProduct: (id: string) => Promise<number | void>,
     admin: boolean,
     updateProduct: (id: string, newProduct: NewProduct) => void,
@@ -24,7 +25,7 @@ export default function ProductCard(props: ProductProps) {
                              ? "/product/" + props.product.id
                              : "/product/edit/" + props.product.id}>
                 <p className={"imageContainer"}>
-                    <img src={props.product.pictureUrls[0]}
+                    <img src={props.product.pictureUrl}
                          alt={"Bild mit dem Titel " + props.product.title + "wird geladen"}/>
                 </p>
                 <div><p>{props.product.price} &euro; </p></div>

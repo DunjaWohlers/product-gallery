@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
-import {NewProduct, Product} from "../type/Product";
+import {NewProduct} from "../type/Product";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {ProductListType} from "../type/ProductListType";
 
 export default function useProducts() {
 
-    const [allProducts, setAllProducts] = useState<Product[]>();
+    const [allProducts, setAllProducts] = useState<ProductListType[]>();
     const navigate = useNavigate();
 
     const getAllProducts = () => {
@@ -47,6 +48,5 @@ export default function useProducts() {
 
     return {
         allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
-
     }
 }
