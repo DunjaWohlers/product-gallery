@@ -1,6 +1,7 @@
 import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useState} from "react";
 import "./editAddDetails.css";
+import {toast} from "react-toastify";
 
 type AddProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -19,7 +20,7 @@ export default function AddProductFormular(props: AddProductFormProps) {
             title.length > 0 && description.length > 0 && pictureUrls.length > 0) {
             props.addProduct({title, description, pictureUrls, price, availableCount});
         } else {
-            console.error("Produktinformationen fehlen")
+            toast.warn("Produktinformationen fehlen!", {theme: "light"});
         }
     }
 

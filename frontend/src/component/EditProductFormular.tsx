@@ -2,9 +2,10 @@ import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
+import {toast} from "react-toastify";
 
 type EditProductFormProps = {
-    updateProduct: (id: string, newProduct: NewProduct) => void,
+    updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
     getOneProductPerId: (id: string) => Promise<Product>,
 }
 
@@ -43,9 +44,9 @@ export default function EditProductFormular(props: EditProductFormProps) {
                 title, description,
                 pictureUrls
                 , price, availableCount
-            })
+            }).catch(() => toast.error("Update fehlgeschlagen", {theme: "dark"}))
         } else {
-            console.error("Produktinformationen fehlen")
+            toast.warning("Bitte fülle alle Felder aus!", {theme: "dark"});
         }
     }
 

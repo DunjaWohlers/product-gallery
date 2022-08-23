@@ -35,13 +35,11 @@ export default function useProducts() {
     const deleteProduct = (id: string) => {
         return axios.delete(`/api/${id}`)
             .then(response => response.status)
-            .catch(error => console.error(error))
             .then(() => getAllProducts());
     }
 
     const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
         return axios.put("/api/product/" + id, newUpdateProduct)
-            .catch(error => console.error(error))
             .then(getAllProducts)
             .then(() => navigate("/"))
     }
