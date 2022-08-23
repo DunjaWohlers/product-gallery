@@ -1,5 +1,6 @@
 package de.neuefische.cgnjava222.productgallery;
 
+import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
@@ -27,7 +28,7 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public Product getDetailsPerId(@PathVariable String id) {
         return productService.getDetailsOf(id).orElseThrow(() ->
-                new RuntimeException("not Found"));
+                new ProductNotFoundException(id));
     }
 
     @PostMapping
@@ -49,6 +50,4 @@ public class ProductController {
     public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
         return productService.updateProduct(id, newProduct);
     }
-
-
 }
