@@ -44,9 +44,10 @@ export default function EditProductFormular(props: EditProductFormProps) {
                 title, description,
                 pictureUrls
                 , price, availableCount
-            }).catch(() => toast.error("Update fehlgeschlagen", {theme: "dark"}))
+            }).then(() => toast.success("Produkt wurde erfolgreich editiert!", {theme: "light"}))
+                .catch(() => toast.error("Update fehlgeschlagen", {theme: "light"}))
         } else {
-            toast.warning("Bitte fülle alle Felder aus!", {theme: "dark"});
+            toast.info("Bitte fülle alle Felder aus!", {theme: "light"});
         }
     }
 

@@ -18,9 +18,12 @@ export default function AddProductFormular(props: AddProductFormProps) {
         event.preventDefault();
         if (title && description && pictureUrls && price && availableCount &&
             title.length > 0 && description.length > 0 && pictureUrls.length > 0) {
-            props.addProduct({title, description, pictureUrls, price, availableCount});
+            props.addProduct({title, description, pictureUrls, price, availableCount})
+                .then(() =>
+                    toast.success("Produkt wurde gespeichert!", {theme: "light"}))
+                .catch(() => toast.error("Produkt konnte nicht gespeichert werden!", {theme: "light"}));
         } else {
-            toast.warn("Produktinformationen fehlen!", {theme: "light"});
+            toast.info("Produktinformationen fehlen!", {theme: "light"});
         }
     }
 

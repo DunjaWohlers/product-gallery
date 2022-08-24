@@ -14,7 +14,9 @@ type ProductProps = {
 
 export default function ProductCard(props: ProductProps) {
     const handleDelete = () => {
-        props.deleteProduct(props.product.id).catch(() => toast.error("Löschen fehlgeschlagen!", {theme: "light"}));
+        props.deleteProduct(props.product.id)
+            .then(() => toast.success("Produkt wurde gelöscht", {theme: "light"}))
+            .catch(() => toast.error("Löschen fehlgeschlagen!", {theme: "light"}));
     }
 
     return (
@@ -27,7 +29,7 @@ export default function ProductCard(props: ProductProps) {
                              : "/product/edit/" + props.product.id}>
                 <p className={"imageContainer"}>
                     <img src={props.product.pictureUrl}
-                         alt={"Bild mit dem Titel " + props.product.title + "wird geladen"}/>
+                         alt={"Bild mit dem Titel " + props.product.title + " konnte nicht geladen werden."}/>
                 </p>
                 <div><p>{props.product.price} &euro; </p></div>
                 <h3> {props.product.title}
