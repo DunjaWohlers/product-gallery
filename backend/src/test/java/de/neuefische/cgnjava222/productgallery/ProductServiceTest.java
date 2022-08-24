@@ -2,7 +2,7 @@ package de.neuefische.cgnjava222.productgallery;
 
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.model.ProductListType;
+import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,11 +30,11 @@ class ProductServiceTest {
         ProductRepo productRepo = mock(ProductRepo.class);
         when(productRepo.findAll()).thenReturn(productsFromRepo);
 
-        List<ProductListType> expectedProducts = productsFromRepo.stream()
-                .map(element -> new ProductListType(element.id(), element.title(), element.pictureUrls().get(0), element.price()))
+        List<ProductReducedInfo> expectedProducts = productsFromRepo.stream()
+                .map(element -> new ProductReducedInfo(element.id(), element.title(), element.pictureUrls().get(0), element.price()))
                 .toList();
         ProductService productService = new ProductService(productRepo);
-        List<ProductListType> actualProducts = productService.getAllProducts();
+        List<ProductReducedInfo> actualProducts = productService.getAllProducts();
 
         assertThat(actualProducts).hasSameElementsAs(expectedProducts);
     }

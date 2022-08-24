@@ -2,11 +2,11 @@ import React from "react";
 import {NewProduct} from "../type/Product";
 import {NavLink} from "react-router-dom";
 import "./productCard.css";
-import {ProductListType} from "../type/ProductListType";
+import {ProductReducedInfo} from "../type/ProductReducedInfo";
 import {toast} from "react-toastify";
 
 type ProductProps = {
-    product: ProductListType,
+    product: ProductReducedInfo,
     deleteProduct: (id: string) => Promise<number | void>,
     admin: boolean,
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
