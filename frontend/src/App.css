@@ -6,6 +6,7 @@
 }
 
 header {
+    text-shadow: 1px 1px #383333, 2px 2px black;
     color: white;
     height: 50pt;
     display: flex;
@@ -16,6 +17,7 @@ header {
 }
 
 header button {
+    text-shadow: 1px 1px #383333, 2px 2px black;
     color: white;
     font-size: 10pt;
     background-color: transparent;
