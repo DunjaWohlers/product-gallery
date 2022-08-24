@@ -4,11 +4,10 @@ import Footer from "./component/Footer";
 import {BrowserRouter} from "react-router-dom";
 import HeaderNav from "./component/HeaderNav";
 import AllRoutes from "./AllRoutes";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
-    toast("Wow so easy!");
     return (
         <>
             <BrowserRouter>

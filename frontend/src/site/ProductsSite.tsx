@@ -14,14 +14,14 @@ type ProductsSiteProps = {
 export default function ProductsSite(props: ProductsSiteProps) {
     const admin = true;
     return (<>
-            {!props.allProducts && <div>Lade Produkt-Liste</div>}
+            {!props.allProducts && <div> Lade Produkt-Liste... </div>}
             {props.allProducts && props.allProducts.map(product =>
                 <ProductCard product={product}
                              deleteProduct={props.deleteProduct}
                              admin={admin}
                              updateProduct={props.updateProduct}
                              key={product.id}
-                           />
+                />
             )}
             {admin &&
                 <NavLink to={"/product/new"} className={"addNav cardContainer"}> + </NavLink>
