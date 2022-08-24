@@ -30,11 +30,8 @@ export default function AllRoutes() {
                 <Route path={"product/edit/:id"
                 }
                        element={
-                           <EditProductFormular products={allProducts}
-                                                updateProduct={updateProduct}
+                           <EditProductFormular updateProduct={updateProduct}
                                                 getOneProductPerId={getOneProductPerId}
-
-
                            />}/>
                 <Route path={"product/new"} element={<AddProductFormular addProduct={addProduct}/>}/>
                 <Route path={"*"} element={

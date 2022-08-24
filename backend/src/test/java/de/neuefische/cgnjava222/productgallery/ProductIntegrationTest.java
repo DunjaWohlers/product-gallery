@@ -26,19 +26,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductIntegrationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
+    @DirtiesContext
     @Test
     void getProducts() throws Exception {
         mockMvc
                 .perform(get("/api/")
+                        .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
     }
 
+    @DirtiesContext
     @Test
     void getProductPerId() throws Exception {
         String saveResult = mockMvc.perform(post("/api/")
@@ -64,6 +67,7 @@ class ProductIntegrationTest {
         Assertions.assertEquals(actualProduct, saveResultProduct);
     }
 
+    @DirtiesContext
     @Test
     void getOneProductNotExisting() throws Exception {
         String notExistingID = "1a";
@@ -145,8 +149,6 @@ class ProductIntegrationTest {
         NewProduct newProduct = new NewProduct("Product1", "1a Qualität",
                 List.of("http://www.bla.de"), 5, 6);
         Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
-        System.out.println("hi");
-        System.out.println(expectedProduct);
         String updateResponse = mockMvc.perform(put("/api/product/" + saveResultProduct.id())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expectedProduct))
@@ -154,10 +156,7 @@ class ProductIntegrationTest {
                 .andExpect(status().is(200))
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product actualProduct = objectMapper.readValue(updateResponse, Product.class);
-        System.out.println("ho");
-        System.out.println(actualProduct);
         Assertions.assertEquals(saveResultProduct.id(), actualProduct.id());
         Assertions.assertEquals(expectedProduct, actualProduct);
     }
-
 }

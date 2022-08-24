@@ -2,6 +2,7 @@ package de.neuefische.cgnjava222.productgallery;
 
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
+import de.neuefische.cgnjava222.productgallery.model.ProductListType;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,18 +21,20 @@ class ProductServiceTest {
             List.of("http://google.de"), 4, 5);
     Product product3 = new Product("3", "Brett", "Frühstücksbrett, Schneidebrett",
             List.of("http://google.de"), 4, 5);
-
     NewProduct newProduct3 = new NewProduct("Brett", "Frühstücksbrett, Schneidebrett",
             List.of("http://google.de"), 4, 5);
 
     @Test
     void getProducts() {
-        List<Product> expectedProducts = List.of(product1, product2, product3);
+        List<Product> productsFromRepo = List.of(product1, product2, product3);
         ProductRepo productRepo = mock(ProductRepo.class);
-        when(productRepo.findAll()).thenReturn(expectedProducts);
+        when(productRepo.findAll()).thenReturn(productsFromRepo);
 
+        List<ProductListType> expectedProducts = productsFromRepo.stream()
+                .map(element -> new ProductListType(element.id(), element.title(), element.pictureUrls().get(0), element.price()))
+                .toList();
         ProductService productService = new ProductService(productRepo);
-        List<Product> actualProducts = productService.getAllProducts();
+        List<ProductListType> actualProducts = productService.getAllProducts();
 
         assertThat(actualProducts).hasSameElementsAs(expectedProducts);
     }
@@ -43,8 +46,9 @@ class ProductServiceTest {
         when(productRepo.findById(expectedProduct.id())).thenReturn(Optional.of(expectedProduct));
 
         ProductService productService = new ProductService(productRepo);
-        Product actualProduct = productService.getDetailsOf(expectedProduct.id()).get();
-
+        Product actualProduct = productService.getDetailsOf(expectedProduct.id()).orElseThrow(
+                () -> new RuntimeException("Details vom Produkt mit der id " + expectedProduct.id() + " nicht gefunden!")
+        );
         assertThat(actualProduct).isEqualTo(expectedProduct);
     }
 

@@ -3,6 +3,7 @@ package de.neuefische.cgnjava222.productgallery;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
+import de.neuefische.cgnjava222.productgallery.model.ProductListType;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public List<Product> getAllProducts() {
+    public List<ProductListType> getAllProducts() {
         return productService.getAllProducts();
     }
 

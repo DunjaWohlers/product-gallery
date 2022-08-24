@@ -4,9 +4,10 @@ import {NewProduct, Product} from "../type/Product";
 import {AxiosResponse} from "axios";
 import {NavLink} from "react-router-dom";
 import "./productSite.css";
+import {ProductListType} from "../type/ProductListType";
 
 type ProductsSiteProps = {
-    allProducts: Product[] | undefined,
+    allProducts: ProductListType[] | undefined,
     addProduct: (newProduct: NewProduct) => Promise<Product | void>,
     deleteProduct: (id: string) => Promise<void>,
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<void | AxiosResponse<any, any>>,
