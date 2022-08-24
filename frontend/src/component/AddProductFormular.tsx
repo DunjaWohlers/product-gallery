@@ -34,8 +34,8 @@ export default function AddProductFormular(props: AddProductFormProps) {
     const checkImage = (url: string) => {
         axios.get(url)
             .then(result => result.headers)
-            .then((() => toast.success("Bildpfad ist erreichbar.")))
-            .catch(() => toast.warn("Bild-URL ist nicht erreichbar ... überprüfe die Eingabe!"))
+            .then((() => toast.success("Bildpfad ist erreichbar.", {theme: "light"})))
+            .catch(() => toast.warn("Bild-URL ist nicht erreichbar ... überprüfe die Eingabe!", {theme: "light"}))
     }
 
     return <>
