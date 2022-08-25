@@ -12,7 +12,7 @@ type ProductsSiteProps = {
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
 }
 export default function ProductsSite(props: ProductsSiteProps) {
-    const admin = true;
+    const admin = false;
     return (<>
             {!props.allProducts && <div> Lade Produkt-Liste... </div>}
             {props.allProducts && props.allProducts.map(product =>

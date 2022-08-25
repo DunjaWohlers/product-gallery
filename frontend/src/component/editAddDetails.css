@@ -47,3 +47,12 @@
     margin-bottom: 5pt;
     font-weight: bold;
 }
+
+.images3flex {
+    display: flex;
+    margin-left: 15pt;
+}
+
+.images3flex img {
+    width: 30%;
+}
