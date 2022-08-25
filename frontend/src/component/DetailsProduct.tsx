@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./editAddDetails.css";
 import {Product} from "../type/Product";
 import {useParams} from "react-router-dom";
+import {toast} from "react-toastify";
 
 type DetailsProductProps = {
     getOneProductPerId: (id: string) => Promise<Product>,
@@ -14,7 +15,7 @@ export default function DetailsProduct(props: DetailsProductProps) {
         if (id) {
             props.getOneProductPerId(id)
                 .then(setDetailProduct)
-                .catch(error => console.error(error));
+                .catch(() => toast.error("Produkt konnte nicht gefunden werden", {theme: "light"}));
         }
     }, [id, props])
 

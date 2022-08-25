@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 
-public record ProductListType(
+public record ProductReducedInfo(
         @Id
         @NotNull
         String id,
