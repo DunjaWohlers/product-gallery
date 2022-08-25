@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
 class ProductIntegrationTest {
@@ -31,7 +32,6 @@ class ProductIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @DirtiesContext
     @Test
     void getProducts() throws Exception {
         mockMvc
@@ -41,7 +41,6 @@ class ProductIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    @DirtiesContext
     @Test
     void getProductPerId() throws Exception {
         String saveResult = mockMvc.perform(post("/api/")
@@ -67,7 +66,6 @@ class ProductIntegrationTest {
         Assertions.assertEquals(actualProduct, saveResultProduct);
     }
 
-    @DirtiesContext
     @Test
     void getOneProductNotExisting() throws Exception {
         String notExistingID = "1a";
@@ -89,7 +87,6 @@ class ProductIntegrationTest {
                 );
     }
 
-    @DirtiesContext
     @Test
     void addProducts() throws Exception {
         mockMvc.perform(post("/api/")
@@ -106,7 +103,6 @@ class ProductIntegrationTest {
                         """));
     }
 
-    @DirtiesContext
     @Test
     void deleteExistingAndNotExistingProduct() throws Exception {
         String addPromise = mockMvc.perform(post(
@@ -128,7 +124,6 @@ class ProductIntegrationTest {
                 .andExpect(status().is(404));
     }
 
-    @DirtiesContext
     @Test
     void updateProduct() throws Exception {
         String saveResult = mockMvc.perform(post("/api/")

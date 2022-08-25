@@ -3,7 +3,7 @@ package de.neuefische.cgnjava222.productgallery.service;
 import de.neuefische.cgnjava222.productgallery.ProductRepo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.model.ProductListType;
+import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepo productRepo;
 
-    public List<ProductListType> getAllProducts() {
-        return productRepo.findAll().stream().map(element ->
-                new ProductListType(element.id(), element.title(), element.pictureUrls().get(0), element.price())
+    public List<ProductReducedInfo> getAllProducts() {
+        return productRepo.findAll().stream().map(product ->
+                new ProductReducedInfo(product.id(), product.title(), product.pictureUrls().get(0), product.price())
         ).toList();
     }
 
