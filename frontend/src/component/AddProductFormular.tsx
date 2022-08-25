@@ -1,6 +1,7 @@
 import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useState} from "react";
 import "./editAddDetails.css";
+import ImageUpload from "./ImageUpload";
 
 type AddProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -38,8 +39,8 @@ export default function AddProductFormular(props: AddProductFormProps) {
             <input type="text" onFocus={(event) => event.target.select()}
                    defaultValue={"Anzahl verfügbar"} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
-
             <button type={"submit"}> save</button>
         </form>
+        <ImageUpload/>
     </>
 }
