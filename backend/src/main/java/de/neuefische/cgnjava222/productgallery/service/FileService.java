@@ -12,17 +12,16 @@ import java.io.IOException;
 
 @Service
 public class FileService {
-
     private final Cloudinary cloudinary;
 
     public FileService() {
         this.cloudinary = new Cloudinary();
     }
 
-    public ResponseEntity<MultipartFile> uploadPicture(MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadPicture(MultipartFile file) throws IOException {
         File newFile = File.createTempFile(file.getOriginalFilename(), null);
         file.transferTo(newFile);
-        cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        String url = cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap()).get("url").toString();
+        return new ResponseEntity<>(url, HttpStatus.CREATED);
     }
 }

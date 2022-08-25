@@ -3,6 +3,7 @@ package de.neuefische.cgnjava222.productgallery;
 import de.neuefische.cgnjava222.productgallery.service.FileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +20,13 @@ public class FileUploadController {
         this.fileService = fileService;
     }
 
-    @RequestMapping("/uploadFile/")
-    public ResponseEntity<MultipartFile> addPicture(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadFile/")
+    public ResponseEntity<String> addPicture(@RequestParam("file") MultipartFile file) {
         try {
             return fileService.uploadPicture(file);
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }

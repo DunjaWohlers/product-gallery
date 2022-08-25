@@ -10,7 +10,7 @@ type AddProductFormProps = {
 export default function AddProductFormular(props: AddProductFormProps) {
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    const [pictureUrls, setPictureUrls] = useState<string[]>();
+    const [pictureUrls, setPictureUrls] = useState<string[]>(["Bild-URL"]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
@@ -32,7 +32,7 @@ export default function AddProductFormular(props: AddProductFormProps) {
                    defaultValue={"Beschreibung"} name={"description"}
                    onChange={(event) => setDescription(event.target.value)}/>
             <input type="text" onFocus={(event) => event.target.select()}
-                   defaultValue={"Bild-URL"} name={"pictureUrls"}
+                   value={pictureUrls[0]} name={"pictureUrls"}
                    onChange={(event) => setPictureUrls([event.target.value])}/>
             <input type="text" onFocus={(event) => event.target.select()}
                    defaultValue={"Preis"} name={"price"} onChange={(event) => setPrice(parseInt(event.target.value))}/>
@@ -41,6 +41,6 @@ export default function AddProductFormular(props: AddProductFormProps) {
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
             <button type={"submit"}> save</button>
         </form>
-        <ImageUpload/>
+        <ImageUpload setPictureUrls={setPictureUrls}/>
     </>
 }

@@ -1,6 +1,6 @@
 .fullView {
     text-align: center;
-    font-size: 40pt;
+    font-size: 20pt;
 }
 
 .fullView input {
@@ -12,8 +12,12 @@
     border-radius: 8pt;
 }
 
+.fullView input:nth-child(3) {
+    font-size: 8pt;
+}
+
 .fullView > button {
-    font-size: 30pt;
+    font-size: 20pt;
     margin-top: 20pt;
     color: white;
     font-weight: bold;
