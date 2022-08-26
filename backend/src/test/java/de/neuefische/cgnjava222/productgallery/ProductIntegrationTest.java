@@ -158,11 +158,33 @@ class ProductIntegrationTest {
     @Test
     void updateProduct() throws Exception {
         String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                {"title": "Birne"}
+                {
+                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
+                             "title": "Brett",
+                             "description": "Zum Frühstücken oder sonstiger Verwendung",
+                             "pictureObj": [
+                                {
+                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                 "public_id": "equaeqbgdxv9mkfczq1i"
+                                 }
+                              ],
+                              "price": 5,
+                              "availableCount": 4
+                         }
                 """)).andExpect(status().is(201)).andExpect(content().json("""
                 {
-                "title": "Birne"
-                }
+                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
+                             "title": "Brett",
+                             "description": "Zum Frühstücken oder sonstiger Verwendung",
+                             "pictureObj": [
+                                {
+                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                 "public_id": "equaeqbgdxv9mkfczq1i"
+                                 }
+                              ],
+                              "price": 5,
+                              "availableCount": 4
+                         }
                 """)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
