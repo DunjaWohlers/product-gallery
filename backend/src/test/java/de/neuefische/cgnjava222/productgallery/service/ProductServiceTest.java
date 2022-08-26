@@ -1,9 +1,11 @@
-package de.neuefische.cgnjava222.productgallery;
+package de.neuefische.cgnjava222.productgallery.service;
 
+import com.cloudinary.Cloudinary;
+import de.neuefische.cgnjava222.productgallery.ProductRepo;
+import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
-import de.neuefische.cgnjava222.productgallery.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +18,13 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     Product product1 = new Product("1", "Biber", "knuffig, flauschig",
-            List.of("http://google.de"), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
     Product product2 = new Product("2", "Pferd", "braun, holzig",
-            List.of("http://google.de"), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
     Product product3 = new Product("3", "Brett", "Frühstücksbrett, Schneidebrett",
-            List.of("http://google.de"), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
     NewProduct newProduct3 = new NewProduct("Brett", "Frühstücksbrett, Schneidebrett",
-            List.of("http://google.de"), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
 
     @Test
     void getProducts() {
@@ -31,9 +33,9 @@ class ProductServiceTest {
         when(productRepo.findAll()).thenReturn(productsFromRepo);
 
         List<ProductReducedInfo> expectedProducts = productsFromRepo.stream()
-                .map(element -> new ProductReducedInfo(element.id(), element.title(), element.pictureUrls().get(0), element.price()))
+                .map(element -> new ProductReducedInfo(element.id(), element.title(), element.pictureObj().get(0).url(), element.price()))
                 .toList();
-        ProductService productService = new ProductService(productRepo);
+        ProductService productService = new ProductService(productRepo, new FileService(new Cloudinary()));
         List<ProductReducedInfo> actualProducts = productService.getAllProducts();
 
         assertThat(actualProducts).hasSameElementsAs(expectedProducts);
@@ -45,7 +47,7 @@ class ProductServiceTest {
         ProductRepo productRepo = mock(ProductRepo.class);
         when(productRepo.findById(expectedProduct.id())).thenReturn(Optional.of(expectedProduct));
 
-        ProductService productService = new ProductService(productRepo);
+        ProductService productService = new ProductService(productRepo, new FileService(new Cloudinary()));
         Product actualProduct = productService.getDetailsOf(expectedProduct.id()).orElseThrow(
                 () -> new RuntimeException("Details vom Produkt mit der id " + expectedProduct.id() + " nicht gefunden!")
         );
@@ -79,7 +81,7 @@ class ProductServiceTest {
         ProductRepo productRepo = mock(ProductRepo.class);
         when(productRepo.save(product3)).thenReturn(product3);
 
-        ProductService productService = new ProductService(productRepo);
+        ProductService productService = new ProductService(productRepo, new FileService(new Cloudinary()));
         Product actual = productService.updateProduct(expected.id(), newProduct3);
         Assertions.assertEquals(expected, actual);
     }

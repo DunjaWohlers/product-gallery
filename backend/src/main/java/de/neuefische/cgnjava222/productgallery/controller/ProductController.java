@@ -1,4 +1,4 @@
-package de.neuefische.cgnjava222.productgallery;
+package de.neuefische.cgnjava222.productgallery.controller;
 
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;

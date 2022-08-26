@@ -9,7 +9,7 @@ public record NewProduct(
         @NotNull
         String description,
         @NotNull
-        List<String> pictureUrls,
+        List<ImageInfo> pictureObj,
         @NotNull
         Integer price,
         @NotNull

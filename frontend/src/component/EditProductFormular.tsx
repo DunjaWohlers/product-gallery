@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
+import {PicObj} from "../type/PicObj";
 
 type EditProductFormProps = {
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
@@ -21,7 +22,7 @@ export default function EditProductFormular(props: EditProductFormProps) {
                     setDescription(data.description);
                     setAvailable(data.availableCount);
                     setPrice(data.price);
-                    setPictureUrls(data.pictureUrls)
+                    setPictureObj(data.pictureObj)
                 })
                 .catch(error => console.error(error));
         }
@@ -29,7 +30,7 @@ export default function EditProductFormular(props: EditProductFormProps) {
 
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    const [pictureUrls, setPictureUrls] = useState<string[]>();
+    const [pictureObj, setPictureObj] = useState<PicObj[]>();
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
@@ -37,15 +38,15 @@ export default function EditProductFormular(props: EditProductFormProps) {
         event.preventDefault();
         if (id && title
             && description
-            && pictureUrls
+            && pictureObj
             && price && availableCount
             && title.length > 0
             && description.length > 0
-            && pictureUrls.length > 0
+            && pictureObj.length > 0
         ) {
             props.updateProduct(id, {
                 title, description,
-                pictureUrls
+                pictureObj
                 , price, availableCount
             }).then(() => toast.success("Produkt wurde erfolgreich editiert!", {theme: "light"}))
                 .catch(() => toast.error("Update fehlgeschlagen", {theme: "light"}))
@@ -69,8 +70,8 @@ export default function EditProductFormular(props: EditProductFormProps) {
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
             <button type={"submit"}> save</button>
         </form>
-        {pictureUrls ?
-            <ImageUpload pictureUrls={pictureUrls} setPictureUrls={setPictureUrls}/>
+        {pictureObj ?
+            <ImageUpload pictureObj={pictureObj} setPictureObj={setPictureObj}/>
             : <p> Es konnten keine Bilder geladen werden. </p>
         }
     </>)

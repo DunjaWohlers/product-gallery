@@ -22,13 +22,13 @@ export default function DetailsProduct(props: DetailsProductProps) {
     return (<>
             {thisProduct && <div className={"fullView"}>
                 {thisProduct && <h3>{thisProduct.title}</h3>}
-                {thisProduct && <p><img src={thisProduct.pictureUrls[0]} alt={"Loading..."}/></p>}
+                {thisProduct && <p><img src={thisProduct.pictureObj[0].url} alt={"Loading..."}/></p>}
                 <p className={"images3flex"}>
-                    {thisProduct.pictureUrls.length > 0 && <img src={thisProduct.pictureUrls[1]}/>
+                    {thisProduct.pictureObj.length > 0 && <img alt="bild1" src={thisProduct.pictureObj[1].url}/>
                     }
-                    {thisProduct.pictureUrls.length > 1 && <img src={thisProduct.pictureUrls[2]}/>
+                    {thisProduct.pictureObj.length > 1 && <img alt="bild2" src={thisProduct.pictureObj[2].url}/>
                     }
-                    {thisProduct.pictureUrls.length > 2 && <img src={thisProduct.pictureUrls[3]}/>
+                    {thisProduct.pictureObj.length > 2 && <img alt="bild3" src={thisProduct.pictureObj[3].url}/>
                     }
                 </p>
                 {thisProduct && <p>{thisProduct.description}</p>}

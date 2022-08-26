@@ -2,11 +2,12 @@ import "./imageUpload.css"
 import {FormEvent} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {PicObj} from "../type/PicObj";
 
 export default function ImageUpload(
     props: {
-        setPictureUrls: (urls: string[]) => void,
-        pictureUrls: string[],
+        setPictureObj: (urls: PicObj[]) => void,
+        pictureObj: PicObj[],
     }) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -15,12 +16,12 @@ export default function ImageUpload(
             //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
-                let ar: string[] = [];
-                props.pictureUrls.forEach(picUrl => {
-                    ar.push(picUrl);
+                let ar: PicObj[] = [];
+                props.pictureObj.forEach(picObj => {
+                    ar.push(picObj);
                 })
                 ar.push(response);
-                props.setPictureUrls(ar);
+                props.setPictureObj(ar);
             })
             .then(() => toast.info("Bild wurde gespeichert"))
             .catch(() => toast.warn("Bild konnte nicht auf die Cloud geladen werden."));
@@ -28,7 +29,7 @@ export default function ImageUpload(
 
     return (<>
         <div className={"addedImagesForProduct"}>
-            {props.pictureUrls.map(picUrl => <img key={picUrl} src={picUrl}></img>)}
+            {props.pictureObj.map(picObj => <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>)}
         </div>
         <form onSubmit={handleSubmit}>
             <div className={"container"}>
