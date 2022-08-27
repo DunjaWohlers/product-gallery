@@ -1,7 +1,9 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
+import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
+import com.cloudinary.api.ApiResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,9 +19,10 @@ import java.io.File;
 import java.util.Map;
 
 import static com.mongodb.assertions.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,15 +30,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class FileIntegrationTest {
 
-    // @Autowired
-    // @InjectMocks
-    // private MockMvc mockMvc;
-
     @MockBean
     private Cloudinary cloudinary;
 
     @MockBean
     private Uploader uploader;
+
+    @MockBean
+    private Api api;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -54,8 +56,7 @@ class FileIntegrationTest {
                         any(File.class),
                         anyMap()
                 )
-        )
-                .thenReturn(Map.of("url", "hi", "public_id", "bla"));
+        ).thenReturn(Map.of("url", "hi", "public_id", "bla"));
 
         MockMvc mockMvc
                 = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -63,6 +64,19 @@ class FileIntegrationTest {
                 .andExpect(status().isCreated());
     }
 
-
+    @Test
+    void deleteFile() throws Exception {
+        String publicId = "publ";
+        when(cloudinary.api()).thenReturn(api);
+        ApiResponse response = mock(ApiResponse.class);
+        when(api
+                .deleteResources(
+                        anyList(),
+                        anyMap()
+                )).thenReturn(response);
+        MockMvc mockMvc
+                = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(delete("/api/image/delete/" + publicId))
+                .andExpect(status().isNoContent());
+    }
 }
-
