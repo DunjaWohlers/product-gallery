@@ -158,9 +158,7 @@ class ProductIntegrationTest {
     @Test
     void updateProduct() throws Exception {
         String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                {
-                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
-                             "title": "Brett",
+                {          "title": "Brett",
                              "description": "Zum Frühstücken oder sonstiger Verwendung",
                              "pictureObj": [
                                 {
@@ -173,7 +171,6 @@ class ProductIntegrationTest {
                          }
                 """)).andExpect(status().is(201)).andExpect(content().json("""
                 {
-                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
                              "title": "Brett",
                              "description": "Zum Frühstücken oder sonstiger Verwendung",
                              "pictureObj": [
