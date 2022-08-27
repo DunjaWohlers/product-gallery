@@ -13,11 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FileServiceTest {
+class FileServiceTest {
 
-    private Cloudinary cloudinary = mock(Cloudinary.class);
+    private final Cloudinary cloudinary = mock(Cloudinary.class);
 
-    private Uploader uploader = mock(Uploader.class);
+    private final Uploader uploader = mock(Uploader.class);
 
     @Test
     void addNewImage() throws IOException {
