@@ -62,5 +62,7 @@ class FileIntegrationTest {
         mockMvc.perform(multipart("/api/image/uploadFile/").file(firstFile))
                 .andExpect(status().isCreated());
     }
+
+
 }
 
