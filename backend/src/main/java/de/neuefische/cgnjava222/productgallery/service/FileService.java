@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +20,9 @@ public class FileService {
         if (file.getOriginalFilename() != null) {
             File newFile = File.createTempFile(file.getOriginalFilename(), null);
             file.transferTo(newFile);
-            Map<String, String> responseObj = cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap());
-            String url = responseObj.get("url");
-            String publicID = responseObj.get("public_id");
+            var responseObj = cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap());
+            String url = (String) responseObj.get("url");
+            String publicID = (String) responseObj.get("public_id");
             return new ImageInfo(url, publicID);
         } else {
             throw new IOException("Filename darf nicht null sein");
