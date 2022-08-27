@@ -3,8 +3,8 @@ import {Navigate, Route, Routes,} from "react-router-dom";
 import ProductsSite from "./site/ProductsSite";
 import DetailsProduct from "./component/DetailsProduct";
 import useProducts from "./rest-api/useProducts";
-import EditProductFormular from "./component/EditProductFormular";
-import AddProductFormular from "./component/AddProductFormular";
+import EditProductFormular from "./formular/EditProductFormular";
+import AddProductFormular from "./formular/AddProductFormular";
 
 export default function AllRoutes() {
     const {

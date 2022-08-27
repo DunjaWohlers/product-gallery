@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "./editAddDetails.css";
+import "../formular/editAddDetails.css";
 import {Product} from "../type/Product";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
