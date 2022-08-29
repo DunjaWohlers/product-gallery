@@ -9,21 +9,11 @@ export default function ImageUpload(
         pictureObj: PicObj[],
         setImagesUpload: (image: HTMLFormElement) => void,
     }) {
-    //useImperativeHandle(ref, () => ({
-    //  uploadFiles() {
-    //        return handleSubmit(formRef.current);
-    //   }
-
     const formRef = useRef<HTMLFormElement>(null);
     const [fileInputs, setFileInputs] = useState<number>(1);
-    //const handleFileChange = (e:ChangeEvent<HTMLInputElement>)=>{
-    //    let ar = [...pictureFiles,e.target]
-    //    setPictureFiles(ar);
-    //    console.log(pictureFiles?.length);
-    //}
-
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         props.setImagesUpload(e.target as HTMLFormElement);
     }
 
