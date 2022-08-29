@@ -3,7 +3,6 @@ import {FormEvent, useState} from "react";
 import "./editAddDetails.css";
 import ImageUpload from "./ImageUpload";
 import {toast} from "react-toastify";
-import {PicObj} from "../type/PicObj";
 import axios from "axios";
 
 type AddProductFormProps = {
@@ -13,16 +12,13 @@ type AddProductFormProps = {
 export default function AddProductFormular(props: AddProductFormProps) {
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
+    //const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
     const [imageUploads, setImageUploads] = useState<HTMLFormElement>();
-    // const imageUploadRef = useRef<typeof ImageUpload>(null);
-    // const uploadImages = () => {
-    // return (imageUploadRef?.current as unknown as { uploadFiles: () => Promise<PicObj[]> })?.uploadFiles();
-    //};
 
     const uploadImages = () => {
+
         if (imageUploads === null) {
             return [];
         }
@@ -31,7 +27,7 @@ export default function AddProductFormular(props: AddProductFormProps) {
             //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
-                setPictureObj(response);
+                //setPictureObj(response);
                 toast.info("Bild wurde gespeichert")
                 return response;
             })
@@ -44,13 +40,15 @@ export default function AddProductFormular(props: AddProductFormProps) {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setImageUploads(event.target as HTMLFormElement);
+
         const imagesObjList = await uploadImages();
+
         if (title && description &&
             imagesObjList && price && availableCount &&
             title.length > 0 && description.length > 0 && imagesObjList.length > 0) {
             props.addProduct({
                 title, description, pictureObj: imagesObjList,
-                //props.addProduct({title, description, pictureObj: imagesObjList,
                 price, availableCount
             })
                 .then(() => toast.success("Produkt wurde gespeichert!", {theme: "light"}))
