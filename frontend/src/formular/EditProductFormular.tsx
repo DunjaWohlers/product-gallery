@@ -3,7 +3,7 @@ import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 import {toast} from "react-toastify";
-import {ImageUpload} from "./ImageUpload";
+import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
 
 type EditProductFormProps = {
@@ -33,6 +33,7 @@ export default function EditProductFormular(props: EditProductFormProps) {
     const [pictureObj, setPictureObj] = useState<PicObj[]>();
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
+    const [imageUploads, setImageUploads] = useState<HTMLFormElement>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -71,7 +72,7 @@ export default function EditProductFormular(props: EditProductFormProps) {
             <button type={"submit"}> save</button>
         </form>
         {pictureObj ?
-            <ImageUpload pictureObj={pictureObj} setPictureObj={setPictureObj}/>
+            <ImageUpload setImagesUpload={setImageUploads} pictureObj={pictureObj} setPictureObj={setPictureObj}/>
             : <p> Es konnten keine Bilder geladen werden. </p>
         }
     </>)

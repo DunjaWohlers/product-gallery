@@ -1,9 +1,10 @@
 import {NewProduct, Product} from "../type/Product";
 import {FormEvent, useState} from "react";
 import "./editAddDetails.css";
-import {ImageUpload} from "./ImageUpload";
+import ImageUpload from "./ImageUpload";
 import {toast} from "react-toastify";
 import {PicObj} from "../type/PicObj";
+import axios from "axios";
 
 type AddProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -21,10 +22,24 @@ export default function AddProductFormular(props: AddProductFormProps) {
     // return (imageUploadRef?.current as unknown as { uploadFiles: () => Promise<PicObj[]> })?.uploadFiles();
     //};
 
-    const uploadImages
-    ()
-    {
-
+    const uploadImages = () => {
+        if (imageUploads === null) {
+            return [];
+        }
+        const formData = new FormData(imageUploads);
+        return axios.post("/api/image/uploadFile/", formData,
+            //  {auth:{username:"frank", password:"frank123"}}
+        ).then(data => data.data)
+            .then(response => {
+                setPictureObj(response);
+                toast.info("Bild wurde gespeichert")
+                return response;
+            })
+            .catch(() => {
+                    toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
+                    return [];
+                }
+            );
     }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
