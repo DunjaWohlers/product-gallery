@@ -5,6 +5,7 @@ import "./editAddDetails.css";
 import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
+import axios from "axios";
 
 type EditProductFormProps = {
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
@@ -33,24 +34,49 @@ export default function EditProductFormular(props: EditProductFormProps) {
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const uploadImages = (htmlForm: HTMLFormElement) => {
+        if (htmlForm === null) {
+            return [];
+        }
+        const formData = new FormData(htmlForm);
+        return axios.post("/api/image/uploadFile/", formData,
+            //  {auth:{username:"frank", password:"frank123"}}
+        ).then(data => data.data)
+            .then(response => {
+                toast.info("Bild wurde gespeichert")
+                return response;
+            })
+            .catch(() => {
+                    toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
+                    return [];
+                }
+            );
+    }
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const imagesObjList = await uploadImages(event.target as HTMLFormElement);
+        const imagesObjListAll = await imagesObjList.push(pictureObj);
+
         if (id && title
             && description
-            && pictureObj
+            && imagesObjListAll
             && price && availableCount
             && title.length > 0
             && description.length > 0
-            && pictureObj.length > 0
+            && imagesObjListAll.length > 0
         ) {
             props.updateProduct(id, {
                 title, description,
-                pictureObj
+                pictureObj: imagesObjListAll
                 , price, availableCount
             }).then(() => toast.success("Produkt wurde erfolgreich editiert!", {theme: "light"}))
                 .catch(() => toast.error("Update fehlgeschlagen", {theme: "light"}))
         } else {
             toast.info("Bitte fülle alle Felder aus!", {theme: "light"});
+            console.log("id: " + id + ", title: " + title + ", description: " + description +
+                ", imagesObjListAll: " + imagesObjListAll + ", price: " + price + ", title-length: " + title?.length
+                + ", descritptionlength: " + description?.length + ", ImagesLengthAll: " + imagesObjListAll.length)
         }
     }
 
@@ -68,9 +94,13 @@ export default function EditProductFormular(props: EditProductFormProps) {
                    defaultValue={availableCount} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
             <button type={"submit"}> save</button>
-        </form>
-        {pictureObj ?
             <ImageUpload/>
+        </form>
+        {pictureObj ? <>
+                <div className={"addedImagesForProduct"}>
+                    {pictureObj.map(picObj => <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>)}
+                </div>
+            </>
             : <p> Es konnten keine Bilder geladen werden. </p>
         }
     </>)

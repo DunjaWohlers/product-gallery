@@ -4,7 +4,6 @@ import "./editAddDetails.css";
 import ImageUpload from "./ImageUpload";
 import {toast} from "react-toastify";
 import axios from "axios";
-import {PicObj} from "../type/PicObj";
 
 type AddProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -13,7 +12,6 @@ type AddProductFormProps = {
 export default function AddProductFormular(props: AddProductFormProps) {
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
@@ -26,7 +24,6 @@ export default function AddProductFormular(props: AddProductFormProps) {
             //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
-                setPictureObj(response);
                 toast.info("Bild wurde gespeichert")
                 return response;
             })
@@ -71,8 +68,5 @@ export default function AddProductFormular(props: AddProductFormProps) {
             </button>
             <ImageUpload/>
         </form>
-        <div className={"addedImagesForProduct"}>
-            {pictureObj.map(picObj => <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>)}
-        </div>
     </>
 }
