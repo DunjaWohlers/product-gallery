@@ -3,7 +3,7 @@ import {FormEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./editAddDetails.css";
 import {toast} from "react-toastify";
-import ImageUpload from "./ImageUpload";
+import {ImageUpload} from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
 
 type EditProductFormProps = {

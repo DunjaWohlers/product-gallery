@@ -1,7 +1,7 @@
 import {NewProduct, Product} from "../type/Product";
-import {FormEvent, useState} from "react";
+import {FormEvent, useRef, useState} from "react";
 import "./editAddDetails.css";
-import ImageUpload from "./ImageUpload";
+import {ImageUpload} from "./ImageUpload";
 import {toast} from "react-toastify";
 import {PicObj} from "../type/PicObj";
 
@@ -15,12 +15,18 @@ export default function AddProductFormular(props: AddProductFormProps) {
     const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
+    const imageUploadRef = useRef<typeof ImageUpload>(null);
+    const uploadImages = () => {
+        return (imageUploadRef?.current as unknown as { uploadFiles: () => Promise<PicObj[]> })?.uploadFiles();
+    };
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (title && description && pictureObj && price && availableCount &&
-            title.length > 0 && description.length > 0 && pictureObj.length > 0) {
-            props.addProduct({title, description, pictureObj, price, availableCount})
+        const imagesObjList = await uploadImages();
+        if (title && description &&
+            imagesObjList && price && availableCount &&
+            title.length > 0 && description.length > 0 && imagesObjList.length > 0) {
+            props.addProduct({title, description, pictureObj: imagesObjList, price, availableCount})
                 .then(() => toast.success("Produkt wurde gespeichert!", {theme: "light"}))
                 .catch(() => toast.error("Produkt konnte nicht gespeichert werden!", {theme: "light"}));
         } else {
@@ -30,19 +36,22 @@ export default function AddProductFormular(props: AddProductFormProps) {
 
     return <>
         <form className={"fullView"} onSubmit={handleSubmit}>
-            <input type="text" onFocus={(event) => event.target.select()}
-                   defaultValue={"Titel"} name={"title"} onChange={(event) => setTitle(event.target.value)}/>
-            <input type="text" onFocus={(event) => event.target.select()}
-                   defaultValue={"Beschreibung"} name={"description"}
+            <input type="text" style={{backgroundColor: title ? 'white' : 'red'}}
+                   placeholder={"Titel"} name={"title"} onChange={(event) => setTitle(event.target.value)}/>
+            <input type="text" style={{backgroundColor: description ? 'white' : 'red'}}
+                   placeholder={"Beschreibung"} name={"description"}
                    onChange={(event) => setDescription(event.target.value)}/>
-            <input type="text" onFocus={(event) => event.target.select()}
-                   defaultValue={"Preis"} name={"price"} onChange={(event) => setPrice(parseInt(event.target.value))}/>
-            <input type="text" onFocus={(event) => event.target.select()}
-                   defaultValue={"Anzahl verfügbar"} name={"available"}
+            <input type="text" style={{backgroundColor: price ? 'white' : 'red'}}
+                   placeholder={"Preis"} name={"price"} onChange={(event) => setPrice(parseInt(event.target.value))}/>
+            <input type="text" style={{backgroundColor: availableCount ? 'white' : 'red'}}
+                   placeholder={"Anzahl verfügbar"} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
-            <button type={"submit"}> save</button>
+            <button disabled={!title || !description || !price || !availableCount}
+
+                    type={"submit"}> save
+            </button>
         </form>
 
-        <ImageUpload pictureObj={pictureObj} setPictureObj={setPictureObj}/>
+        <ImageUpload ref={imageUploadRef} pictureObj={pictureObj} setPictureObj={setPictureObj}/>
     </>
 }

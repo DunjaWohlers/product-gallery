@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,12 +20,8 @@ public class FileUploadController {
 
 
     @PostMapping("/uploadFile/")
-    public ResponseEntity<ImageInfo> addPicture(@RequestParam("file") MultipartFile file) {
-        try {
-            return new ResponseEntity<>(fileService.uploadPicture(file), HttpStatus.CREATED);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-        }
+    public ResponseEntity<List<ImageInfo>> addPicture(@RequestParam("file") MultipartFile[] files) {
+        return new ResponseEntity<>(fileService.uploadPictures(files), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{publicID}")
