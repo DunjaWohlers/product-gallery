@@ -1,5 +1,5 @@
 import {NewProduct, Product} from "../type/Product";
-import {FormEvent, useRef, useState} from "react";
+import {FormEvent, useState} from "react";
 import "./editAddDetails.css";
 import {ImageUpload} from "./ImageUpload";
 import {toast} from "react-toastify";
@@ -15,10 +15,17 @@ export default function AddProductFormular(props: AddProductFormProps) {
     const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
-    const imageUploadRef = useRef<typeof ImageUpload>(null);
-    const uploadImages = () => {
-        return (imageUploadRef?.current as unknown as { uploadFiles: () => Promise<PicObj[]> })?.uploadFiles();
-    };
+    const [imageUploads, setImageUploads] = useState<HTMLFormElement>();
+    // const imageUploadRef = useRef<typeof ImageUpload>(null);
+    // const uploadImages = () => {
+    // return (imageUploadRef?.current as unknown as { uploadFiles: () => Promise<PicObj[]> })?.uploadFiles();
+    //};
+
+    const uploadImages
+    ()
+    {
+
+    }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,7 +33,11 @@ export default function AddProductFormular(props: AddProductFormProps) {
         if (title && description &&
             imagesObjList && price && availableCount &&
             title.length > 0 && description.length > 0 && imagesObjList.length > 0) {
-            props.addProduct({title, description, pictureObj: imagesObjList, price, availableCount})
+            props.addProduct({
+                title, description, pictureObj: imagesObjList,
+                //props.addProduct({title, description, pictureObj: imagesObjList,
+                price, availableCount
+            })
                 .then(() => toast.success("Produkt wurde gespeichert!", {theme: "light"}))
                 .catch(() => toast.error("Produkt konnte nicht gespeichert werden!", {theme: "light"}));
         } else {
@@ -52,6 +63,8 @@ export default function AddProductFormular(props: AddProductFormProps) {
             </button>
         </form>
 
-        <ImageUpload ref={imageUploadRef} pictureObj={pictureObj} setPictureObj={setPictureObj}/>
+        <ImageUpload setImagesUpload={setImageUploads}
+            //ref={imageUploadRef}
+                     pictureObj={pictureObj} setPictureObj={setPictureObj}/>
     </>
 }
