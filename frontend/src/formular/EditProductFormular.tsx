@@ -35,12 +35,8 @@ export default function EditProductFormular(props: EditProductFormProps) {
     const [availableCount, setAvailable] = useState<number>();
 
     const uploadImages = (htmlForm: HTMLFormElement) => {
-        if (htmlForm === null) {
-            return [];
-        }
         const formData = new FormData(htmlForm);
         return axios.post("/api/image/uploadFile/", formData,
-            //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
                 toast.info("Bild wurde gespeichert")
@@ -55,31 +51,32 @@ export default function EditProductFormular(props: EditProductFormProps) {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const imagesObjList = await uploadImages(event.target as HTMLFormElement);
-        const imagesObjListAll = await imagesObjList.push(pictureObj);
 
-        if (id && title
+        if (id
+            && title
             && description
-            && imagesObjListAll
-            && price && availableCount
+            && price
+            && availableCount
             && title.length > 0
             && description.length > 0
-            && imagesObjListAll.length > 0
         ) {
-            props.updateProduct(id, {
-                title, description,
-                pictureObj: imagesObjListAll
-                , price, availableCount
-            }).then(() => toast.success("Produkt wurde erfolgreich editiert!", {theme: "light"}))
-                .catch(() => toast.error("Update fehlgeschlagen", {theme: "light"}))
+            const imagesObjList = await uploadImages(event.target as HTMLFormElement);
+            const imagesObjListAll = imagesObjList.concat(pictureObj);
+            console.log(imagesObjList);
+            console.log(imagesObjListAll);
+            if (imagesObjListAll && imagesObjListAll.length > 0) {
+                props.updateProduct(id, {
+                    title, description,
+                    pictureObj: imagesObjListAll
+                    , price, availableCount
+                }).then(() => toast.success("Produkt wurde erfolgreich editiert!", {theme: "light"}))
+                    .catch(() => toast.error("Update fehlgeschlagen", {theme: "light"}))
+            }
+
         } else {
             toast.info("Bitte fülle alle Felder aus!", {theme: "light"});
-            console.log("id: " + id + ", title: " + title + ", description: " + description +
-                ", imagesObjListAll: " + imagesObjListAll + ", price: " + price + ", title-length: " + title?.length
-                + ", descritptionlength: " + description?.length + ", ImagesLengthAll: " + imagesObjListAll.length)
         }
     }
-
     return (<>
         <form className={"fullView"} onSubmit={handleSubmit}>
             <input type="text" onFocus={(event) => event.target.select()}

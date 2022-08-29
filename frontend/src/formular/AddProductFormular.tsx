@@ -16,12 +16,8 @@ export default function AddProductFormular(props: AddProductFormProps) {
     const [availableCount, setAvailable] = useState<number>();
 
     const uploadImages = (htmlForm: HTMLFormElement) => {
-        if (htmlForm === null) {
-            return [];
-        }
         const formData = new FormData(htmlForm);
         return axios.post("/api/image/uploadFile/", formData,
-            //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
                 toast.info("Bild wurde gespeichert")
@@ -36,16 +32,23 @@ export default function AddProductFormular(props: AddProductFormProps) {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const imagesObjList = await uploadImages(event.target as HTMLFormElement);
-        if (title && description &&
-            imagesObjList && price && availableCount &&
-            title.length > 0 && description.length > 0 && imagesObjList.length > 0) {
-            props.addProduct({
-                title, description, pictureObj: imagesObjList,
-                price, availableCount
-            })
-                .then(() => toast.success("Produkt wurde gespeichert!", {theme: "light"}))
-                .catch(() => toast.error("Produkt konnte nicht gespeichert werden!", {theme: "light"}));
+        if (title
+            && description
+            && price
+            && availableCount
+            && title.length > 0
+            && description.length > 0) {
+            const imagesObjList = await uploadImages(event.target as HTMLFormElement);
+            if (imagesObjList && imagesObjList.length > 0) {
+                props.addProduct({
+                    title, description, pictureObj: imagesObjList,
+                    price, availableCount
+                })
+                    .then(() => toast.success("Produkt wurde gespeichert!", {theme: "light"}))
+                    .catch(() => toast.error("Produkt konnte nicht gespeichert werden!", {theme: "light"}));
+            } else {
+                toast.info("Es muss mindestens ein Bild zum Produkt hinzugefügt werden.")
+            }
         } else {
             toast.info("Produktinformationen fehlen!", {theme: "light"});
         }
@@ -59,7 +62,8 @@ export default function AddProductFormular(props: AddProductFormProps) {
                    placeholder={"Beschreibung"} name={"description"}
                    onChange={(event) => setDescription(event.target.value)}/>
             <input type="text" style={{backgroundColor: price ? 'white' : 'red'}}
-                   placeholder={"Preis"} name={"price"} onChange={(event) => setPrice(parseInt(event.target.value))}/>
+                   placeholder={"Preis"} name={"price"}
+                   onChange={(event) => setPrice(parseInt(event.target.value))}/>
             <input type="text" style={{backgroundColor: availableCount ? 'white' : 'red'}}
                    placeholder={"Anzahl verfügbar"} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
