@@ -4,6 +4,7 @@ import "./editAddDetails.css";
 import ImageUpload from "./ImageUpload";
 import {toast} from "react-toastify";
 import axios from "axios";
+import {PicObj} from "../type/PicObj";
 
 type AddProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -12,22 +13,20 @@ type AddProductFormProps = {
 export default function AddProductFormular(props: AddProductFormProps) {
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    //const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
+    const [pictureObj, setPictureObj] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
-    const [imageUploads, setImageUploads] = useState<HTMLFormElement>();
 
-    const uploadImages = () => {
-
-        if (imageUploads === null) {
+    const uploadImages = (htmlForm: HTMLFormElement) => {
+        if (htmlForm === null) {
             return [];
         }
-        const formData = new FormData(imageUploads);
+        const formData = new FormData(htmlForm);
         return axios.post("/api/image/uploadFile/", formData,
             //  {auth:{username:"frank", password:"frank123"}}
         ).then(data => data.data)
             .then(response => {
-                //setPictureObj(response);
+                setPictureObj(response);
                 toast.info("Bild wurde gespeichert")
                 return response;
             })
@@ -40,10 +39,7 @@ export default function AddProductFormular(props: AddProductFormProps) {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setImageUploads(event.target as HTMLFormElement);
-
-        const imagesObjList = await uploadImages();
-
+        const imagesObjList = await uploadImages(event.target as HTMLFormElement);
         if (title && description &&
             imagesObjList && price && availableCount &&
             title.length > 0 && description.length > 0 && imagesObjList.length > 0) {
@@ -71,13 +67,12 @@ export default function AddProductFormular(props: AddProductFormProps) {
                    placeholder={"Anzahl verfügbar"} name={"available"}
                    onChange={(event) => setAvailable(parseInt(event.target.value))}/>
             <button disabled={!title || !description || !price || !availableCount}
-
                     type={"submit"}> save
             </button>
+            <ImageUpload/>
         </form>
-
-        <ImageUpload setImagesUpload={setImageUploads}
-            //ref={imageUploadRef}
-                     pictureObj={pictureObj} setPictureObj={setPictureObj}/>
+        <div className={"addedImagesForProduct"}>
+            {pictureObj.map(picObj => <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>)}
+        </div>
     </>
 }

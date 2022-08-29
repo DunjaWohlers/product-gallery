@@ -12,7 +12,6 @@ type EditProductFormProps = {
 }
 
 export default function EditProductFormular(props: EditProductFormProps) {
-
     const {id} = useParams();
     useEffect(() => {
         if (id) {
@@ -33,7 +32,6 @@ export default function EditProductFormular(props: EditProductFormProps) {
     const [pictureObj, setPictureObj] = useState<PicObj[]>();
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
-    const [imageUploads, setImageUploads] = useState<HTMLFormElement>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -72,7 +70,7 @@ export default function EditProductFormular(props: EditProductFormProps) {
             <button type={"submit"}> save</button>
         </form>
         {pictureObj ?
-            <ImageUpload setImagesUpload={setImageUploads} pictureObj={pictureObj} setPictureObj={setPictureObj}/>
+            <ImageUpload/>
             : <p> Es konnten keine Bilder geladen werden. </p>
         }
     </>)
