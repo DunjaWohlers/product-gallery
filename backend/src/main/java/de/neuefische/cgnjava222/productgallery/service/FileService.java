@@ -2,13 +2,16 @@ package de.neuefische.cgnjava222.productgallery.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -16,16 +19,24 @@ import java.util.List;
 public class FileService {
     private final Cloudinary cloudinary;
 
-    public ImageInfo uploadPicture(MultipartFile file) throws IOException {
-        if (file.getOriginalFilename() != null) {
+    public List<ImageInfo> uploadPictures(MultipartFile[] files) {
+        return Arrays.stream(files).map(
+                this::uploadPicture).toList();
+    }
+
+    public ImageInfo uploadPicture(MultipartFile file) {
+        try {
+            if (Strings.isEmpty(file.getOriginalFilename())) {
+                throw new IOException();
+            }
             File newFile = File.createTempFile(file.getOriginalFilename(), null);
             file.transferTo(newFile);
             var responseObj = cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap());
             String url = (String) responseObj.get("url");
             String publicID = (String) responseObj.get("public_id");
             return new ImageInfo(url, publicID);
-        } else {
-            throw new IOException("Filename darf nicht null sein");
+        } catch (IOException e) {
+            throw new FileuploadException(file.getOriginalFilename());
         }
     }
 
