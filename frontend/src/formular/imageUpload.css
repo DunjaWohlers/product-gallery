@@ -1,44 +1,33 @@
-.container {
-    padding: 15px;
-    box-shadow: 0 0 20px rgba(66, 50, 98, 0.35);
-    border: 1px solid #eaeaea;
-    border-radius: 6px;
-    background: var(--defaultColor);
-    width: 90vw;
-}
-
 .fileUploadInput {
     position: relative;
     z-index: 1;
-    width: inherit;
+    box-shadow: 0 0 6px var(--defaultColor);
+    border-radius: 6px;
+    width: 90vw;
+    margin: 15pt auto;
 }
 
 .fileUploadInput label {
-    display: flex;
-    align-items: center;
-    color: black;
-    background: inherit;
-    transition: .4s ease;
+    margin-left: 5pt;
     font-family: arial, sans-serif;
     font-size: .75em;
-    font-weight: normal;
-    margin-bottom: 2pt;
 }
 
-.fileUploadInput input {
+.fileUploadInput > div {
+    height: 20pt;
+}
+
+.fileUploadInput > div > input {
+    margin-left: 5pt;
     position: relative;
     z-index: 1;
-    width: calc(90vw - 52px);
-    height: 25pt;
-    border: 1px solid #323262;
+    width: calc(90vw - 60px);
+    height: 20pt;
+    border: 1px solid var(--defaultColor);
     border-radius: 7px 0 0 7px;
-    font-size: 18pt;
+    font-size: 15pt;
     user-select: none;
     cursor: pointer;
-}
-
-.fileUploadInput input[type="file"] {
-    padding: 0;
 }
 
 .fileUploadInput input[type="file"]::-webkit-file-upload-button {
@@ -48,16 +37,13 @@
 }
 
 .fileUploadInput button {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    border: 1px solid #323262;
-    width: 45px;
-    height: 26.5pt;
+    position: relative;
+    top: 5pt;
+    margin: 0 5pt 0 3pt;
+    border: 1px solid var(--defaultColor);
+    width: 40px;
+    height: 21pt;
     user-select: none;
-    color: white;
     background-color: inherit;
     border-radius: 0 7px 7px 0;
     font-size: 30pt;

@@ -3,8 +3,7 @@ import {Navigate, Route, Routes,} from "react-router-dom";
 import ProductsSite from "./site/ProductsSite";
 import DetailsProduct from "./component/DetailsProduct";
 import useProducts from "./rest-api/useProducts";
-import EditProductFormular from "./formular/EditProductFormular";
-import AddProductFormular from "./formular/AddProductFormular";
+import ProductFormular from "./formular/ProductFormular";
 
 export default function AllRoutes() {
     const {
@@ -19,21 +18,26 @@ export default function AllRoutes() {
                     addProduct={addProduct}
                     allProducts={allProducts}
                 />}/>
-                <Route path={"/newProduct"}/>
-                <Route path={"/editProduct"}/>
-                <Route path={"/product/:id"
-                }
+                <Route path={"/product/:id"}
                        element={
                            <DetailsProduct
                                getOneProductPerId={getOneProductPerId}
                            />}/>
-                <Route path={"product/edit/:id"
-                }
+                <Route path={"product/edit/:id"}
                        element={
-                           <EditProductFormular updateProduct={updateProduct}
-                                                getOneProductPerId={getOneProductPerId}
-                           />}/>
-                <Route path={"product/new"} element={<AddProductFormular addProduct={addProduct}/>}/>
+                           <ProductFormular
+                               addProduct={addProduct}
+                               updateProduct={updateProduct}
+                               getOneProductPerId={getOneProductPerId}
+                           />}
+                />
+                <Route path={"product/new"} element={
+                    <ProductFormular
+                        addProduct={addProduct}
+                        updateProduct={updateProduct}
+                        getOneProductPerId={getOneProductPerId}
+                    />}
+                />
                 <Route path={"*"} element={
                     <Navigate to={"/products"} replace/>
                 }/>
