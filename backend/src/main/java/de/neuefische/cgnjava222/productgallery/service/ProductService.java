@@ -48,4 +48,25 @@ public class ProductService {
     public Product updateProduct(String id, NewProduct newProduct) {
         return productRepo.save(Product.ProductFactory.create(id, newProduct));
     }
+
+    public boolean deletePictureFromProduct(String picturePublicId, String productId) {
+        try {
+            fileService.deletePicture(List.of(picturePublicId));
+            Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
+            List<ImageInfo> picObjects = product.pictureObj();
+            List<ImageInfo> newpicObjects = picObjects.stream().filter(element -> !element.public_id().equals(picturePublicId)).toList();
+            Product newProduct = new Product(
+                    product.id(),
+                    product.title(),
+                    product.description(),
+                    newpicObjects,
+                    product.price(),
+                    product.availableCount()
+            );
+            productRepo.save(newProduct);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

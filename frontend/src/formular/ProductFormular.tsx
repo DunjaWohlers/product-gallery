@@ -89,27 +89,10 @@ export default function ProductFormular(props: ProductFormProps) {
 
     const deleteSinglePicture = (picObjToDelete: PicObj) => {
         if (pictureObjects && pictureObjects.length > 1) {
-            axios.delete("/api/image/delete/" + picObjToDelete.public_id)
+            axios.delete("/api/" + id + "/" + picObjToDelete.public_id)
                 .then(response => response.data)
-                .then(() => {
-                    const index = pictureObjects?.indexOf(picObjToDelete);
-                    if (index !== -1 && index !== undefined && pictureObjects) {
-                        pictureObjects?.splice(index, 1);
-                        setPictureObjects(pictureObjects);
-                        if (id && title && description && pictureObjects && price && availableCount) {
-                            const newProduct: NewProduct = {
-                                title,
-                                description,
-                                pictureObj: pictureObjects,
-                                price,
-                                availableCount
-                            }
-                            props.updateProduct(id, newProduct)
-                                .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
-                                .catch(() => toast.error("Update fehlgeschlagen"))
-                        }
-                    }
-                });
+                .catch(() => toast.error("Bild löschen fehlgeschlagen."))
+                .then(() => navigate("/product/edit/" + id));
         } else {
             toast.error("Du benötigst mindestens ein Bild für dein Produkt.")
         }
