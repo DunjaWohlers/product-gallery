@@ -1,6 +1,6 @@
 import {NewProduct, Product} from "../type/Product";
-import {FormEvent, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, {FormEvent, useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import "./editAddDetails.css";
 import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
@@ -15,6 +15,7 @@ type ProductFormProps = {
 
 export default function ProductFormular(props: ProductFormProps) {
     const {id} = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         if (id) {
             props.getOneProductPerId(id)
@@ -23,7 +24,7 @@ export default function ProductFormular(props: ProductFormProps) {
                     setDescription(data.description);
                     setAvailable(data.availableCount);
                     setPrice(data.price);
-                    setPictureObj(data.pictureObj)
+                    setPictureObjects(data.pictureObj)
                 })
                 .catch(error => console.error(error));
         }
@@ -31,7 +32,7 @@ export default function ProductFormular(props: ProductFormProps) {
 
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
-    const [pictureObj, setPictureObj] = useState<PicObj[]>();
+    const [pictureObjects, setPictureObjects] = useState<PicObj[]>([]);
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
@@ -60,9 +61,7 @@ export default function ProductFormular(props: ProductFormProps) {
             && description.length > 0
         ) {
             let imagesObjList = await uploadImages(event.target as HTMLFormElement);
-            if (id) {
-                imagesObjList = imagesObjList.concat(pictureObj);
-            }
+            imagesObjList = imagesObjList.concat(pictureObjects);
             const newProduct = {
                 title, description,
                 pictureObj: imagesObjList,
@@ -73,10 +72,12 @@ export default function ProductFormular(props: ProductFormProps) {
                     props.updateProduct(id, newProduct)
                         .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
                         .catch(() => toast.error("Update fehlgeschlagen"))
+                        .then(() => navigate("/"))
                 } else {
                     props.addProduct(newProduct)
                         .then(() => toast.success("Produkt wurde gespeichert!"))
-                        .catch(() => toast.error("Produkt konnte nicht gespeichert werden!"));
+                        .catch(() => toast.error("Produkt konnte nicht gespeichert werden!"))
+                        .then(() => navigate("/"));
                 }
             } else {
                 toast.info("Es muss mindestens ein Bild zum Produkt hinzugefügt werden.")
@@ -85,6 +86,35 @@ export default function ProductFormular(props: ProductFormProps) {
             toast.info("Bitte fülle alle Felder aus!");
         }
     }
+
+    const deleteSinglePicture = (picObjToDelete: PicObj) => {
+        if (pictureObjects && pictureObjects.length > 1) {
+            axios.delete("/api/image/delete/" + picObjToDelete.public_id)
+                .then(response => response.data)
+                .then(() => {
+                    const index = pictureObjects?.indexOf(picObjToDelete);
+                    if (index !== -1 && index !== undefined && pictureObjects) {
+                        pictureObjects?.splice(index, 1);
+                        setPictureObjects(pictureObjects);
+                        if (id && title && description && pictureObjects && price && availableCount) {
+                            const newProduct: NewProduct = {
+                                title,
+                                description,
+                                pictureObj: pictureObjects,
+                                price,
+                                availableCount
+                            }
+                            props.updateProduct(id, newProduct)
+                                .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
+                                .catch(() => toast.error("Update fehlgeschlagen"))
+                        }
+                    }
+                });
+        } else {
+            toast.error("Du benötigst mindestens ein Bild für dein Produkt.")
+        }
+    }
+
     return (<>
         <form className={"form"} onSubmit={handleSubmit}>
             <label> Titel: </label>
@@ -119,9 +149,10 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
-        {pictureObj ? <>
-                {pictureObj.map(picObj =>
+        {pictureObjects ? <>
+                {pictureObjects.map(picObj =>
                     <div key={picObj.url} className={"cardContainer"}>
+                        <button onClick={() => deleteSinglePicture(picObj)}> delete</button>
                         <div className={"imageContainer"}>
                             <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
                         </div>
