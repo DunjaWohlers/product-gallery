@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.Map;
 
 import static com.mongodb.assertions.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,8 +45,7 @@ class FileIntegrationTest {
     private WebApplicationContext webApplicationContext;
 
     @Test
-    void updateFile() throws Exception {
-
+    void uploadFile() throws Exception {
         MockMultipartFile firstFile = new MockMultipartFile(
                 "file", "sawIcon.png",
                 MediaType.TEXT_PLAIN_VALUE,
@@ -62,6 +63,24 @@ class FileIntegrationTest {
                 = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(multipart("/api/image/uploadFile/").file(firstFile))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void uploadFileExceptionsFileNameNull() {
+        MockMultipartFile nullNamedFile = new MockMultipartFile(
+                "file", null,
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes());
+        MockMvc mockMvc
+                = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        Exception exception = assertThrows(Exception.class, () -> {
+            mockMvc.perform(multipart("/api/image/uploadFile/").file(nullNamedFile));
+        });
+
+        String expectedMessage = "File Upload der Datei: wurde nicht durchgeführt";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage).contains(expectedMessage);
     }
 
     @Test

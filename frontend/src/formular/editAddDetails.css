@@ -1,0 +1,83 @@
+.good {
+    background-color: transparent;
+}
+
+.bad {
+    background-color: rgba(247, 216, 216, 0.6);
+}
+
+.form > label {
+    font-family: arial, sans-serif;
+    font-size: .75em;
+}
+
+.form > input[type="text"], .form > textarea {
+    box-shadow: 0 0 6px var(--defaultColor);
+    display: block;
+    text-align: center;
+    font-size: 15pt;
+    width: 90vw;
+    margin: 0 auto 3pt auto;
+    border-radius: 5pt;
+    border: 0 var(--defaultColor) solid;
+}
+
+.form > textarea {
+    height: 100pt;
+}
+
+.form > button {
+    display: block;
+    margin: 15pt 15pt 15pt auto;
+    width: 60pt;
+    font-size: 20pt;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 5pt;
+    padding: 1pt 5pt 1pt 5pt;
+    border: none;
+    box-shadow: 0 0 2px 2px #102d4c;
+}
+
+.fullView img {
+    width: 90%;
+    border-radius: 5pt;
+}
+
+.fullView p {
+    font-size: 12pt;
+}
+
+.fullView h3 {
+    text-align: center;
+    margin-top: 15pt;
+    margin-bottom: 5pt;
+    font-weight: bold;
+}
+
+.images3flex {
+    display: flex;
+    margin-left: 15pt;
+}
+
+.images3flex img {
+    width: 30%;
+}
+
+.details {
+    text-align: center;
+}
+
+.details > p {
+    width: 90vw;
+    text-align: left;
+    padding-left: 10pt;
+    margin-left: 10pt;
+    font-size: 14pt;
+    border-bottom: 1px var(--defaultColor) solid;
+}
+
+.details h3 {
+    font-size: 16pt;
+}

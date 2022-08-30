@@ -1,0 +1,51 @@
+.fileUploadInput {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 6px var(--defaultColor);
+    border-radius: 6px;
+    width: 90vw;
+    margin: 15pt auto;
+}
+
+.fileUploadInput label {
+    margin-left: 5pt;
+    font-family: arial, sans-serif;
+    font-size: .75em;
+}
+
+.fileUploadInput > div {
+    height: 30pt;
+}
+
+.fileUploadInput > div > input {
+    margin-left: 5pt;
+    position: relative;
+    z-index: 1;
+    width: calc(90vw - 60px);
+    height: 20pt;
+    border: 1px solid var(--defaultColor);
+    border-radius: 7px 0 0 7px;
+    font-size: 15pt;
+    user-select: none;
+    cursor: pointer;
+}
+
+.fileUploadInput input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+.fileUploadInput button {
+    position: relative;
+    top: 5pt;
+    margin: 0 5pt 0 3pt;
+    border: 1px solid var(--defaultColor);
+    width: 40px;
+    height: 21pt;
+    user-select: none;
+    background-color: inherit;
+    border-radius: 0 7px 7px 0;
+    font-size: 30pt;
+    line-height: 20pt;
+}
