@@ -2,6 +2,7 @@ package de.neuefische.cgnjava222.productgallery.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class FileService {
                 throw new IOException("Filename darf nicht null sein");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileuploadException(file.getOriginalFilename());
         }
     }
 

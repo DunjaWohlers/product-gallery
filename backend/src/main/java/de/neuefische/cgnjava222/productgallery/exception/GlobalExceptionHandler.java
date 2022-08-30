@@ -15,7 +15,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleProductNotFound(ProductNotFoundException exception) {
         Map<String, Object> responseBody = new LinkedHashMap<>();
         responseBody.put("message", "Product not Found");
-
         return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 }
