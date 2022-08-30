@@ -116,12 +116,7 @@ export default function ProductFormular(props: ProductFormProps) {
                    onChange={(event) => setAvailable(parseInt(event.target.value))}
                    className={availableCount ? "good" : "bad"}/>
             <ImageUpload/>
-            <button
-                //   disabled={
-                //    !title || !description || !price || !availableCount ||
-                //    title.length <= 0 || description.length <= 0
-                //}
-                type={"submit"}> save
+            <button type={"submit"}> save
             </button>
         </form>
 
