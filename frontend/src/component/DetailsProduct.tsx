@@ -27,7 +27,6 @@ export default function DetailsProduct(props: DetailsProductProps) {
                     <div className={"flexBox"}>
                         {thisProduct.pictureObj.length > 1 &&
                             <div className={"cardContainer"}>
-
                                 <div className={"imageContainer"}>
                                     <img alt="bild1" src={thisProduct.pictureObj[1].url}/>
                                 </div>

@@ -12,7 +12,6 @@ export default function ImageUpload() {
                     <button type="button" onClick={() => setFileInputs(fileInputs + 1)}> +</button>
                 </div>)
             }
-            <br/>
         </div>
     </>)
 }
