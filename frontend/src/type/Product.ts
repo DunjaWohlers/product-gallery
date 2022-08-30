@@ -1,8 +1,10 @@
+import {PicObj} from "./PicObj";
+
 export type Product = {
     id: string,
     title: string,
     description: string,
-    pictureUrls: string[]
+    pictureObj: PicObj[]
     price: number,
     availableCount: number,
 }

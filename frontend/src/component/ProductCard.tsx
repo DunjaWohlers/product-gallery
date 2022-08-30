@@ -15,7 +15,7 @@ type ProductProps = {
 export default function ProductCard(props: ProductProps) {
     const handleDelete = () => {
         props.deleteProduct(props.product.id)
-            .then(() => toast.success("Produkt wurde gelöscht", {theme: "light"}))
+            .then(() => toast.success("Produkt und zugehörige Bilder wurden gelöscht", {theme: "light"}))
             .catch(() => toast.error("Löschen fehlgeschlagen!", {theme: "light"}));
     }
 

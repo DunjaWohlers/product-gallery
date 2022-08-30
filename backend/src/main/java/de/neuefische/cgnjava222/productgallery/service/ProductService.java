@@ -1,6 +1,8 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
 import de.neuefische.cgnjava222.productgallery.ProductRepo;
+import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
+import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
@@ -14,11 +16,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepo productRepo;
+    private final FileService fileService;
 
     public List<ProductReducedInfo> getAllProducts() {
-        return productRepo.findAll().stream().map(product ->
-                new ProductReducedInfo(product.id(), product.title(), product.pictureUrls().get(0), product.price())
-        ).toList();
+        return productRepo.findAll().stream().map(product -> new ProductReducedInfo(product.id(), product.title(), product.pictureObj().get(0).url(), product.price())).toList();
     }
 
     public Optional<Product> getDetailsOf(String id) {
@@ -31,6 +32,13 @@ public class ProductService {
 
     public boolean deleteProduct(String id) {
         if (productRepo.existsById(id)) {
+            Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+            List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::public_id).toList();
+            try {
+                fileService.deletePicture(publicIdsToDelete);
+            } catch (Exception e) {
+                return false;
+            }
             productRepo.deleteById(id);
             return true;
         }

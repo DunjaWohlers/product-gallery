@@ -6,6 +6,17 @@ h3 {
     text-align: left;
 }
 
+.addedImagesForProduct {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 90%;
+}
+
+.addedImagesForProduct img {
+    max-width: 48%;
+    margin: 1%;
+}
+
 .cardContainer {
     width: 120pt;
     margin: 2pt 2pt 10pt 4pt;

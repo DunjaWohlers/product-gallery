@@ -15,7 +15,7 @@ public record Product(
         @NotNull
         String description,
         @NotNull
-        List<String> pictureUrls,
+        List<ImageInfo> pictureObj,
         @NotNull
         Integer price,
         @NotNull
@@ -30,7 +30,7 @@ public record Product(
                     UUID.randomUUID().toString(),
                     product.title(),
                     product.description(),
-                    product.pictureUrls(),
+                    product.pictureObj(),
                     product.price(),
                     product.availableCount());
         }
@@ -40,7 +40,7 @@ public record Product(
                     id,
                     product.title(),
                     product.description(),
-                    product.pictureUrls(),
+                    product.pictureObj(),
                     product.price(),
                     product.availableCount());
         }
