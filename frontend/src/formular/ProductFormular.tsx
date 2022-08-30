@@ -119,7 +119,6 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
-
         {pictureObj ? <>
                 {pictureObj.map(picObj =>
                     <div key={picObj.url} className={"cardContainer"}>
