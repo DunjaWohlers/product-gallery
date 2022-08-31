@@ -219,11 +219,15 @@ class ProductIntegrationTest {
                 Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
                         "public_id", "XYZ"));
         Map<String, String> fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-        //assertThat(actual).isEqualTo(Map.of("url", "ASD", "public_id", "bla"));
 
         //delete:
         mockMvc.perform(delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id"))).andExpect(status().isNoContent());
+    }
 
-
+    @Test
+    void deleteImageFromProductWithIdNotfouND() throws Exception {
+        String saveResultId = "BB";
+        Map fileUploadReturn = Map.of("url", "bla", "public_id", "X");
+        mockMvc.perform(delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id"))).andExpect(status().isNotFound());
     }
 }
