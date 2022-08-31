@@ -51,4 +51,12 @@ public class ProductController {
     public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
         return productService.updateProduct(id, newProduct);
     }
+
+    @DeleteMapping("/{id}/{publicImageId}")
+    public ResponseEntity<Void> deleteImageFromProductWithId(
+            @PathVariable String id,
+            @PathVariable String publicImageId) {
+        boolean deleteSuccess = productService.deletePictureFromProduct(publicImageId, id);
+        return new ResponseEntity<>(deleteSuccess ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+    }
 }

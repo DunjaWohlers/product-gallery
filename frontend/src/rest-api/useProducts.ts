@@ -41,7 +41,6 @@ export default function useProducts() {
     const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
         return axios.put("/api/product/" + id, newUpdateProduct)
             .then(getAllProducts)
-            .then(() => navigate("/"))
     }
 
     return {

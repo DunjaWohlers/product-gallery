@@ -18,7 +18,6 @@ public class FileUploadController {
         this.fileService = fileService;
     }
 
-
     @PostMapping("/uploadFile")
     public ResponseEntity<List<ImageInfo>> addPicture(@RequestParam("file") MultipartFile[] files) {
         return new ResponseEntity<>(fileService.uploadPictures(files), HttpStatus.CREATED);
