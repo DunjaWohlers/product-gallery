@@ -12,6 +12,4 @@ public class UserController {
     public String loginEndpoint() {
         return "login";
     }
-
-
 }

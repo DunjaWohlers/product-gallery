@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +35,7 @@ class WebSecurityConfigurerTest {
     @Test
     @WithAnonymousUser
     void trytoAddProductAsAnonymousUser() throws Exception {
-        mockMvc.perform(post("/product/asdfa"))
+        mockMvc.perform(post("/product/asdfa").with(csrf()))
                 .andExpect(status().isUnauthorized());
     }
 

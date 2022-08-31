@@ -4,6 +4,7 @@ import ProductsSite from "./site/ProductsSite";
 import DetailsProduct from "./component/DetailsProduct";
 import useProducts from "./rest-api/useProducts";
 import ProductFormular from "./formular/ProductFormular";
+import Login from "./site/Login";
 
 export default function AllRoutes() {
     const {
@@ -12,6 +13,7 @@ export default function AllRoutes() {
 
     return (<>
             <Routes>
+                <Route path={"/login"} element={<Login></Login>}/>
                 <Route path={"/products"} element={<ProductsSite
                     updateProduct={updateProduct}
                     deleteProduct={deleteProduct}

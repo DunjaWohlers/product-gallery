@@ -27,6 +27,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,36 +59,48 @@ class ProductIntegrationTest {
 
     @Test
     void getProductPerId() throws Exception {
-        String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                {
-                           "title": "Brett",
-                           "description": "Zum Frühstücken oder sonstiger Verwendung",
-                           "pictureObj": [
+        String saveResult = mockMvc.perform(
+                        post("/api/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                                   "title": "Brett",
+                                                   "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                                   "pictureObj": [
+                                                        {
+                                                           "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                           "public_id": "equaeqbgdxv9mkfczq1i"
+                                                        }
+                                                    ],
+                                                    "price": 5,
+                                                    "availableCount": 4
+                                                }
+                                        """)
+                                .with(csrf())
+                )
+                .andExpect(status().is(201))
+                .andExpect(
+                        content().json("""
                                 {
-                                   "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                   "public_id": "equaeqbgdxv9mkfczq1i"
-                                }
-                            ],
-                            "price": 5,
-                            "availableCount": 4
-                        }
-                """)).andExpect(status().is(201)).andExpect(content().json("""
-                {
-                           "title": "Brett",
-                           "description": "Zum Frühstücken oder sonstiger Verwendung",
-                           "pictureObj": [
-                                {
-                                   "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                   "public_id": "equaeqbgdxv9mkfczq1i"
-                                }
-                            ],
-                            "price": 5,
-                            "availableCount": 4
-                        }
-                """)).andReturn().getResponse().getContentAsString();
+                                           "title": "Brett",
+                                           "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                           "pictureObj": [
+                                                {
+                                                   "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                   "public_id": "equaeqbgdxv9mkfczq1i"
+                                                }
+                                            ],
+                                            "price": 5,
+                                            "availableCount": 4
+                                        }
+                                """)
+                ).andReturn().getResponse().getContentAsString();
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
-        String content = mockMvc.perform(get("/api/details/" + saveResultProduct.id())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String content = mockMvc.perform(
+                        get("/api/details/" + saveResultProduct.id()).with(csrf())
+                )
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         Product actualProduct = objectMapper.readValue(content, Product.class);
 
         Assertions.assertEquals(actualProduct, saveResultProduct);
@@ -97,74 +110,94 @@ class ProductIntegrationTest {
     void getOneProductNotExisting() throws Exception {
         String notExistingID = "1a";
 
-        mockMvc.perform(get("/api/details/" + notExistingID).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound()).andExpect(result -> assertTrue(result.getResolvedException() instanceof ProductNotFoundException)).andExpect(result -> {
-            if (result.getResolvedException() == null) {
-                fail();
-            } else {
-                assertEquals("Product not Found (id: 1a )", result.getResolvedException().getMessage());
-            }
-        });
+        mockMvc.perform(
+                        get("/api/details/" + notExistingID)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .with(csrf())
+                )
+                .andExpect(status().isNotFound()).andExpect(result -> assertTrue(result.getResolvedException() instanceof ProductNotFoundException)).andExpect(result -> {
+                    if (result.getResolvedException() == null) {
+                        fail();
+                    } else {
+                        assertEquals("Product not Found (id: 1a )", result.getResolvedException().getMessage());
+                    }
+                });
     }
 
     @Test
     void addProducts() throws Exception {
-        mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                    {
-                           "title": "Brett",
-                           "description": "Zum Frühstücken oder sonstiger Verwendung",
-                           "pictureObj": [
+        mockMvc.perform(
+                        post("/api/").contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                            {
+                                                   "title": "Brett",
+                                                   "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                                   "pictureObj": [
+                                                        {
+                                                           "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                           "public_id": "equaeqbgdxv9mkfczq1i"
+                                                        }
+                                                    ],
+                                                    "price": 5,
+                                                    "availableCount": 4
+                                                }
+                                        """)
+                                .with(csrf())
+                )
+                .andExpect(status().is(201))
+                .andExpect(content().json("""
                                 {
-                                   "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                   "public_id": "equaeqbgdxv9mkfczq1i"
-                                }
-                            ],
-                            "price": 5,
-                            "availableCount": 4
-                        }
-                """)).andExpect(status().is(201)).andExpect(content().json("""
-                        {
-                             "title": "Brett",
-                             "description": "Zum Frühstücken oder sonstiger Verwendung",
-                             "pictureObj": [
-                                {
-                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                 "public_id": "equaeqbgdxv9mkfczq1i"
+                                     "title": "Brett",
+                                     "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                     "pictureObj": [
+                                        {
+                                         "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                         "public_id": "equaeqbgdxv9mkfczq1i"
+                                         }
+                                      ],
+                                      "price": 5,
+                                      "availableCount": 4
                                  }
-                              ],
-                              "price": 5,
-                              "availableCount": 4
-                         }
-                """));
+                        """));
     }
 
     @Test
     void deleteExistingAndNotExistingProduct() throws Exception {
-        String addPromise = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                         {
-                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
-                             "title": "Brett",
-                             "description": "Zum Frühstücken oder sonstiger Verwendung",
-                             "pictureObj": [
-                                {
-                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                 "public_id": "equaeqbgdxv9mkfczq1i"
-                                 }
-                              ],
-                              "price": 5,
-                              "availableCount": 4
-                         }
-                """)).andReturn().getResponse().getContentAsString();
+        String addPromise = mockMvc.perform(
+                post("/api/")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                         {
+                                             "id": "97a11b9f-505b-4f49-90f4-308a0f5b0bc0",
+                                             "title": "Brett",
+                                             "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                             "pictureObj": [
+                                                {
+                                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                 "public_id": "equaeqbgdxv9mkfczq1i"
+                                                 }
+                                              ],
+                                              "price": 5,
+                                              "availableCount": 4
+                                         }
+                                """)
+        ).andReturn().getResponse().getContentAsString();
 
         doNothing().when(fileService).deletePicture(List.of("equaeqbgdxv9mkfczq1i"));
 
         Product addedProductResult = objectMapper.readValue(addPromise, Product.class);
         String id = addedProductResult.id();
 
-        mockMvc.perform(delete("/api/" + id))
+        mockMvc.perform(
+                        delete("/api/" + id).with(csrf())
+                )
                 .andExpect(status().is(204));
-
         String notExistingID = "ABC123";
-        mockMvc.perform(delete("/api/" + notExistingID)).andExpect(status().is(404));
+        mockMvc.perform(
+                        delete("/api/" + notExistingID).with(csrf())
+                )
+                .andExpect(status().is(404));
     }
 
     @Test
@@ -182,12 +215,18 @@ class ProductIntegrationTest {
                               "price": 5,
                               "availableCount": 4
                          }
-                """)).andExpect(status().is(201)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                """).with(csrf())).andExpect(status().is(201)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
         NewProduct newProduct = new NewProduct("Product1", "1a Qualität", List.of(new ImageInfo("http://www.bla.de", "PublicID7")), 5, 6);
         Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
-        String updateResponse = mockMvc.perform(put("/api/product/" + saveResultProduct.id()).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(expectedProduct))).andExpect(status().is(200)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        String updateResponse = mockMvc.perform(
+                        put("/api/product/" + saveResultProduct.id())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(expectedProduct)).with(csrf())
+                )
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product actualProduct = objectMapper.readValue(updateResponse, Product.class);
         Assertions.assertEquals(saveResultProduct.id(), actualProduct.id());
         Assertions.assertEquals(expectedProduct, actualProduct);
@@ -196,20 +235,26 @@ class ProductIntegrationTest {
     @Test
     void deleteImageFromProductWithId() throws Exception {
         //Save on DB:
-        String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
-                {
-                             "title": "Brett",
-                             "description": "Zum Frühstücken oder sonstiger Verwendung",
-                             "pictureObj": [
-                                {
-                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                 "public_id": "XYZ"
-                                 }
-                              ],
-                              "price": 5,
-                              "availableCount": 4
-                         }
-                """)).andExpect(status().is(201)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        String saveResult = mockMvc.perform(
+                        post("/api/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                                     "title": "Brett",
+                                                     "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                                     "pictureObj": [
+                                                        {
+                                                         "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                         "public_id": "XYZ"
+                                                         }
+                                                      ],
+                                                      "price": 5,
+                                                      "availableCount": 4
+                                                 }
+                                        """).with(csrf())
+                )
+                .andExpect(status().is(201))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
         String saveResultId = saveResultProduct.id();
 
@@ -223,13 +268,17 @@ class ProductIntegrationTest {
         Map<String, String> fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         //delete:
-        mockMvc.perform(delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id"))).andExpect(status().isNoContent());
+        mockMvc.perform(
+                delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
+        ).andExpect(status().isNoContent());
     }
 
     @Test
     void deleteImageFromProductWithIdNotfouND() throws Exception {
         String saveResultId = "BB";
         Map fileUploadReturn = Map.of("url", "bla", "public_id", "X");
-        mockMvc.perform(delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id"))).andExpect(status().isNotFound());
+        mockMvc.perform(
+                delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
+        ).andExpect(status().isNotFound());
     }
 }
