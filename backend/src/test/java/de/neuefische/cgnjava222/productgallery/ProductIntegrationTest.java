@@ -1,5 +1,8 @@
 package de.neuefische.cgnjava222.productgallery;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Uploader;
+import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
@@ -16,11 +19,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,6 +43,11 @@ class ProductIntegrationTest {
 
     @MockBean
     private FileService fileService;
+
+    private final Cloudinary cloudinary = mock(Cloudinary.class);
+
+    private final Uploader uploader = mock(Uploader.class);
+
 
     @Test
     void getProducts() throws Exception {
@@ -179,5 +189,41 @@ class ProductIntegrationTest {
         Product actualProduct = objectMapper.readValue(updateResponse, Product.class);
         Assertions.assertEquals(saveResultProduct.id(), actualProduct.id());
         Assertions.assertEquals(expectedProduct, actualProduct);
+    }
+
+    @Test
+    void deleteImageFromProductWithId() throws Exception {
+        //Save on DB:
+        String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                             "title": "Brett",
+                             "description": "Zum Frühstücken oder sonstiger Verwendung",
+                             "pictureObj": [
+                                {
+                                 "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                 "public_id": "XYZ"
+                                 }
+                              ],
+                              "price": 5,
+                              "availableCount": 4
+                         }
+                """)).andExpect(status().is(201)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
+        String saveResultId = saveResultProduct.id();
+
+        //save File:
+        File file = new File(this.getClass().getClassLoader().getResource("sawIcon.png").getFile());
+        System.out.println(file);
+        when(cloudinary.uploader()).thenReturn(uploader);
+        when(uploader.upload(file, ObjectUtils.emptyMap())).thenReturn(
+                Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                        "public_id", "XYZ"));
+        Map<String, String> fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        //assertThat(actual).isEqualTo(Map.of("url", "ASD", "public_id", "bla"));
+
+        //delete:
+        mockMvc.perform(delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id"))).andExpect(status().isNoContent());
+
+
     }
 }
