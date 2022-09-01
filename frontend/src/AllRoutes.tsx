@@ -8,12 +8,17 @@ import Login from "./site/Login";
 
 export default function AllRoutes() {
     const {
-        allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
+        allProducts,
+        addProduct,
+        deleteProduct,
+        updateProduct,
+        getOneProductPerId,
+        login
     } = useProducts();
 
     return (<>
             <Routes>
-                <Route path={"/login"} element={<Login></Login>}/>
+                <Route path={"/login"} element={<Login login={login}></Login>}/>
                 <Route path={"/products"} element={<ProductsSite
                     updateProduct={updateProduct}
                     deleteProduct={deleteProduct}

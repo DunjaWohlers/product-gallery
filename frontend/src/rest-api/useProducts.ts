@@ -3,10 +3,13 @@ import {NewProduct} from "../type/Product";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {ProductReducedInfo} from "../type/ProductReducedInfo";
+import {toast} from "react-toastify";
 
 export default function useProducts() {
 
     const [allProducts, setAllProducts] = useState<ProductReducedInfo[]>();
+    const [me, setMe] = useState<string>("anonymousUser");
+
     const navigate = useNavigate();
 
     const getAllProducts = () => {
@@ -43,7 +46,19 @@ export default function useProducts() {
             .then(getAllProducts)
     }
 
+    const login = (username: string, password: string) => {
+        axios.get("/auth/login", {auth: {username, password}})
+            .then(response => response.data)
+            .then(setMe)
+            .catch(() => toast.error("Login fehlgeschlagen"))
+    }
+
     return {
-        allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
+        allProducts,
+        addProduct,
+        deleteProduct,
+        updateProduct,
+        getOneProductPerId,
+        login
     }
 }

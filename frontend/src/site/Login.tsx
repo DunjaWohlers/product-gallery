@@ -1,16 +1,20 @@
 import React, {FormEvent, useState} from "react";
 import "./login.css";
 
-export default function Login() {
-    const [name, setName] = useState("");
+type LoginProps = {
+    login: (username: string, password: string) => void,
+}
+export default function Login(props: LoginProps) {
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    function validateForm() {
-        return name.length > 0 && password.length > 0;
+    const validateForm = () => {
+        return username.length > 0 && password.length > 0;
     }
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        props.login(username, password);
     }
 
     return (
@@ -21,8 +25,8 @@ export default function Login() {
                     <input
                         autoFocus
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
