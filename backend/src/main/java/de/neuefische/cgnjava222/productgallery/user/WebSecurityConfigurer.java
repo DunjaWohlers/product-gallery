@@ -40,8 +40,7 @@ public class WebSecurityConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers(HttpMethod.DELETE, "/api")
                 .hasRole("ADMIN")
                 .antMatchers("/api/image/**")

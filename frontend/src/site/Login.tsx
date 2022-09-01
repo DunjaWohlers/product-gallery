@@ -2,11 +2,11 @@ import React, {FormEvent, useState} from "react";
 import "./login.css";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
 
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return name.length > 0 && password.length > 0;
     }
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -20,9 +20,9 @@ export default function Login() {
                     <label>Email</label>
                     <input
                         autoFocus
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </div>
                 <div>
