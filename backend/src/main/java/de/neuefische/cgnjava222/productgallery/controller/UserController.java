@@ -11,12 +11,13 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/auth")
 public class UserController {
 
-    @GetMapping("login")
+    @GetMapping("/login")
     String login() {
+        System.out.println(getUsername());
         return getUsername();
     }
 
-    @GetMapping("me")
+    @GetMapping("/me")
     String getUsername() {
         return SecurityContextHolder
                 .getContext()
@@ -24,7 +25,7 @@ public class UserController {
                 .getName();
     }
 
-    @GetMapping("logout")
+    @GetMapping("/logout")
     void logout(HttpSession session) {
         session.invalidate();
     }
