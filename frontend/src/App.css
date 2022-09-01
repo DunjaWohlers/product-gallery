@@ -63,6 +63,10 @@ footer {
     background-color: var(--defaultColor);
 }
 
+footer a {
+    display: none
+}
+
 #logo {
     opacity: 80%;
     width: 40pt;
