@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithUserDetails(value = "admin")
+@WithUserDetails(value = "ADMIN")
 class ProductIntegrationTest {
 
     @Autowired
@@ -50,7 +50,6 @@ class ProductIntegrationTest {
     private final Cloudinary cloudinary = mock(Cloudinary.class);
 
     private final Uploader uploader = mock(Uploader.class);
-
 
     @Test
     void getProducts() throws Exception {

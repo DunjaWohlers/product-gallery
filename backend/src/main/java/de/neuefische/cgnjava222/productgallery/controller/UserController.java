@@ -10,23 +10,43 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/auth")
 public class UserController {
-
     @GetMapping("/login")
-    String login() {
-        System.out.println(getUsername());
-        return getUsername();
+    public void login() {
+        System.out.println("Logged in");
     }
 
     @GetMapping("/me")
-    String getUsername() {
-        return SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+    public String me() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @GetMapping("/logout")
-    void logout(HttpSession session) {
+    public void logout(HttpSession session) {
         session.invalidate();
+        System.out.println("Logged out");
     }
+    //@GetMapping("/getToken" )
+    //void getToken(@RequestParam String req, @RequestParam String res) {
+    //   // CsrfToken token=session.getAttribute("HttpSessionCsrfTokenRepository.CSRF_TOKEN");
+    //}
+
+    //@GetMapping("/login")
+    //String login() {
+    //    System.out.println(getUsername());
+    //    return getUsername();
+    //}
+
+    //@GetMapping("/me")
+    //String getUsername() {
+    //    System.out.println("me");
+    //    return SecurityContextHolder
+    //            .getContext()
+    //            .getAuthentication()
+    //            .getName();
+    //}
+
+    //@GetMapping("/logout")
+    //void logout(HttpSession session) {
+    //    session.invalidate();
+    //}
 }

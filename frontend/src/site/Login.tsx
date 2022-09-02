@@ -4,6 +4,7 @@ import "./login.css";
 type LoginProps = {
     login: (username: string, password: string) => void,
 }
+
 export default function Login(props: LoginProps) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
