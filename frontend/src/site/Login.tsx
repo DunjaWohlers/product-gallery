@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FormEvent} from "react";
 import axios from "axios";
 import "./login.css";
 
@@ -9,21 +9,16 @@ export default function Login(
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    function login() {
+    function login(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
         axios.get("/api/users/login", {auth: {username, password}})
             .then(props.authenticationChanged)
             .catch(() => alert("Login failed"));
     }
 
-    // return <div style={{border: '3px solid blue', padding: '10px'}}>
-    //     <h1>Login</h1>
-    //     <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)}/>
-    //     <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-    //     <button onClick={login}>Login</button>
-    // </div>
     return (
         <div className="login">
-            <form>
+            <form onSubmit={login}>
                 <div>
                     <label>Email</label>
                     <input
@@ -40,7 +35,7 @@ export default function Login(
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit" onClick={login}>
+                <button type="submit">
                     Login
                 </button>
             </form>
