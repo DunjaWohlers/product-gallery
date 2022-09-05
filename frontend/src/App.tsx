@@ -33,6 +33,7 @@ export default function App() {
     if (!username) {
         return <div>Loading...</div>
     }
+
     if (username === "anonymousUser") {
         return <Login authenticationChanged={fetchUsername}/>
     }
