@@ -6,6 +6,5 @@ public record AppUser(
         @Id
         String username,
         String password
-
 ) {
 }

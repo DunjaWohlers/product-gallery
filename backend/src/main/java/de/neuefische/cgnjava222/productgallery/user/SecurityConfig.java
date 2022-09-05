@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/logout").permitAll()
                 .antMatchers("/api/users/me").permitAll()
+                .antMatchers("/api/users/**").authenticated()
                 .anyRequest().permitAll()
                 .and().httpBasic().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()

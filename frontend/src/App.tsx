@@ -7,8 +7,6 @@ import AllRoutes from "./AllRoutes";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import Secret from "./site/Secret";
-import Login from "./site/Login";
 
 export default function App() {
     const [username, setUsername] = React.useState(undefined);
@@ -30,21 +28,15 @@ export default function App() {
         fetchUsername();
     }, []);
 
-    if (!username) {
-        return <div>Loading...</div>
-    }
-
-    if (username === "anonymousUser") {
-        return <Login authenticationChanged={fetchUsername}/>
-    }
-
     return (
         <>
-            <Secret authenticationChanged={fetchUsername}/>
+            <h1> {username}</h1>
             <BrowserRouter>
-                <HeaderNav/>
+                <HeaderNav
+                    username={username}
+                    authenticationChanged={fetchUsername}/>
                 <main>
-                    <AllRoutes/>
+                    <AllRoutes username={username} authenticationChanged={fetchUsername}/>
                 </main>
                 <Footer/>
             </BrowserRouter>

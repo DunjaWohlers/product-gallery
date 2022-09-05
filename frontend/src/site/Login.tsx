@@ -1,19 +1,24 @@
 import React, {FormEvent} from "react";
 import axios from "axios";
 import "./login.css";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 export default function Login(
     props: {
         authenticationChanged: () => void
     }) {
-    const [username, setUsername] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [username, setUsername] = React.useState("frank");
+    const [password, setPassword] = React.useState("frank123");
 
-    function login(e: FormEvent<HTMLFormElement>) {
+    const navigate = useNavigate();
+
+    const login = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios.get("/api/users/login", {auth: {username, password}})
             .then(props.authenticationChanged)
-            .catch(() => alert("Login failed"));
+            .then(() => navigate("/products"))
+            .catch(() => toast.error("Login fehlgeschlagen"))
     }
 
     return (
@@ -24,14 +29,14 @@ export default function Login(
                     <input
                         autoFocus
                         type="text"
-                        value={username}
+                        defaultValue={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
                     <label>Password</label>
                     <input type="password"
-                           value={password}
+                           defaultValue={password}
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>

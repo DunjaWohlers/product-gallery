@@ -2,7 +2,6 @@
     text-decoration: none;
     font-weight: inherit;
     color: inherit;
-    font-size: inherit;
 }
 
 header {
@@ -14,36 +13,34 @@ header {
     align-items: center;
     justify-content: space-around;
     background-color: var(--defaultColor);
+    font-size: 12pt;
 }
 
 header button {
     text-shadow: 1px 1px #383333, 2px 2px black;
     color: white;
-    font-size: 10pt;
     background-color: transparent;
     border: none;
+    min-height: 20pt;
+    min-width: 50pt;
 }
 
 header button, header .navLink {
+    font-size: inherit;
     color: inherit;
     margin: 0;
     box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.67);
-    height: 27pt;
     border-radius: 5pt;
     padding: 3pt;
     opacity: 80%;
     text-decoration: none;
-}
-
-header .navLink {
-    padding-top: 0;
-    padding-bottom: 0;
+    align-items: center;
 }
 
 header .navLink h1 {
     color: inherit;
     text-decoration: inherit;
-    font-size: 12pt;
+    font-size: 14pt;
     margin: 6pt 1pt 5pt 2pt;
 }
 

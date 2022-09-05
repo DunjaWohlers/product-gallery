@@ -10,10 +10,11 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
     @GetMapping("/login")
     public void login() {
-        System.out.println("Logged in");
     }
+
     @GetMapping("/me")
     public String me() {
         return SecurityContextHolder.getContext().getAuthentication().getName();

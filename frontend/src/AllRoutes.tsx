@@ -4,19 +4,24 @@ import ProductsSite from "./site/ProductsSite";
 import DetailsProduct from "./component/DetailsProduct";
 import useProducts from "./rest-api/useProducts";
 import ProductFormular from "./formular/ProductFormular";
+import Login from "./site/Login";
 
-export default function AllRoutes() {
+export default function AllRoutes(
+    props: {
+        username: string | undefined,
+        authenticationChanged: () => void,
+    }) {
     const {
         allProducts,
         addProduct,
         deleteProduct,
         updateProduct,
         getOneProductPerId,
-        login
     } = useProducts();
 
     return (<>
             <Routes>
+                <Route path={"/login"} element={<Login authenticationChanged={props.authenticationChanged}/>}/>
                 <Route path={"/products"} element={<ProductsSite
                     updateProduct={updateProduct}
                     deleteProduct={deleteProduct}
