@@ -1,6 +1,9 @@
 import axios from "axios";
 
-export default function Secret(props: { authenticationChanged: () => void }) {
+export default function Secret(
+    props: {
+        authenticationChanged: () => void
+    }) {
     function logout() {
         axios.get("/api/users/logout")
             .then(props.authenticationChanged)

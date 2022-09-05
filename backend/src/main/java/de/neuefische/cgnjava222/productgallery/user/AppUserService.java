@@ -1,11 +1,12 @@
 package de.neuefische.cgnjava222.productgallery.user;
 
 import de.neuefische.cgnjava222.productgallery.model.AppUser;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,6 +21,7 @@ public class AppUserService implements UserDetailsService {
 
     public User loadUserByUsername(String username) {
         AppUser appUser = appUsers.get(username);
-        return new User(appUser.username(), appUser.password(), Collections.emptyList());
+        return new User(appUser.username(), appUser.password(), List.of(new SimpleGrantedAuthority("ADMIN")));
     }
 }
+

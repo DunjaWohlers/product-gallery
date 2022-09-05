@@ -39,8 +39,8 @@ export default function App() {
 
     return (
         <>
+            <Secret authenticationChanged={fetchUsername}/>
             <BrowserRouter>
-                <Secret authenticationChanged={fetchUsername}/>
                 <HeaderNav/>
                 <main>
                     <AllRoutes/>

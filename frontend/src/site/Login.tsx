@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-export default function Login(props: { authenticationChanged: () => void }) {
+export default function Login(
+    props: {
+        authenticationChanged: () => void
+    }) {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
