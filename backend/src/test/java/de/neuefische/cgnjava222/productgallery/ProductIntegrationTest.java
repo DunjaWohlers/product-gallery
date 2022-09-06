@@ -16,7 +16,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,6 +25,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithUserDetails(value = "ADMIN")
 class ProductIntegrationTest {
 
     @Autowired
@@ -52,14 +53,16 @@ class ProductIntegrationTest {
     private final Uploader uploader = mock(Uploader.class);
 
     @Test
+    @WithAnonymousUser
     void getProducts() throws Exception {
-        mockMvc.perform(get("/api/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mockMvc.perform(get("/api/product/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
+    @WithAnonymousUser
     void getProductPerId() throws Exception {
         String saveResult = mockMvc.perform(
-                        post("/api/")
+                        post("/api/product/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {
@@ -97,7 +100,7 @@ class ProductIntegrationTest {
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
         String content = mockMvc.perform(
-                        get("/api/details/" + saveResultProduct.id()).with(csrf())
+                        get("/api/product/details/" + saveResultProduct.id()).with(csrf())
                 )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         Product actualProduct = objectMapper.readValue(content, Product.class);
@@ -110,7 +113,7 @@ class ProductIntegrationTest {
         String notExistingID = "1a";
 
         mockMvc.perform(
-                        get("/api/details/" + notExistingID)
+                        get("/api/product/details/" + notExistingID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 )
@@ -124,9 +127,10 @@ class ProductIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void addProducts() throws Exception {
         mockMvc.perform(
-                        post("/api/").contentType(MediaType.APPLICATION_JSON)
+                        post("/api/product").contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                             {
                                                    "title": "Brett",
@@ -161,9 +165,10 @@ class ProductIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteExistingAndNotExistingProduct() throws Exception {
         String addPromise = mockMvc.perform(
-                post("/api/")
+                post("/api/product/")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -189,19 +194,20 @@ class ProductIntegrationTest {
         String id = addedProductResult.id();
 
         mockMvc.perform(
-                        delete("/api/" + id).with(csrf())
+                        delete("/api/product/" + id).with(csrf())
                 )
                 .andExpect(status().is(204));
         String notExistingID = "ABC123";
         mockMvc.perform(
-                        delete("/api/" + notExistingID).with(csrf())
+                        delete("/api/product/" + notExistingID).with(csrf())
                 )
                 .andExpect(status().is(404));
     }
 
     @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void updateProduct() throws Exception {
-        String saveResult = mockMvc.perform(post("/api/").contentType(MediaType.APPLICATION_JSON).content("""
+        String saveResult = mockMvc.perform(post("/api/product/").contentType(MediaType.APPLICATION_JSON).content("""
                 {
                              "title": "Brett",
                              "description": "Zum Frühstücken oder sonstiger Verwendung",
@@ -232,10 +238,11 @@ class ProductIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromProductWithId() throws Exception {
         //Save on DB:
         String saveResult = mockMvc.perform(
-                        post("/api/")
+                        post("/api/product/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {
@@ -258,26 +265,28 @@ class ProductIntegrationTest {
         String saveResultId = saveResultProduct.id();
 
         //save File:
-        File file = new File(this.getClass().getClassLoader().getResource("sawIcon.png").getFile());
-        System.out.println(file);
+
+        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
+
         when(cloudinary.uploader()).thenReturn(uploader);
         when(uploader.upload(file, ObjectUtils.emptyMap())).thenReturn(
                 Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
                         "public_id", "XYZ"));
-        Map<String, String> fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         //delete:
         mockMvc.perform(
-                delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
+                delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
         ).andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromProductWithIdNotfouND() throws Exception {
         String saveResultId = "BB";
         Map fileUploadReturn = Map.of("url", "bla", "public_id", "X");
         mockMvc.perform(
-                delete("/api/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
+                delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("public_id")).with(csrf())
         ).andExpect(status().isNotFound());
     }
 }
