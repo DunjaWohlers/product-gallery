@@ -165,6 +165,29 @@ class ProductIntegrationTest {
     }
 
     @Test
+    @WithAnonymousUser
+    void tryToAddProductAsAnonymousUser() throws Exception {
+        mockMvc.perform(post("/api/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                           "title": "Brett",
+                                           "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                           "pictureObj": [
+                                                {
+                                                   "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                   "public_id": "equaeqbgdxv9mkfczq1i"
+                                                }
+                                            ],
+                                            "price": 5,
+                                            "availableCount": 4
+                                        }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteExistingAndNotExistingProduct() throws Exception {
         String addPromise = mockMvc.perform(

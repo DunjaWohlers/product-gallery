@@ -14,7 +14,6 @@ type ProductsSiteProps = {
     userInfo: UserInfo | undefined,
 }
 export default function ProductsSite(props: ProductsSiteProps) {
-    console.log(props.userInfo);
     let admin = false;
     if (props.userInfo && props.userInfo.authorities) {
         props.userInfo.authorities.forEach(role => {
