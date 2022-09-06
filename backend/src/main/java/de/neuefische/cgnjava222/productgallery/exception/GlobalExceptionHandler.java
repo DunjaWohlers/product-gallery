@@ -14,21 +14,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFound(ProductNotFoundException exception) {
         Map<String, Object> responseBody = new LinkedHashMap<>();
-        responseBody.put("message", "Product not Found");
+        responseBody.put("message", "Product not Found ");
         return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = FileuploadException.class)
     public ResponseEntity<Object> handleFileNotUploaded(ProductNotFoundException exception) {
         Map<String, Object> responseBody = new LinkedHashMap<>();
-        responseBody.put("message", "File not Updated");
+        responseBody.put("message", "File not Updated ");
         return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = FileNotDeletedException.class)
     public ResponseEntity<Object> handleFileNotDeleted(ProductNotFoundException exception) {
         Map<String, Object> responseBody = new LinkedHashMap<>();
-        responseBody.put("message", "File not deleted");
+        responseBody.put("message", "File not deleted ");
         return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 

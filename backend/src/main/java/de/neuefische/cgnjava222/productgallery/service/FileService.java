@@ -2,6 +2,7 @@ package de.neuefische.cgnjava222.productgallery.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,13 @@ public class FileService {
         }
     }
 
-    public void deletePicture(List<String> id) throws Exception {
-        cloudinary.api().deleteResources(id, ObjectUtils.emptyMap());
+    public void deletePicture(List<String> ids) {
+        try {
+            cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
+        } catch (Exception e) {
+            ids.forEach(id -> {
+                throw new FileNotDeletedException(id);
+            });
+        }
     }
 }

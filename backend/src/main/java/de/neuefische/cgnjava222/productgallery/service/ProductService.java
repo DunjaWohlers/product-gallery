@@ -46,24 +46,19 @@ public class ProductService {
         return productRepo.save(Product.ProductFactory.create(id, newProduct));
     }
 
-    public boolean deletePictureFromProduct(String picturePublicId, String productId) {
-        try {
-            fileService.deletePicture(List.of(picturePublicId));
-            Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
-            List<ImageInfo> picObjects = product.pictureObj();
-            List<ImageInfo> newpicObjects = picObjects.stream().filter(element -> !element.publicId().equals(picturePublicId)).toList();
-            Product newProduct = new Product(
-                    product.id(),
-                    product.title(),
-                    product.description(),
-                    newpicObjects,
-                    product.price(),
-                    product.availableCount()
-            );
-            productRepo.save(newProduct);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void deletePictureFromProduct(String picturePublicId, String productId) {
+        Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
+        List<ImageInfo> picObjects = product.pictureObj();
+        List<ImageInfo> newPicObjects = picObjects.stream().filter(element -> !element.publicId().equals(picturePublicId)).toList();
+        Product actualProduct = new Product(
+                product.id(),
+                product.title(),
+                product.description(),
+                newPicObjects,
+                product.price(),
+                product.availableCount()
+        );
+        fileService.deletePicture(List.of(picturePublicId));
+        productRepo.save(actualProduct);
     }
 }

@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
@@ -23,10 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -280,7 +278,58 @@ class ProductIntegrationTest {
         String saveResultId = "BB";
         Map fileUploadReturn = Map.of("url", "bla", "publicId", "X");
         mockMvc.perform(
-                delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("publicId")).with(csrf())
-        ).andExpect(status().isNotFound());
+                        delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("publicId")
+                        ).with(csrf()
+                        )
+                )
+                .andExpect(
+                        status().is(404)
+                ).andExpect(
+                        result ->
+                                assertTrue(
+                                        result.getResolvedException() instanceof ProductNotFoundException)
+                ).andExpect(result -> {
+                    if (result.getResolvedException() == null) {
+                        fail();
+                    } else {
+                        assertEquals("Product not Found (id: BB )", result.getResolvedException().getMessage());
+                    }
+                })
+        ;
+    }
+
+    @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    void deleteImageFromExistingProductWithFileNotFoundException() throws Exception {
+        NewProduct newProduct = new NewProduct("ABC", "def", List.of(new ImageInfo("asd", "asd")), 4, 5);
+        String id = UUID.randomUUID().toString();
+        Product product = Product.ProductFactory.create(id, newProduct);
+        productRepo.save(product);
+
+        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
+//
+        when(cloudinary.uploader()).thenThrow(new NoSuchElementException());
+        // when(uploader.upload(file, ObjectUtils.emptyMap())).thenThrow(
+        //        new FileNotFoundException());
+        // Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+        mockMvc.perform(
+                        delete("/api/product/" + id + "/bbbhhhh"
+                        ).with(csrf()
+                        )
+                )
+                .andExpect(
+                        status().is(200)
+                ).andExpect(
+                        result ->
+                                assertTrue(
+                                        result.getResolvedException() instanceof FileNotDeletedException)
+                ).andExpect(result -> {
+                    if (result.getResolvedException() == null) {
+                        fail();
+                    } else {
+                        assertEquals("File not Found (id: BB )", result.getResolvedException().getMessage());
+                    }
+                });
     }
 }
