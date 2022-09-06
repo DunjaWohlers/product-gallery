@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Footer from "./component/Footer";
 import {BrowserRouter} from "react-router-dom";
@@ -7,9 +7,10 @@ import AllRoutes from "./AllRoutes";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import {UserInfo} from "./type/UserInfo";
 
 export default function App() {
-    const [username, setUsername] = React.useState(undefined);
+    const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
     function fetchUsername() {
         axios.get("/api/users/me")
@@ -17,10 +18,10 @@ export default function App() {
                 response.data
             )
             .then(data => {
-                setUsername(data);
+                setUserInfo(data);
             })
             .catch(() => {
-                setUsername(undefined)
+                setUserInfo(undefined)
             });
     }
 
@@ -30,13 +31,13 @@ export default function App() {
 
     return (
         <>
-            <h1> {username}</h1>
+            <h1> {userInfo?.name}</h1>
             <BrowserRouter>
                 <HeaderNav
-                    username={username}
+                    username={userInfo?.name}
                     authenticationChanged={fetchUsername}/>
                 <main>
-                    <AllRoutes username={username} authenticationChanged={fetchUsername}/>
+                    <AllRoutes userInfo={userInfo} authenticationChanged={fetchUsername}/>
                 </main>
                 <Footer/>
             </BrowserRouter>

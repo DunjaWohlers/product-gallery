@@ -1,6 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.user;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 public class SecurityConfig {
@@ -29,11 +31,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/logout").permitAll()
                 .antMatchers("/api/users/me").permitAll()
                 .antMatchers("/api/users/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/", "/api/image/").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/**", "/api/image/").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
                 .and().httpBasic().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()

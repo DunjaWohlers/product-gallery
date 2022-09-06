@@ -5,10 +5,11 @@ import DetailsProduct from "./component/DetailsProduct";
 import useProducts from "./rest-api/useProducts";
 import ProductFormular from "./formular/ProductFormular";
 import Login from "./site/Login";
+import {UserInfo} from "./type/UserInfo";
 
 export default function AllRoutes(
     props: {
-        username: string | undefined,
+        userInfo: UserInfo | undefined,
         authenticationChanged: () => void,
     }) {
     const {
@@ -27,6 +28,7 @@ export default function AllRoutes(
                     deleteProduct={deleteProduct}
                     addProduct={addProduct}
                     allProducts={allProducts}
+                    userInfo={props.userInfo}
                 />}/>
                 <Route path={"/product/:id"}
                        element={

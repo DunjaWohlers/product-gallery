@@ -102,6 +102,7 @@ export default function ProductFormular(props: ProductFormProps) {
         <form className={"form"} onSubmit={handleSubmit}>
             <label> Titel: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Titel"}
                    defaultValue={title}
                    name={"title"}
@@ -109,6 +110,7 @@ export default function ProductFormular(props: ProductFormProps) {
                    className={title ? "good" : "bad"}/>
             <label> Beschreibung: </label>
             <textarea placeholder={"Beschreibung"}
+                      autoComplete={"off"}
                       defaultValue={description}
                       name={"description"}
                       onChange={(event) => setDescription(event.target.value)}
@@ -116,6 +118,7 @@ export default function ProductFormular(props: ProductFormProps) {
             </textarea>
             <label> Preis: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Preis"}
                    defaultValue={price}
                    name={"price"}
@@ -123,6 +126,7 @@ export default function ProductFormular(props: ProductFormProps) {
                    className={price ? "good" : "bad"}/>
             <label> Anzahl vorrätig: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Anzahl verfügbar"}
                    defaultValue={availableCount}
                    name={"available"}

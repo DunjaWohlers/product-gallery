@@ -31,18 +31,15 @@ public class ProductService {
     }
 
     public boolean deleteProduct(String id) {
-        if (productRepo.existsById(id)) {
-            Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-            List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::public_id).toList();
-            try {
-                fileService.deletePicture(publicIdsToDelete);
-            } catch (Exception e) {
-                return false;
-            }
-            productRepo.deleteById(id);
-            return true;
+        Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::public_id).toList();
+        try {
+            fileService.deletePicture(publicIdsToDelete);
+        } catch (Exception e) {
+            return false;
         }
-        return false;
+        productRepo.deleteById(id);
+        return true;
     }
 
     public Product updateProduct(String id, NewProduct newProduct) {
