@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -46,7 +46,7 @@ public class ProductController {
         return new ResponseEntity<>(deleteSuccess ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
         return productService.updateProduct(id, newProduct);
