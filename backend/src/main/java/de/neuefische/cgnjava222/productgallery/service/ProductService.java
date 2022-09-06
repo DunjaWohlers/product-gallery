@@ -1,7 +1,6 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
 import de.neuefische.cgnjava222.productgallery.ProductRepo;
-import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
@@ -49,24 +48,22 @@ public class ProductService {
 
     public boolean deletePictureFromProduct(String picturePublicId, String productId) {
         try {
-            fileService.deletePicture(List.of(picturePublicId)); //
-
+            fileService.deletePicture(List.of(picturePublicId));
             Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
             List<ImageInfo> picObjects = product.pictureObj();
-            List<ImageInfo> newPicObjects = picObjects.stream().filter(element -> !element.publicId().equals(picturePublicId)).toList();
+            List<ImageInfo> newpicObjects = picObjects.stream().filter(element -> !element.publicId().equals(picturePublicId)).toList();
             Product newProduct = new Product(
                     product.id(),
                     product.title(),
                     product.description(),
-                    newPicObjects,
+                    newpicObjects,
                     product.price(),
                     product.availableCount()
             );
             productRepo.save(newProduct);
             return true;
         } catch (Exception e) {
-            throw new FileNotDeletedException(picturePublicId, productId);
+            return false;
         }
-
     }
 }
