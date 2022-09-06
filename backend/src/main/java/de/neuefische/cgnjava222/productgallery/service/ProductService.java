@@ -32,7 +32,7 @@ public class ProductService {
 
     public boolean deleteProduct(String id) {
         Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::public_id).toList();
+        List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::publicId).toList();
         try {
             fileService.deletePicture(publicIdsToDelete);
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class ProductService {
             fileService.deletePicture(List.of(picturePublicId));
             Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
             List<ImageInfo> picObjects = product.pictureObj();
-            List<ImageInfo> newpicObjects = picObjects.stream().filter(element -> !element.public_id().equals(picturePublicId)).toList();
+            List<ImageInfo> newpicObjects = picObjects.stream().filter(element -> !element.publicId().equals(picturePublicId)).toList();
             Product newProduct = new Product(
                     product.id(),
                     product.title(),
