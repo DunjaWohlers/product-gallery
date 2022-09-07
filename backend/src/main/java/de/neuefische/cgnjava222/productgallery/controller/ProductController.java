@@ -52,6 +52,7 @@ public class ProductController {
         return productService.updateProduct(id, newProduct);
     }
 
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}/{publicImageId}")
     public void deleteImageFromProductWithId(
             @PathVariable String id,

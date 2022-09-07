@@ -45,9 +45,9 @@ public class FileService {
         try {
             cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
         } catch (Exception e) {
-            ids.forEach(id -> {
-                throw new FileNotDeletedException(id);
-            });
+            // ids.forEach(id -> { NUR ERSTE NICHT GELÖSCHTE FILE
+            throw new FileNotDeletedException(ids.get(0));
+            // });
         }
     }
 }

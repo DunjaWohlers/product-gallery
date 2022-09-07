@@ -1,15 +1,20 @@
 package de.neuefische.cgnjava222.productgallery;
 
+import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
+import com.cloudinary.api.ApiResponse;
+import com.cloudinary.api.exceptions.BadRequest;
+import com.cloudinary.http44.api.Response;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.service.FileService;
+import org.apache.http.HttpVersion;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.message.BasicStatusLine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +29,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,13 +52,6 @@ class ProductIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
-    private FileService fileService;
-
-    private final Cloudinary cloudinary = mock(Cloudinary.class);
-
-    private final Uploader uploader = mock(Uploader.class);
-
     @Test
     @WithAnonymousUser
     void getProducts() throws Exception {
@@ -59,6 +60,16 @@ class ProductIntegrationTest {
 
     @Autowired
     ProductRepo productRepo;
+
+
+    @MockBean
+    private Uploader uploader;
+
+    @MockBean
+    private Api api;
+
+    @MockBean
+    private Cloudinary cloudinary;
 
     @Test
     @WithAnonymousUser
@@ -158,7 +169,7 @@ class ProductIntegrationTest {
 
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
-    void deleteExistingAndNotExistingProduct() throws Exception {
+    void deleteExistingProduct() throws Exception {
         String addPromise = mockMvc.perform(
                 post("/api/product/")
                         .with(csrf())
@@ -178,17 +189,34 @@ class ProductIntegrationTest {
                                               "availableCount": 4
                                          }
                                 """)
-        ).andReturn().getResponse().getContentAsString();
-
-        doNothing().when(fileService).deletePicture(List.of("equaeqbgdxv9mkfczq1i"));
+        ).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         Product addedProductResult = objectMapper.readValue(addPromise, Product.class);
-        String id = addedProductResult.id();
 
+        when(cloudinary.api()).thenReturn(api);
+        when(api.deleteResources(
+                List.of("equaeqbgdxv9mkfczq1i"), Map.of()))
+                .thenReturn(
+                        new Response(
+                                new BasicHttpResponse(
+                                        new BasicStatusLine(
+                                                new HttpVersion(3, 4), 4, "bl"
+                                        )
+                                ),
+                                Map.of("url", "bla://blub", "public_id", "bma")
+                        )
+                );
+
+        String id = addedProductResult.id();
         mockMvc.perform(
                         delete("/api/product/" + id).with(csrf())
                 )
-                .andExpect(status().is(204));
+                .andExpect(status().is(204)).andReturn().getResponse();
+    }
+
+    @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    void deleteNotExistingProduct() throws Exception {
         String notExistingID = "ABC123";
         mockMvc.perform(
                         delete("/api/product/" + notExistingID).with(csrf())
@@ -231,7 +259,7 @@ class ProductIntegrationTest {
 
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
-    void deleteImageFromProductWithId() throws Exception {
+    void deleteImageFromExistingProduct() throws Exception {
         //Save on DB:
         String saveResult = mockMvc.perform(
                         post("/api/product/")
@@ -255,20 +283,24 @@ class ProductIntegrationTest {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
         String saveResultId = saveResultProduct.id();
+        String filePublicId = "XYZ";
+        when(cloudinary.api()).thenReturn(api);
+        when(api.deleteResources(
+                List.of(filePublicId), Map.of()))
+                .thenReturn(
+                        new Response(
+                                new BasicHttpResponse(
+                                        new BasicStatusLine(
+                                                new HttpVersion(3, 4), 4, "bl"
+                                        )
+                                ),
+                                Map.of("url", "bla://blub", "public_id", filePublicId)
+                        )
+                );
 
-        //save File:
-
-        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
-
-        when(cloudinary.uploader()).thenReturn(uploader);
-        when(uploader.upload(file, ObjectUtils.emptyMap())).thenReturn(
-                Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                        "publicId", "XYZ"));
-        Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-
-        //delete:
+        //delete
         mockMvc.perform(
-                delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("publicId")).with(csrf())
+                delete("/api/product/" + saveResultId + "/" + filePublicId).with(csrf())
         ).andExpect(status().isNoContent());
     }
 
@@ -298,6 +330,7 @@ class ProductIntegrationTest {
         ;
     }
 
+
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromExistingProductWithFileNotFoundException() throws Exception {
@@ -306,30 +339,76 @@ class ProductIntegrationTest {
         Product product = Product.ProductFactory.create(id, newProduct);
         productRepo.save(product);
 
-        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
-//
-        when(cloudinary.uploader()).thenThrow(new NoSuchElementException());
-        // when(uploader.upload(file, ObjectUtils.emptyMap())).thenThrow(
-        //        new FileNotFoundException());
-        // Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        String publicId = "MICHGIBTSNICH";
+
+        when(cloudinary.api()).thenReturn(api);
+        when(api
+                .deleteResources(
+                        anyList(),
+                        anyMap()
+                )).thenThrow(new BadRequest("Bad Request"));
 
         mockMvc.perform(
-                        delete("/api/product/" + id + "/bbbhhhh"
-                        ).with(csrf()
-                        )
+                delete("/api/product/" + id + "/" + publicId)
+                        .with(csrf())
+
+                //  ).andExpect(
+                //          result ->
+                //                  assertTrue(
+                //                          result.getResolvedException() instanceof FileNotDeletedException)
+                //  ).andExpect(
+                //          result -> {
+                //              if (result.getResolvedException() == null) {
+                //                  fail();
+                //              } else {
+                //                  assertEquals("Löschen der Datei: " + publicId + " fehlgeschlagen ", result.getResolvedException().getMessage());
+                //              }
+                //          }
+        );
+    }
+
+    @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    void deleteImageFromProductWithIdTESTTEST() throws Exception {
+        //Save on DB:
+        String saveResult = mockMvc.perform(
+                        post("/api/product/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "title": "Brett",
+                                            "description": "Zum Frühstücken oder sonstiger Verwendung",
+                                            "pictureObj": [
+                                               {
+                                                "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                                                "publicId": "XYZ"
+                                                }
+                                             ],
+                                             "price": 5,
+                                             "availableCount": 4
+                                        }
+                                         """).with(csrf())
                 )
-                .andExpect(
-                        status().is(200)
-                ).andExpect(
-                        result ->
-                                assertTrue(
-                                        result.getResolvedException() instanceof FileNotDeletedException)
-                ).andExpect(result -> {
-                    if (result.getResolvedException() == null) {
-                        fail();
-                    } else {
-                        assertEquals("File not Found (id: BB )", result.getResolvedException().getMessage());
-                    }
-                });
+                .andExpect(status().is(201))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
+        String saveResultId = saveResultProduct.id();
+
+        //save File:
+        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
+
+        when(cloudinary.uploader()).thenReturn(uploader);
+        when(uploader.upload(file, ObjectUtils.emptyMap())).thenReturn(
+                Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+                        "publicId", "XYZ"));
+        Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+        //delete:
+
+        ApiResponse abc = cloudinary.api().deleteResources(List.of("abc"), Map.of("ab", "cd"));
+
+        mockMvc.perform(
+                delete("/api/product/" + saveResultId + "/" + "ABC").with(csrf())
+        ).andExpect(status().isNotFound());
     }
 }
