@@ -3,6 +3,7 @@ package de.neuefische.cgnjava222.productgallery.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.ApiResponse;
 import com.cloudinary.utils.ObjectUtils;
+import de.neuefische.cgnjava222.productgallery.exception.CloudinaryException;
 import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -43,19 +45,19 @@ public class FileService {
     }
 
     public void deletePicture(List<String> ids) {
-        try {
-            ApiResponse abc = cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
-            System.out.println(abc);
-            Object object = abc.get("deleted");
-            //  String deleted = object.get(""+ids[0]);
-            System.out.println(object);
-            System.out.println(object.getClass());
-
-            if (abc.get("deleted").equals("not_found")) {
-                System.out.println("picture nicht gefunden");
-            }
-        } catch (Exception e) {
+        ApiResponse abc = tryDeleteResource(ids);
+        Map<String, String> object = (Map) abc.get("deleted");
+        String deleted = object.get("" + ids.get(0));
+        if (deleted.equals("not_found")) {
             throw new FileNotDeletedException(ids.get(0));
+        }
+    }
+
+    private ApiResponse tryDeleteResource(List<String> ids) {
+        try {
+            return cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
+        } catch (Exception e) {
+            throw new CloudinaryException();
         }
     }
 }

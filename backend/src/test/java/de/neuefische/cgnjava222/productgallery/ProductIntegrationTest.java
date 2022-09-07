@@ -3,10 +3,9 @@ package de.neuefische.cgnjava222.productgallery;
 import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
-import com.cloudinary.api.ApiResponse;
 import com.cloudinary.http44.api.Response;
-import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
@@ -26,14 +25,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -341,74 +340,37 @@ class ProductIntegrationTest {
         String publicId = "MICHGIBTSNICH";
 
         when(cloudinary.api()).thenReturn(api);
-        //when(api
-        //        .deleteResources(
-        //                anyList(),
-        //                anyMap()
-        //        )).thenReturn(Map.of("abc", "bla", "Blub", "bli"));
-
-        mockMvc.perform(
-                delete("/api/product/" + id + "/" + publicId)
-                        .with(csrf())
-
-
-                //  ).andExpect(
-                //          result ->
-                //                  assertTrue(
-                //                          result.getResolvedException() instanceof FileNotDeletedException)
-                //  ).andExpect(
-                //          result -> {
-                //              if (result.getResolvedException() == null) {
-                //                  fail();
-                //              } else {
-                //                  assertEquals("Löschen der Datei: " + publicId + " fehlgeschlagen ", result.getResolvedException().getMessage());
-                //              }
-                //          }
+        when(api
+                .deleteResources(
+                        anyList(),
+                        anyMap()
+                )).thenReturn(
+                new Response(
+                        new BasicHttpResponse(
+                                new BasicStatusLine(
+                                        new HttpVersion(3, 4), 4, "bl"
+                                )
+                        ),
+                        Map.of("deleted", Map.of("MICHGIBTSNICH", "not_found")))
         );
-    }
-
-    @Test
-    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
-    void deleteImageFromProductWithIdTESTTEST() throws Exception {
-        //Save on DB:
-        String saveResult = mockMvc.perform(
-                        post("/api/product/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                        {
-                                            "title": "Brett",
-                                            "description": "Zum Frühstücken oder sonstiger Verwendung",
-                                            "pictureObj": [
-                                               {
-                                                "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                                "publicId": "XYZ"
-                                                }
-                                             ],
-                                             "price": 5,
-                                             "availableCount": 4
-                                        }
-                                         """).with(csrf())
-                )
-                .andExpect(status().is(201))
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
-        String saveResultId = saveResultProduct.id();
-
-        //save File:
-        File file = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("sawIcon.png")).getFile());
-
-        when(cloudinary.uploader()).thenReturn(uploader);
-        when(uploader.upload(file, ObjectUtils.emptyMap())).thenReturn(
-                Map.of("url", "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                        "publicId", "XYZ"));
-        Map fileUploadReturn = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-
-        //delete:
-
-        ApiResponse abc = cloudinary.api().deleteResources(List.of("abc"), Map.of("ab", "cd"));
 
         mockMvc.perform(
-                delete("/api/product/" + saveResultId + "/" + "ABC").with(csrf())
-        ).andExpect(status().isNotFound());
+                        delete("/api/product/" + id + "/" + publicId)
+                                .with(csrf())
+                )
+                .andExpect(status().isNotFound())
+                .andExpect(
+                        result ->
+                                assertTrue(
+                                        result.getResolvedException() instanceof FileNotDeletedException)
+                ).andExpect(
+                        result -> {
+                            if (result.getResolvedException() == null) {
+                                fail();
+                            } else {
+                                assertEquals("Löschen der Datei: " + publicId + " fehlgeschlagen ", result.getResolvedException().getMessage());
+                            }
+                        }
+                );
     }
 }
