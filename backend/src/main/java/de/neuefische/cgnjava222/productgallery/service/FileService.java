@@ -8,7 +8,6 @@ import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException
 import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +30,7 @@ public class FileService {
 
     public ImageInfo uploadPicture(MultipartFile file) {
         try {
-            if (Strings.isEmpty(file.getOriginalFilename())) {
-                throw new IOException("Filename is empty");
-            }
-            File newFile = File.createTempFile(file.getOriginalFilename(), null);
+            File newFile = File.createTempFile(Objects.requireNonNull(file.getOriginalFilename()), null);
             file.transferTo(newFile);
             var responseObj = cloudinary.uploader().upload(newFile, ObjectUtils.emptyMap());
             String url = (String) responseObj.get("url");

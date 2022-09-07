@@ -50,11 +50,6 @@ class ProductIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
-    @WithAnonymousUser
-    void getProducts() throws Exception {
-        mockMvc.perform(get("/api/product/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-    }
 
     @Autowired
     ProductRepo productRepo;
@@ -68,6 +63,12 @@ class ProductIntegrationTest {
 
     @MockBean
     private Cloudinary cloudinary;
+
+    @Test
+    @WithAnonymousUser
+    void getProducts() throws Exception {
+        mockMvc.perform(get("/api/product/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
 
     @Test
     @WithAnonymousUser
@@ -327,7 +328,6 @@ class ProductIntegrationTest {
                 })
         ;
     }
-
 
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
