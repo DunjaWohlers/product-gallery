@@ -4,7 +4,6 @@ import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
 import com.cloudinary.api.ApiResponse;
-import com.cloudinary.api.exceptions.BadRequest;
 import com.cloudinary.http44.api.Response;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -342,15 +341,16 @@ class ProductIntegrationTest {
         String publicId = "MICHGIBTSNICH";
 
         when(cloudinary.api()).thenReturn(api);
-        when(api
-                .deleteResources(
-                        anyList(),
-                        anyMap()
-                )).thenThrow(new BadRequest("Bad Request"));
+        //when(api
+        //        .deleteResources(
+        //                anyList(),
+        //                anyMap()
+        //        )).thenReturn(Map.of("abc", "bla", "Blub", "bli"));
 
         mockMvc.perform(
                 delete("/api/product/" + id + "/" + publicId)
                         .with(csrf())
+
 
                 //  ).andExpect(
                 //          result ->

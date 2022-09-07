@@ -1,6 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.api.ApiResponse;
 import com.cloudinary.utils.ObjectUtils;
 import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
 import de.neuefische.cgnjava222.productgallery.exception.FileuploadException;
@@ -43,11 +44,18 @@ public class FileService {
 
     public void deletePicture(List<String> ids) {
         try {
-            cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
+            ApiResponse abc = cloudinary.api().deleteResources(ids, ObjectUtils.emptyMap());
+            System.out.println(abc);
+            Object object = abc.get("deleted");
+            //  String deleted = object.get(""+ids[0]);
+            System.out.println(object);
+            System.out.println(object.getClass());
+
+            if (abc.get("deleted").equals("not_found")) {
+                System.out.println("picture nicht gefunden");
+            }
         } catch (Exception e) {
-            // ids.forEach(id -> { NUR ERSTE NICHT GELÖSCHTE FILE
             throw new FileNotDeletedException(ids.get(0));
-            // });
         }
     }
 }
