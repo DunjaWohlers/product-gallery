@@ -31,7 +31,7 @@ public class FileService {
     public ImageInfo uploadPicture(MultipartFile file) {
         try {
             if (Strings.isEmpty(file.getOriginalFilename())) {
-                throw new IOException();
+                throw new IOException("Filename is empty");
             }
             File newFile = File.createTempFile(file.getOriginalFilename(), null);
             file.transferTo(newFile);

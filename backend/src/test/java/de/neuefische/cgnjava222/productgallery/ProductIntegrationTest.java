@@ -180,7 +180,7 @@ class ProductIntegrationTest {
                                              "pictureObj": [
                                                 {
                                                  "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                                 "publicId": "equaeqbgdxv9mkfczq1i"
+                                                 "publicId": "bma"
                                                  }
                                               ],
                                               "price": 5,
@@ -193,7 +193,7 @@ class ProductIntegrationTest {
 
         when(cloudinary.api()).thenReturn(api);
         when(api.deleteResources(
-                List.of("equaeqbgdxv9mkfczq1i"), Map.of()))
+                List.of("bma"), Map.of()))
                 .thenReturn(
                         new Response(
                                 new BasicHttpResponse(
@@ -201,15 +201,15 @@ class ProductIntegrationTest {
                                                 new HttpVersion(3, 4), 4, "bl"
                                         )
                                 ),
-                                Map.of("url", "bla://blub", "public_id", "bma")
-                        )
-                );
+                                Map.of("url", "bla://blub", "public_id", "bma", "deleted", Map.of("bma", "deleted")
+                                )
+                        ));
 
         String id = addedProductResult.id();
         mockMvc.perform(
                         delete("/api/product/" + id).with(csrf())
                 )
-                .andExpect(status().is(204)).andReturn().getResponse();
+                .andExpect(status().is(204));
     }
 
     @Test
@@ -292,7 +292,7 @@ class ProductIntegrationTest {
                                                 new HttpVersion(3, 4), 4, "bl"
                                         )
                                 ),
-                                Map.of("url", "bla://blub", "public_id", filePublicId)
+                                Map.of("url", "bla://blub", "public_id", filePublicId, "deleted", Map.of("XYZ", "found"))
                         )
                 );
 
