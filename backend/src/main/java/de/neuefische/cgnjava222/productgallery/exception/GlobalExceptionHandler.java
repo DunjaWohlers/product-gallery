@@ -38,14 +38,4 @@ public class GlobalExceptionHandler {
         responseBody.put("message", "Cloudinary Exception ");
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
-
-
-    @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "User not found ");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
-    }
-
-
 }
