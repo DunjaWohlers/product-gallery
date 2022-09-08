@@ -14,17 +14,20 @@ import java.util.List;
 public class UserController {
     @GetMapping("/login")
     public void login() {
-        System.getLogger("User" + me().name() + "ist eingeloggt mit den Rollen" + me().authorities());
+        System.out.println("User" + me().name() + "ist eingeloggt mit den Rollen" + me().authorities());
     }
 
     @GetMapping("/me")
     public UserInfo me() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<String> authorities =
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-                        .stream().map(Object::toString).toList();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        List<String> authorities = authentication
+                .getAuthorities()
+                .stream().map(Object::toString)
+                .toList();
         return new UserInfo(name, authorities);
     }
+
 
     @GetMapping("/logout")
     public void logout(HttpSession session) {

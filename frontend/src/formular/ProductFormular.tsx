@@ -26,7 +26,7 @@ export default function ProductFormular(props: ProductFormProps) {
                     setPrice(data.price);
                     setPictureObjects(data.pictureObj)
                 })
-                .catch(error => console.error(error));
+                .catch(() => toast.error("Daten des Produkts konnten nicht geladen werden."));
         }
     }, [id, props])
 
@@ -90,7 +90,6 @@ export default function ProductFormular(props: ProductFormProps) {
     const deleteSinglePictureFromProduct = (picObjToDelete: PicObj) => {
         if (pictureObjects && pictureObjects.length > 1) {
             axios.delete("/api/product/" + id + "/" + picObjToDelete.publicId)
-                .then(response => response.data)
                 .catch(() => toast.error("Bild löschen fehlgeschlagen."))
                 .then(() => navigate("/product/edit/" + id));
         } else {

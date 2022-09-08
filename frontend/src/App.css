@@ -7,47 +7,44 @@
 header {
     text-shadow: 1px 1px #383333, 2px 2px black;
     color: white;
-    height: 50pt;
+    height: 50px;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-around;
     background-color: var(--defaultColor);
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 header button {
     text-shadow: 1px 1px #383333, 2px 2px black;
-    color: white;
     background-color: transparent;
     border: none;
-    min-height: 20pt;
-    min-width: 50pt;
+    min-height: 20px;
+    min-width: 50px;
+    color: inherit;
 }
 
 header button, header .navLink {
     font-size: inherit;
-    color: inherit;
     margin: 0;
     box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.67);
-    border-radius: 5pt;
-    padding: 3pt;
+    border-radius: 5px;
+    padding: 3px;
     opacity: 80%;
     text-decoration: none;
-    align-items: center;
 }
 
-header .navLink h1 {
-    color: inherit;
+header :nth-child(2) {
     text-decoration: inherit;
-    font-size: 14pt;
-    margin: 6pt 1pt 5pt 2pt;
+    font-size: 14px;
+    margin: 6px 1px 5px 2px;
 }
 
 main {
     display: flex;
     flex-wrap: wrap;
-    min-height: calc(100vh - 100pt);
+    min-height: calc(100vh - 100px);
     justify-content: center;
     align-content: flex-start;
 }
@@ -55,7 +52,7 @@ main {
 footer {
     text-align: center;
     color: white;
-    height: 30pt;
+    height: 30px;
     width: 100%;
     background-color: var(--defaultColor);
 }
@@ -66,11 +63,11 @@ footer a {
 
 #logo {
     opacity: 80%;
-    width: 40pt;
-    height: 25pt;
+    width: 40px;
+    height: 25px;
     box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.67);
-    border-radius: 6pt;
-    padding: 1pt;
+    border-radius: 6px;
+    padding: 1px;
     background-color: #706065;
 }
 

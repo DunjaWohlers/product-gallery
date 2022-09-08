@@ -1,4 +1,4 @@
-import React, {FormEvent} from "react";
+import React, {FormEvent, useState} from "react";
 import axios from "axios";
 import "./login.css";
 import {toast} from "react-toastify";
@@ -8,8 +8,8 @@ export default function Login(
     props: {
         authenticationChanged: () => void
     }) {
-    const [username, setUsername] = React.useState("frank");
-    const [password, setPassword] = React.useState("frank123");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
 
@@ -25,18 +25,22 @@ export default function Login(
         <div className="login">
             <form onSubmit={login}>
                 <div>
-                    <label>Email</label>
+                    <label>Name</label>
                     <input
                         autoFocus
+                        name={"name"}
+                        autoComplete={"off"}
                         type="text"
-                        defaultValue={username}
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>Passwort</label>
                     <input type="password"
-                           defaultValue={password}
+                           autoComplete={"off"}
+                           name={"password"}
+                           value={password}
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>

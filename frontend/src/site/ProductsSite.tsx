@@ -14,14 +14,9 @@ type ProductsSiteProps = {
     userInfo: UserInfo | undefined,
 }
 export default function ProductsSite(props: ProductsSiteProps) {
-    let admin = false;
-    if (props.userInfo && props.userInfo.authorities) {
-        props.userInfo.authorities.forEach(role => {
-            if (role === "ADMIN") {
-                admin = true;
-            }
-        })
-    }
+
+    const admin: boolean | undefined = props.userInfo?.authorities.includes("ADMIN")
+
     return (<>
             {!props.allProducts && <div> Lade Produkt-Liste... </div>}
             {props.allProducts && props.allProducts.map(product =>
