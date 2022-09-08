@@ -28,9 +28,7 @@ export default function Login(
                     <label>Name</label>
                     <input
                         autoFocus
-                        placeholder={""}
                         name={"name"}
-                        defaultValue={""}
                         autoComplete={"off"}
                         type="text"
                         value={username}
@@ -41,8 +39,6 @@ export default function Login(
                     <label>Passwort</label>
                     <input type="password"
                            autoComplete={"off"}
-                           placeholder={""}
-                           defaultValue={""}
                            name={"password"}
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
