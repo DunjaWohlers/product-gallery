@@ -8,36 +8,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-class WebSecurityConfigurerTest {
-    @Autowired
-    private WebApplicationContext context;
+class SecurityConfigTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @WithAnonymousUser
-    void whenAnonymousAccessLogin_thenOk() throws Exception {
-        mockMvc.perform(get("/auth/login"))
+    void whenAnonymousAccessLoginLogoutAndInfo() throws Exception {
+        mockMvc.perform(get("/api/users/login"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/users/me"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/users/logout"))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    @WithAnonymousUser
-    void trytoAddProductAsAnonymousUser() throws Exception {
-        mockMvc.perform(post("/product/asdfa").with(csrf()))
-                .andExpect(status().isUnauthorized());
-    }
-
-
 }

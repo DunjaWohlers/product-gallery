@@ -7,10 +7,11 @@ import {ProductReducedInfo} from "../type/ProductReducedInfo";
 export default function useProducts() {
 
     const [allProducts, setAllProducts] = useState<ProductReducedInfo[]>();
+
     const navigate = useNavigate();
 
     const getAllProducts = () => {
-        axios.get("/api/")
+        axios.get("/api/products/")
             .then(response => response.data)
             .then(setAllProducts)
             .catch(error => console.error(error));
@@ -20,12 +21,12 @@ export default function useProducts() {
     );
 
     const getOneProductPerId = (id: string) => {
-        return axios.get("/api/details/" + id)
+        return axios.get("/api/products/details/" + id)
             .then(response => response.data)
     }
 
     const addProduct = (newProduct: NewProduct) => {
-        return axios.post("/api/", newProduct)
+        return axios.post("/api/products", newProduct)
             .then(response => response.data)
             .catch(error => console.error(error))
             .then(getAllProducts)
@@ -33,17 +34,21 @@ export default function useProducts() {
     }
 
     const deleteProduct = (id: string) => {
-        return axios.delete(`/api/${id}`)
+        return axios.delete(`/api/products/${id}`)
             .then(response => response.status)
             .then(() => getAllProducts());
     }
 
     const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
-        return axios.put("/api/product/" + id, newUpdateProduct)
+        return axios.put("/api/products/" + id, newUpdateProduct)
             .then(getAllProducts)
     }
 
     return {
-        allProducts, addProduct, deleteProduct, updateProduct, getOneProductPerId
+        allProducts,
+        addProduct,
+        deleteProduct,
+        updateProduct,
+        getOneProductPerId,
     }
 }

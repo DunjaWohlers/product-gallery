@@ -1,38 +1,50 @@
 import React, {FormEvent, useState} from "react";
+import axios from "axios";
 import "./login.css";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
-export default function Login() {
-    const [name, setName] = useState("");
+export default function Login(
+    props: {
+        authenticationChanged: () => void
+    }) {
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    function validateForm() {
-        return name.length > 0 && password.length > 0;
-    }
+    const navigate = useNavigate();
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    const login = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios.get("/api/users/login", {auth: {username, password}})
+            .then(props.authenticationChanged)
+            .then(() => navigate("/products"))
+            .catch(() => toast.error("Login fehlgeschlagen"))
     }
 
     return (
         <div className="login">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={login}>
                 <div>
-                    <label>Email</label>
+                    <label>Name</label>
                     <input
                         autoFocus
+                        name={"name"}
+                        autoComplete={"off"}
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>Passwort</label>
                     <input type="password"
+                           autoComplete={"off"}
+                           name={"password"}
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit" disabled={!validateForm()}>
+                <button type="submit">
                     Login
                 </button>
             </form>

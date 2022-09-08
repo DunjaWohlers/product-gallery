@@ -26,7 +26,7 @@ export default function ProductFormular(props: ProductFormProps) {
                     setPrice(data.price);
                     setPictureObjects(data.pictureObj)
                 })
-                .catch(error => console.error(error));
+                .catch(() => toast.error("Daten des Produkts konnten nicht geladen werden."));
         }
     }, [id, props])
 
@@ -87,10 +87,9 @@ export default function ProductFormular(props: ProductFormProps) {
         }
     }
 
-    const deleteSinglePicture = (picObjToDelete: PicObj) => {
+    const deleteSinglePictureFromProduct = (picObjToDelete: PicObj) => {
         if (pictureObjects && pictureObjects.length > 1) {
-            axios.delete("/api/" + id + "/" + picObjToDelete.public_id)
-                .then(response => response.data)
+            axios.delete("/api/product/" + id + "/" + picObjToDelete.publicId)
                 .catch(() => toast.error("Bild löschen fehlgeschlagen."))
                 .then(() => navigate("/product/edit/" + id));
         } else {
@@ -102,6 +101,7 @@ export default function ProductFormular(props: ProductFormProps) {
         <form className={"form"} onSubmit={handleSubmit}>
             <label> Titel: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Titel"}
                    defaultValue={title}
                    name={"title"}
@@ -109,6 +109,7 @@ export default function ProductFormular(props: ProductFormProps) {
                    className={title ? "good" : "bad"}/>
             <label> Beschreibung: </label>
             <textarea placeholder={"Beschreibung"}
+                      autoComplete={"off"}
                       defaultValue={description}
                       name={"description"}
                       onChange={(event) => setDescription(event.target.value)}
@@ -116,6 +117,7 @@ export default function ProductFormular(props: ProductFormProps) {
             </textarea>
             <label> Preis: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Preis"}
                    defaultValue={price}
                    name={"price"}
@@ -123,6 +125,7 @@ export default function ProductFormular(props: ProductFormProps) {
                    className={price ? "good" : "bad"}/>
             <label> Anzahl vorrätig: </label>
             <input type="text"
+                   autoComplete={"off"}
                    placeholder={"Anzahl verfügbar"}
                    defaultValue={availableCount}
                    name={"available"}
@@ -135,7 +138,7 @@ export default function ProductFormular(props: ProductFormProps) {
         {(pictureObjects && pictureObjects.length > 0) ? <>
                 {pictureObjects.map(picObj =>
                     <div key={picObj.url} className={"cardContainer"}>
-                        <button onClick={() => deleteSinglePicture(picObj)}> delete</button>
+                        <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
                         <div className={"imageContainer"}>
                             <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
                         </div>

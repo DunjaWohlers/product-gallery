@@ -15,7 +15,7 @@ body {
 
 .Toastify__toast-container--top-center {
     text-align: center;
-    top: 50pt !important;
-    font-size: 18pt;
+    top: 50px !important;
+    font-size: 18px;
     text-shadow: 1px 1px #383333, 2px 2px black;
 }

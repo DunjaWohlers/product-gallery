@@ -1,0 +1,51 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+}
+
+.login form {
+    border-radius: 5pt;
+    width: 90vw;
+    margin: 20vh auto 10vh auto;
+    box-shadow: 0 0 2px 2px var(--defaultColor);
+    height: 180pt;
+}
+
+.login form div {
+    margin: 5pt;
+}
+
+.login form div label, .login form div input {
+    display: block;
+    margin-left: 20pt;
+}
+
+.login form div label {
+    padding-top: 10pt;
+}
+
+.login form div input {
+    font-size: 20pt;
+    width: 80%;
+    height: 30pt;
+    text-align: center;
+    border: none;
+    box-shadow: 0 0 2px 2px var(--defaultColor);
+    border-radius: 5pt;
+    margin-bottom: 20pt;
+}
+
+.login button {
+    float: right;
+    font-size: 20pt;
+    position: relative;
+    color: black;
+    font-weight: bold;
+    border-radius: 5pt;
+    background-color: white;
+    padding: 3pt;
+    bottom: 3pt;
+    right: 5pt;
+    border: none;
+    box-shadow: 0 0 2px 2px var(--defaultColor);
+}
