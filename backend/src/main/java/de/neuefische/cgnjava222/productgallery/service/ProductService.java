@@ -34,7 +34,7 @@ public class ProductService {
         Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         List<String> publicIdsToDelete = product.pictureObj().stream().map(ImageInfo::publicId).toList();
         try {
-            fileService.deletePicture(publicIdsToDelete);
+            fileService.deletePictures(publicIdsToDelete);
         } catch (Exception e) {
             return false;
         }
@@ -58,7 +58,7 @@ public class ProductService {
                 product.price(),
                 product.availableCount()
         );
-        fileService.deletePicture(List.of(picturePublicId));
+        fileService.deletePictures(List.of(picturePublicId));
         productRepo.save(actualProduct);
     }
 }

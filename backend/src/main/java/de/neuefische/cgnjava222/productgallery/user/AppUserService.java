@@ -24,4 +24,3 @@ public class AppUserService implements UserDetailsService {
         return new User(appUser.username(), appUser.password(), List.of(new SimpleGrantedAuthority("ADMIN")));
     }
 }
-

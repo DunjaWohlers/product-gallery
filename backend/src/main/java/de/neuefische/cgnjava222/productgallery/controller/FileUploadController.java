@@ -28,7 +28,7 @@ public class FileUploadController {
     @DeleteMapping("/delete/{publicID}")
     public ResponseEntity<Void> deletePicture(@PathVariable String publicID) {
         try {
-            fileService.deletePicture(List.of(publicID));
+            fileService.deletePictures(List.of(publicID));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

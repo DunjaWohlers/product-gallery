@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 type ProductProps = {
     product: ProductReducedInfo,
     deleteProduct: (id: string) => Promise<number | void>,
-    admin: boolean,
+    admin: boolean | undefined,
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
 }
 

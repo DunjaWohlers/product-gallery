@@ -10,7 +10,7 @@ export default function HeaderNav(props: {
 ) {
     return <header>
         <div id="logo"><img src={icon} alt={"icon"}/></div>
-        <NavLink className={"navLink"} to={"/"}><h1> Product - Gallery </h1></NavLink>
+        <NavLink className={"navLink"} to={"/"}> Product - Gallery </NavLink>
         <button>Search</button>
         <Secret authenticationChanged={props.authenticationChanged} username={props.username}/>
     </header>

@@ -8,8 +8,8 @@ export default function Login(
     props: {
         authenticationChanged: () => void
     }) {
-    const [username, setUsername] = React.useState("frank");
-    const [password, setPassword] = React.useState("frank123");
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
 
     const navigate = useNavigate();
 
@@ -29,14 +29,14 @@ export default function Login(
                     <input
                         autoFocus
                         type="text"
-                        defaultValue={username}
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
                     <label>Password</label>
                     <input type="password"
-                           defaultValue={password}
+                           value={password}
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>

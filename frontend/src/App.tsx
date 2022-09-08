@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Footer from "./component/Footer";
-import {BrowserRouter} from "react-router-dom";
 import HeaderNav from "./component/HeaderNav";
 import AllRoutes from "./AllRoutes";
 import {ToastContainer} from "react-toastify";
@@ -32,7 +31,6 @@ export default function App() {
     return (
         <>
             <h1> {userInfo?.name}</h1>
-            <BrowserRouter>
                 <HeaderNav
                     username={userInfo?.name}
                     authenticationChanged={fetchUsername}/>
@@ -40,7 +38,6 @@ export default function App() {
                     <AllRoutes userInfo={userInfo} authenticationChanged={fetchUsername}/>
                 </main>
                 <Footer/>
-            </BrowserRouter>
             <ToastContainer
                 position="top-center"
                 autoClose={2000}

@@ -41,10 +41,10 @@ public class FileService {
         }
     }
 
-    public void deletePicture(List<String> ids) {
-        ApiResponse abc = tryDeleteResource(ids);
-        Map<String, String> object = (Map) abc.get("deleted");
-        String deleted = object.get("" + ids.get(0));
+    public void deletePictures(List<String> ids) {
+        ApiResponse cloudinaryResponse = tryDeleteResource(ids);
+        Map<String, String> object = (Map) cloudinaryResponse.get("deleted");
+        String deleted = object.get(ids.get(0));
         if (deleted.equals("not_found")) {
             throw new FileNotDeletedException(ids.get(0));
         }
