@@ -67,7 +67,7 @@ class ProductIntegrationTest {
     @Test
     @WithAnonymousUser
     void getProducts() throws Exception {
-        mockMvc.perform(get("/api/product/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mockMvc.perform(get("/api/products/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
@@ -79,7 +79,7 @@ class ProductIntegrationTest {
         productRepo.save(product);
 
         String content = mockMvc.perform(
-                        get("/api/product/details/" + id).with(csrf())
+                        get("/api/products/details/" + id).with(csrf())
                 )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         Product actualProduct = objectMapper.readValue(content, Product.class);
@@ -92,7 +92,7 @@ class ProductIntegrationTest {
         String notExistingID = "1a";
 
         mockMvc.perform(
-                        get("/api/product/details/" + notExistingID)
+                        get("/api/products/details/" + notExistingID)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 )
@@ -109,7 +109,7 @@ class ProductIntegrationTest {
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void addProducts() throws Exception {
         mockMvc.perform(
-                        post("/api/product").contentType(MediaType.APPLICATION_JSON)
+                        post("/api/products").contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                             {
                                                    "title": "Brett",
@@ -170,7 +170,7 @@ class ProductIntegrationTest {
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteExistingProduct() throws Exception {
         String addPromise = mockMvc.perform(
-                post("/api/product/")
+                post("/api/products/")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -208,7 +208,7 @@ class ProductIntegrationTest {
 
         String id = addedProductResult.id();
         mockMvc.perform(
-                        delete("/api/product/" + id).with(csrf())
+                        delete("/api/products/" + id).with(csrf())
                 )
                 .andExpect(status().is(204));
     }
@@ -226,7 +226,7 @@ class ProductIntegrationTest {
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void updateProduct() throws Exception {
-        String saveResult = mockMvc.perform(post("/api/product/").contentType(MediaType.APPLICATION_JSON).content("""
+        String saveResult = mockMvc.perform(post("/api/products/").contentType(MediaType.APPLICATION_JSON).content("""
                 {
                              "title": "Brett",
                              "description": "Zum Frühstücken oder sonstiger Verwendung",
@@ -245,7 +245,7 @@ class ProductIntegrationTest {
         NewProduct newProduct = new NewProduct("Product1", "1a Qualität", List.of(new ImageInfo("http://www.bla.de", "PublicID7")), 5, 6);
         Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
         String updateResponse = mockMvc.perform(
-                        put("/api/product/" + saveResultProduct.id())
+                        put("/api/products/" + saveResultProduct.id())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(expectedProduct)).with(csrf())
                 )
@@ -261,7 +261,7 @@ class ProductIntegrationTest {
     void deleteImageFromExistingProduct() throws Exception {
         //Save on DB:
         String saveResult = mockMvc.perform(
-                        post("/api/product/")
+                        post("/api/products/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {
@@ -299,7 +299,7 @@ class ProductIntegrationTest {
 
         //delete
         mockMvc.perform(
-                delete("/api/product/" + saveResultId + "/" + filePublicId).with(csrf())
+                delete("/api/products/" + saveResultId + "/" + filePublicId).with(csrf())
         ).andExpect(status().isNoContent());
     }
 
@@ -309,7 +309,7 @@ class ProductIntegrationTest {
         String saveResultId = "BB";
         Map fileUploadReturn = Map.of("url", "bla", "publicId", "X");
         mockMvc.perform(
-                        delete("/api/product/" + saveResultId + "/" + fileUploadReturn.get("publicId")
+                        delete("/api/products/" + saveResultId + "/" + fileUploadReturn.get("publicId")
                         ).with(csrf()
                         )
                 )
@@ -355,7 +355,7 @@ class ProductIntegrationTest {
         );
 
         mockMvc.perform(
-                        delete("/api/product/" + id + "/" + publicId)
+                        delete("/api/products/" + id + "/" + publicId)
                                 .with(csrf())
                 )
                 .andExpect(status().isNotFound())
@@ -368,7 +368,7 @@ class ProductIntegrationTest {
                             if (result.getResolvedException() == null) {
                                 fail();
                             } else {
-                                assertEquals("Löschen der Datei: " + publicId + " fehlgeschlagen ", result.getResolvedException().getMessage());
+                                assertEquals("Löschen der Datei mit der id: " + publicId + " fehlgeschlagen ", result.getResolvedException().getMessage());
                             }
                         }
                 );
