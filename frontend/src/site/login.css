@@ -36,6 +36,7 @@
 }
 
 .login button {
+    float: right;
     font-size: 20pt;
     position: relative;
     color: black;
