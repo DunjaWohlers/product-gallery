@@ -20,6 +20,7 @@ public class AppUserService implements UserDetailsService {
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appUser = userRepo.findById(username).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        return new User(appUser.username(), appUser.password(), List.of(new SimpleGrantedAuthority("ADMIN")));
+        List<SimpleGrantedAuthority> grantedAuthorities = appUser.authorities().stream().map(SimpleGrantedAuthority::new).toList();
+        return new User(appUser.username(), appUser.password(), grantedAuthorities);
     }
 }

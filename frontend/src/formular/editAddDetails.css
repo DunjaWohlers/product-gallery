@@ -41,7 +41,9 @@
 }
 
 .fullView img {
-    width: 90%;
+    max-width: 90vw;
+    min-width: 50vw;
+    max-height: 50vh;
     border-radius: 5px;
 }
 
