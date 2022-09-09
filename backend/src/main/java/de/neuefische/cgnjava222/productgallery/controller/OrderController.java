@@ -17,7 +17,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("")
+    @GetMapping("/{userName}")
     public List<SingleOrder> getOrdersFromUser(@PathVariable String userName) {
         return orderService.getMyOrder(userName);
     }
