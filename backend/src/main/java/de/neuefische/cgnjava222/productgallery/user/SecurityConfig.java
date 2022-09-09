@@ -1,5 +1,6 @@
 package de.neuefische.cgnjava222.productgallery.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,13 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final AppUserService appUserService;
-
-    public SecurityConfig(AppUserService appUserService) {
-        this.appUserService = appUserService;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity security) throws Exception {
@@ -37,7 +35,8 @@ public class SecurityConfig {
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/logout").permitAll()
                 .antMatchers("/api/users/me").permitAll()
-                .antMatchers("/api/users/**").authenticated()
+                .antMatchers("/api/users/").permitAll()
+                .antMatchers("/api/users/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/product/**").hasAuthority("ADMIN")
                 .antMatchers("/api/image/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority("ADMIN")

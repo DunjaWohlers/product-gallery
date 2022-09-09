@@ -2,7 +2,6 @@ package de.neuefische.cgnjava222.productgallery;
 
 import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.Uploader;
 import com.cloudinary.http44.api.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.cgnjava222.productgallery.exception.FileNotDeletedException;
@@ -50,13 +49,8 @@ class ProductIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Autowired
     ProductRepo productRepo;
-
-
-    @MockBean
-    private Uploader uploader;
 
     @MockBean
     private Api api;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function Secret(
     props: {
@@ -12,9 +12,11 @@ export default function Secret(
             .then(props.authenticationChanged)
     }
 
+    const navigate = useNavigate();
+
     return <>
         {(!props.username || props.username === "anonymousUser")
-            ? <NavLink className={"navLink"} to={"/login"}>Login</NavLink>
+            ? <button onClick={() => navigate("/login")}>Login</button>
             : <button onClick={logout}>Logout</button>
         }
     </>

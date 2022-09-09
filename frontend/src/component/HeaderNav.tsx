@@ -1,5 +1,4 @@
-import {NavLink} from "react-router-dom";
-import icon from "../sawIcon.png";
+import {useNavigate} from "react-router-dom";
 import Secret from "../site/Secret";
 import React from "react";
 
@@ -8,10 +7,17 @@ export default function HeaderNav(props: {
                                       username: string | undefined,
                                   }
 ) {
-    return <header>
-        <div id="logo"><img src={icon} alt={"icon"}/></div>
-        <NavLink className={"navLink"} to={"/"}> Product - Gallery </NavLink>
-        <button>Search</button>
-        <Secret authenticationChanged={props.authenticationChanged} username={props.username}/>
-    </header>
+    const navigate = useNavigate();
+
+    return (
+        <header>
+            <button onClick={() => navigate("/")}>
+                Product - Gallery
+            </button>
+            <button>
+                Search
+            </button>
+            <Secret authenticationChanged={props.authenticationChanged} username={props.username}/>
+        </header>
+    )
 }

@@ -38,6 +38,4 @@ public class GlobalExceptionHandler {
         responseBody.put("message", "Cloudinary Exception ");
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
-
-
 }
