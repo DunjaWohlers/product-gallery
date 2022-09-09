@@ -1,4 +1,4 @@
-package de.neuefische.cgnjava222.productgallery.service;
+package de.neuefische.cgnjava222.productgallery;
 
 import com.cloudinary.Api;
 import com.cloudinary.Cloudinary;
