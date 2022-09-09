@@ -30,7 +30,6 @@ export default function App() {
 
     return (
         <>
-            <h1> {userInfo?.name}</h1>
                 <HeaderNav
                     username={userInfo?.name}
                     authenticationChanged={fetchUsername}/>
