@@ -3,6 +3,7 @@ import axios from "axios";
 import "./login.css";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
+import useUser from "../rest-api/useUser";
 
 export default function Login(
     props: {
@@ -10,9 +11,9 @@ export default function Login(
     }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const {allNames} = useUser();
 
     const navigate = useNavigate();
-
     const login = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios.get("/api/users/login", {auth: {username, password}})
@@ -21,9 +22,15 @@ export default function Login(
             .catch(() => toast.error("Login fehlgeschlagen"))
     }
 
+    const register = () => {
+        const newUser = {username, password}
+        axios.post("/api/users", newUser)
+            .catch(() => toast.error("Registration fehlgeschlagen"));
+    }
+
     return (
         <div className="login">
-            <form onSubmit={login}>
+            <form onSubmit={(allNames?.find(name => name === username)) ? login : register}>
                 <div>
                     <label>Name</label>
                     <input
@@ -32,7 +39,11 @@ export default function Login(
                         autoComplete={"off"}
                         type="text"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                            console.log(allNames)
+                        }
+                        }
                     />
                 </div>
                 <div>
@@ -44,9 +55,14 @@ export default function Login(
                            onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">
-                    Login
-                </button>
+                {(allNames?.find(name => name === username))
+                    ? <button type="submit">
+                        Login
+                    </button>
+                    : <button type="submit">
+                        Register
+                    </button>
+                }
             </form>
         </div>
     );
