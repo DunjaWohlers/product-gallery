@@ -18,6 +18,7 @@
 .login form div label, .login form div input {
     display: block;
     margin-left: 20pt;
+    overflow: unset;
 }
 
 .login form div label {
@@ -48,4 +49,8 @@
     right: 5pt;
     border: none;
     box-shadow: 0 0 2px 2px var(--defaultColor);
+}
+
+#message {
+    margin: 80px 20px 0 30px;
 }
