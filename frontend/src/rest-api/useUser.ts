@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function useUser() {
 
@@ -9,7 +10,7 @@ export default function useUser() {
         axios.get("/api/users/")
             .then(response => response.data)
             .then(setAllNames)
-            .catch(error => console.error(error));
+            .catch(() => toast.error("Benutzernamen konnten nicht geladen werden."));
     }
 
     useEffect(
