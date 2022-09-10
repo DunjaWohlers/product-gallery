@@ -25,7 +25,7 @@ export default function Login(
     const register = () => {
         const newUser = {username, password}
         axios.post("/api/users", newUser)
-            .catch(() => toast.error("Registration fehlgeschlagen"));
+            .catch(() => toast.error("Registrierung fehlgeschlagen"));
     }
 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {

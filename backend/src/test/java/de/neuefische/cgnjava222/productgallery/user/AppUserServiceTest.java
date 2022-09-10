@@ -61,8 +61,6 @@ class AppUserServiceTest {
         when(encoder.encode(pw)).thenReturn(encodedPW);
 
         AppUser actual = userService.register(new NewUser(name, pw));
-        System.out.println(actual);
-        System.out.println(expected);
         assertThat(actual).isEqualTo(expected);
     }
 }

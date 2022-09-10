@@ -17,10 +17,12 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
+
     @GetMapping("/login")
-    public void login() {
-        System.out.println("User " + me().name() + " ist eingeloggt mit den Rollen" + me().authorities());
+    public UserInfo login() {
+        return me();
     }
 
     @GetMapping("/me")
