@@ -5,28 +5,31 @@ import de.neuefische.cgnjava222.productgallery.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderServiceTest {
 
     @Test
-    void getMyOrderByUser() {
+    void addOrder() {
         OrderRepo repo = mock(OrderRepo.class);
         OrderService orderService = new OrderService(repo);
 
+        String id = "id4";
+        String name = "name";
+
         Product product1 = new Product("bla", "blub", "bli", List.of(new ImageInfo("http", "publID")), 5, 6);
-        OrderItem orderItem = new OrderItem(product1, 5);
-        SingleOrder newOrder = new SingleOrder(List.of(orderItem));
-        UserOrders expectedUserOrders = new UserOrders("myName", List.of(newOrder));
+        OrderItem orderItem = new OrderItem(product1.id(), 5, 3);
 
-        when(repo.findById("myName")).thenReturn(Optional.of(expectedUserOrders));
+        NewSingleOrder newOrder = new NewSingleOrder(List.of(orderItem));
+        SingleOrder expectedOrder = new SingleOrder(id, name, List.of(orderItem));
 
-        List<SingleOrder> actualOrderList = orderService.getMyOrder("myName");
+        when(repo.save(any(SingleOrder.class))).thenReturn(expectedOrder);
 
-        assertThat(actualOrderList).isEqualTo(expectedUserOrders.orderList());
+        SingleOrder addedActualOrder = orderService.addOrder(name, newOrder);
+        assertThat(addedActualOrder.orderItems()).isEqualTo(expectedOrder.orderItems());
     }
 }
