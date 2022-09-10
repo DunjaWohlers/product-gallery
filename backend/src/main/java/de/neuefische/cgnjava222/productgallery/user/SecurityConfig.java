@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .antMatchers("/api/users/me").permitAll()
                 .antMatchers("/api/users/").permitAll()
                 .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/api/orders/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/api/orders/*").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/product/**").hasAuthority("ADMIN")
                 .antMatchers("/api/image/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority("ADMIN")
