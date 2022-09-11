@@ -13,29 +13,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFound(ProductNotFoundException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "Product not Found ");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return getResponseEntity("Product not Found ", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = FileuploadException.class)
     public ResponseEntity<Object> handleFileNotUploaded(FileuploadException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "File not Updated ");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return getResponseEntity("File not Updated ", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = FileNotDeletedException.class)
     public ResponseEntity<Object> handleFileNotDeleted(FileNotDeletedException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "File not deleted ");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return getResponseEntity("File not deleted ", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = CloudinaryException.class)
     public ResponseEntity<Object> handleCloudinaryException(CloudinaryException exception) {
+        return getResponseEntity("Cloudinary Exception ", HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<Object> getResponseEntity(String msg, HttpStatus status) {
         Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "Cloudinary Exception ");
-        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        responseBody.put("message", msg);
+        return new ResponseEntity<>(responseBody, status);
     }
 }
