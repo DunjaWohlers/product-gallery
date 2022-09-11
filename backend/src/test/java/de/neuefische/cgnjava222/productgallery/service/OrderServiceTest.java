@@ -5,9 +5,9 @@ import de.neuefische.cgnjava222.productgallery.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,7 +39,8 @@ class OrderServiceTest {
     @Test
     void addOrder() {
         OrderRepo repo = mock(OrderRepo.class);
-        OrderService orderService = new OrderService(repo);
+        ProductService productService = mock(ProductService.class);
+        OrderService orderService = new OrderService(repo, productService);
 
         String id = "id4";
         String name = "name";

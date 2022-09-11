@@ -1,9 +1,8 @@
 package de.neuefische.cgnjava222.productgallery;
 
-import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
-import de.neuefische.cgnjava222.productgallery.model.OrderItem;
-import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.model.SingleOrder;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.cgnjava222.productgallery.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +31,9 @@ class OrderIntegrationTest {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @WithMockUser(username = "bob", authorities = {"USER"})
@@ -52,7 +54,15 @@ class OrderIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(responseListAsString).isEqualTo("");
+        List<SingleOrderDetails> myObjects = objectMapper.readValue(responseListAsString, new TypeReference<>() {
+        });
+
+        OrderDetailsItem orderDetailsItem = new OrderDetailsItem(product1, 7, 5);
+        SingleOrderDetails expected = new SingleOrderDetails("orderID5", userNAme, List.of(orderDetailsItem));
+
+        assertThat(myObjects.get(0)).isEqualTo(
+                expected
+        );
     }
 
     void addOrder() throws Exception {

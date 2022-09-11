@@ -38,11 +38,4 @@ public class GlobalExceptionHandler {
         responseBody.put("message", "Cloudinary Exception ");
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(value = OrderNotFoundException.class)
-    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "Order not found ");
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
-    }
 }

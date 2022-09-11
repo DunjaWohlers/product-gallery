@@ -10,7 +10,6 @@ type UserProductListProps = {
 }
 export default function UserProductList(props: UserProductListProps) {
 
-
     const handleSave = () => {
         if (props.actualOrderDetailsItems) {
             const actualOrderList = props.actualOrderDetailsItems.map(orderItem => {
