@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,9 +33,27 @@ class OrderServiceTest {
         List<SingleOrderDetails> actualOrderList = orderService.getMyOrders("myName");
 
         List<SingleOrderDetails> expectedOrderList = List.of(new SingleOrderDetails(newOrder.id(), "myName", List.of(orderDetailsItem)));
-        System.out.println("hier");
-        System.out.println(expectedOrderList);
-        System.out.println(actualOrderList);
         assertThat(actualOrderList).isEqualTo(expectedOrderList);
+    }
+
+    @Test
+    void addOrder() {
+        OrderRepo repo = mock(OrderRepo.class);
+        ProductService productService = mock(ProductService.class);
+        OrderService orderService = new OrderService(repo, productService);
+
+        String id = "id4";
+        String name = "name";
+
+        Product product1 = new Product("bla", "blub", "bli", List.of(new ImageInfo("http", "publID")), 5, 6);
+        OrderItem orderItem = new OrderItem(product1.id(), 5, 3);
+
+        NewSingleOrder newOrder = new NewSingleOrder(List.of(orderItem));
+        SingleOrder expectedOrder = new SingleOrder(id, name, List.of(orderItem));
+
+        when(repo.save(any(SingleOrder.class))).thenReturn(expectedOrder);
+
+        SingleOrder addedActualOrder = orderService.addOrder(name, newOrder);
+        assertThat(addedActualOrder.orderItems()).isEqualTo(expectedOrder.orderItems());
     }
 }

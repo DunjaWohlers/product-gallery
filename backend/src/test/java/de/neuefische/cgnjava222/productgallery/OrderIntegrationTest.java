@@ -7,13 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -60,5 +63,24 @@ class OrderIntegrationTest {
         assertThat(myObjects.get(0)).isEqualTo(
                 expected
         );
+    }
+
+    void addOrder() throws Exception {
+        String name = "bob";
+
+        mock.perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"orderItems":
+                                [
+                                    {
+                                    "productId" : "bla",
+                                    "price": 5,
+                                    "count": 6
+                                    }
+                                ]
+                                }
+                                """).with(csrf())
+                )
+                .andExpect(status().isCreated());
     }
 }
