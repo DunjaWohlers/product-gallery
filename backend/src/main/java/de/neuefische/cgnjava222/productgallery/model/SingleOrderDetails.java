@@ -1,13 +1,10 @@
 package de.neuefische.cgnjava222.productgallery.model;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.List;
 
-public record SingleOrder(
-        @Id
+public record SingleOrderDetails(
         String id,
         String userName,
-        List<OrderItem> orderItems
+        List<OrderDetailsItem> orderItems
 ) {
 }

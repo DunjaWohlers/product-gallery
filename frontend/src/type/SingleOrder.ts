@@ -1,5 +1,19 @@
-import {OrderItem} from "./OrderItem";
+import {OrderDetailsItem, OrderItem} from "./OrderItem";
 
 export type SingleOrder = {
-    orders: OrderItem[]
+    id: string,
+    orderItems: OrderItem[]
+}
+
+export type SingleOrderDetails = {
+    id: string,
+    orderItems: OrderDetailsItem[]
+}
+
+export type NewSingleOrder = {
+    orderItems: OrderItem[]
+}
+
+export type NewSingleOrderDetails = {
+    orderItems: OrderDetailsItem[]
 }
