@@ -6,6 +6,7 @@ import useProducts from "./rest-api/useProducts";
 import ProductFormular from "./formular/ProductFormular";
 import Login from "./site/Login";
 import {UserInfo} from "./type/UserInfo";
+import UserProductList from "./site/UserProductList";
 
 export default function AllRoutes(
     props: {
@@ -49,6 +50,9 @@ export default function AllRoutes(
                         updateProduct={updateProduct}
                         getOneProductPerId={getOneProductPerId}
                     />}
+                />
+                <Route path={"/myproducts"} element={
+                    <UserProductList userInfo={props.userInfo}/>}
                 />
                 <Route path={"*"} element={
                     <Navigate to={"/products"} replace/>
