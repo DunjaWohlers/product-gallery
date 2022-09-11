@@ -1,7 +1,9 @@
 package de.neuefische.cgnjava222.productgallery;
 
-import de.neuefische.cgnjava222.productgallery.exception.OrderNotFoundException;
-import de.neuefische.cgnjava222.productgallery.model.*;
+import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
+import de.neuefische.cgnjava222.productgallery.model.OrderItem;
+import de.neuefische.cgnjava222.productgallery.model.Product;
+import de.neuefische.cgnjava222.productgallery.model.SingleOrder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,36 +27,28 @@ class OrderIntegrationTest {
     @Autowired
     private OrderRepo orderRepo;
 
+    @Autowired
+    private ProductRepo productRepo;
+
     @Test
     @WithMockUser(username = "bob", authorities = {"USER"})
     void getMyOrders() throws Exception {
-        String name = "bob";
+        String userNAme = "bob";
+        Product product1 = new Product("productID6", "title3", "beschreibungbla",
+                List.of(new ImageInfo("url://bla", "publicCloudinaryID")),
+                4, 5);
+        OrderItem orderItem = new OrderItem("productID6", 7, 5);
+        SingleOrder newOrder = new SingleOrder("orderID5", userNAme, List.of(orderItem));
 
-        Product product1 = new Product("bla", "blub", "bli", List.of(new ImageInfo("http", "publID")), 5, 6);
-        OrderItem orderItem = new OrderItem(product1, 5);
-        SingleOrder newOrder = new SingleOrder(List.of(orderItem));
-        UserOrders expectedUserOrders = new UserOrders(name, List.of(newOrder));
+        orderRepo.save(newOrder);
+        productRepo.save(product1);
 
-        orderRepo.save(expectedUserOrders);
+        var responseListAsString = mock.perform(
+                        get("/api/orders")
+                )
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
-        mock.perform(get("/api/orders/" + name).with(csrf()))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser(username = "bob", authorities = {"USER"})
-    void getMyOrdersNotExisting() throws Exception {
-        String name = "bob";
-
-        mock.perform(get("/api/orders/" + name).with(csrf()))
-                .andExpect(status().isNotFound())
-                .andExpect(status().isNotFound()).andExpect(result -> assertTrue(result.getResolvedException() instanceof OrderNotFoundException)).andExpect(result -> {
-                            if (result.getResolvedException() == null) {
-                                fail();
-                            } else {
-                                assertEquals("Order not Found from user " + name, result.getResolvedException().getMessage());
-                            }
-                        }
-                );
+        assertThat(responseListAsString).isEqualTo("");
     }
 }

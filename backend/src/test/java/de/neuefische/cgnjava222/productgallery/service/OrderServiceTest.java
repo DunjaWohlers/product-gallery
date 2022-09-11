@@ -15,18 +15,26 @@ class OrderServiceTest {
 
     @Test
     void getMyOrderByUser() {
-        OrderRepo repo = mock(OrderRepo.class);
-        OrderService orderService = new OrderService(repo);
+        OrderRepo orderRepo = mock(OrderRepo.class);
+        ProductService productService = mock(ProductService.class);
+        OrderService orderService = new OrderService(orderRepo, productService);
 
-        Product product1 = new Product("bla", "blub", "bli", List.of(new ImageInfo("http", "publID")), 5, 6);
-        OrderItem orderItem = new OrderItem(product1, 5);
-        SingleOrder newOrder = new SingleOrder(List.of(orderItem));
-        UserOrders expectedUserOrders = new UserOrders("myName", List.of(newOrder));
+        Product product1 = new Product("productID6", "title3", "beschreibungbla", List.of(new ImageInfo("url://bla", "publicCloudinaryID")), 4, 5);
 
-        when(repo.findById("myName")).thenReturn(Optional.of(expectedUserOrders));
+        OrderItem orderItem = new OrderItem(product1.id(), 7, 5);
+        OrderDetailsItem orderDetailsItem = new OrderDetailsItem(product1, orderItem.count(), orderItem.price());
 
-        List<SingleOrder> actualOrderList = orderService.getMyOrder("myName");
+        SingleOrder newOrder = new SingleOrder("orderID5", "myName", List.of(orderItem));
 
-        assertThat(actualOrderList).isEqualTo(expectedUserOrders.orderList());
+        when(orderRepo.findAllByUserName("myName")).thenReturn(List.of(newOrder));
+        when(productService.getDetailsOf(product1.id())).thenReturn(Optional.of(product1));
+
+        List<SingleOrderDetails> actualOrderList = orderService.getMyOrders("myName");
+
+        List<SingleOrderDetails> expectedOrderList = List.of(new SingleOrderDetails(newOrder.id(), "myName", List.of(orderDetailsItem)));
+        System.out.println("hier");
+        System.out.println(expectedOrderList);
+        System.out.println(actualOrderList);
+        assertThat(actualOrderList).isEqualTo(expectedOrderList);
     }
 }
