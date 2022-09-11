@@ -13,6 +13,7 @@ type ProductsSiteProps = {
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
     userInfo: UserInfo | undefined,
 }
+
 export default function ProductsSite(props: ProductsSiteProps) {
 
     const admin: boolean | undefined = props.userInfo?.authorities.includes("ADMIN")
