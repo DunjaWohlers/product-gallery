@@ -3,15 +3,15 @@ package de.neuefische.cgnjava222.productgallery.controller;
 import de.neuefische.cgnjava222.productgallery.model.SingleOrderDetails;
 import de.neuefische.cgnjava222.productgallery.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/api/orders")
 public class OrderController {
 
