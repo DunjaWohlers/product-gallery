@@ -28,6 +28,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String admin = "ADMIN";
         return http
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
@@ -37,11 +38,11 @@ public class SecurityConfig {
                 .antMatchers("/api/users/me").permitAll()
                 .antMatchers("/api/users/").permitAll()
                 .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/api/orders/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/product/**").hasAuthority("ADMIN")
-                .antMatchers("/api/image/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
+                .antMatchers("/api/orders/**").hasAnyAuthority("USER", admin)
+                .antMatchers(HttpMethod.POST, "/api/product/**").hasAuthority(admin)
+                .antMatchers("/api/image/**").hasAuthority(admin)
+                .antMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority(admin)
+                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(admin)
                 .anyRequest().permitAll()
                 .and().httpBasic().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
