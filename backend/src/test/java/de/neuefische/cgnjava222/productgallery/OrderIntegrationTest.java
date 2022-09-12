@@ -15,8 +15,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -65,6 +65,8 @@ class OrderIntegrationTest {
         );
     }
 
+    @Test
+    @WithMockUser(username = "bob", authorities = {"USER"})
     void addOrder() throws Exception {
         String name = "bob";
 
@@ -81,6 +83,39 @@ class OrderIntegrationTest {
                                 }
                                 """).with(csrf())
                 )
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                         {"orderItems":
+                                [
+                                    {
+                                    "productId" : "bla",
+                                    "price": 5,
+                                    "count": 6
+                                    }
+                                ]
+                                }
+                        """));
+    }
+
+    @Test
+    @WithMockUser(username = "bob", authorities = {"USER"})
+    void putOrder() throws Exception {
+
+        mock.perform(put("/api/orders").contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                         "id": "60b674df-57c4-474e-bb37-94793f050011",
+                                         "userName": "bob",
+                                         "orderItems": [
+                                             {
+                                                 "productId": "42ac6582-347e-4902-8295-19ab63e9d31c",
+                                                 "count": 6,
+                                                 "price": 5
+                                             }
+                                         ]
+                                     }
+                                """).with(csrf())
+                )
+                .andExpect(status().isOk());
     }
 }
