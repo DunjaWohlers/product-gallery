@@ -18,19 +18,19 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @GetMapping("")
+    public List<SingleOrderDetails> getOrdersFromUser(Principal principal) {
+        return orderService.getMyOrders(principal.getName());
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public SingleOrder addOrder(@RequestBody NewSingleOrder order, Principal principal) {
         return orderService.addOrder(principal.getName(), order);
     }
 
-    @GetMapping("")
-    public List<SingleOrderDetails> getOrdersFromUser(Principal principal) {
-        return orderService.getMyOrders(principal.getName());
-    }
-
-    @PutMapping("")
-    public SingleOrder changeExistingOrder(@RequestBody SingleOrder singleOrder) {
-        return orderService.changeExistingOrder(singleOrder);
+    @PutMapping("/{id}")
+    public SingleOrder changeExistingOrder(@RequestBody NewSingleOrder newSingleOrder, @PathVariable String id, Principal principal) {
+        return orderService.changeExistingOrder(principal.getName(), id, newSingleOrder);
     }
 }

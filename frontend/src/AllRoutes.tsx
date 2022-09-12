@@ -59,7 +59,9 @@ export default function AllRoutes(
                 <Route path={"/myproducts"} element={
                     <UserProductList
                         actualOrderDetailsItems={actualOrderDetailsItems}
-                        userInfo={props.userInfo}/>}
+                        setActualOrderDetailsItems={setActualOrderDetailsItems}
+                        userInfo={props.userInfo}
+                    />}
                 />
                 <Route path={"*"} element={
                     <Navigate to={"/products"} replace/>

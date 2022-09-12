@@ -9,53 +9,79 @@ import "./userProductList.css";
 type UserProductListProps = {
     userInfo: UserInfo | undefined,
     actualOrderDetailsItems: OrderDetailsItem[] | undefined,
+    setActualOrderDetailsItems: (product: OrderDetailsItem[]) => void;
 }
 
 export default function UserProductList(props: UserProductListProps) {
-    const [oldOrders, setOldOrders] = useState<SingleOrderDetails[]>()
+    const [oldOrders, setOldOrders] = useState<SingleOrderDetails[]>();
+    const [savedOrders, setSavedOrders] = useState<OrderDetailsItem[]>([])
+    const [actualOrderId, setActualOrderId] = useState<string>();
+
     useEffect(() => {
         axios.get("/api/orders")
-            .then(response => setOldOrders(response.data))
+            .then(response => {
+                console.log(response.data);
+                let actualOrder: SingleOrderDetails = response.data.find((orde: SingleOrderDetails) => (orde.date === null));
+                let oldorders: SingleOrderDetails[] = response.data.filter((orde: SingleOrderDetails) => (orde.date !== null));
+                actualOrder && setSavedOrders(actualOrder.orderItems);
+                actualOrder && setActualOrderId(actualOrder.id);
+                setOldOrders(oldorders);
+            })
             .catch(() => toast.error("Alte Bestellungen konnten nicht geladen werden."))
     }, [])
 
     const handleSave = (ordered: boolean) => {
+        let allActualItems: OrderDetailsItem[] = [];
         if (props.actualOrderDetailsItems) {
-            const actualOrderList = props.actualOrderDetailsItems.map(orderItem => {
-                return {
-                    productId: orderItem.product.id,
-                    count: orderItem.count,
-                    price: orderItem.price
-                }
-            });
-            console.log(actualOrderList);
-
-            let day = new Date();
-
-            const saveOrder: NewSingleOrder = {
-                date: ordered ? day.toDateString() : undefined,
-                orderItems: []
+            allActualItems = allActualItems.concat(props.actualOrderDetailsItems);
+        }
+        const actualOrderList = allActualItems.concat(savedOrders).map(orderItem => {
+            return {
+                productId: orderItem.product.id,
+                count: orderItem.count,
+                price: orderItem.price
             }
-            saveOrder.orderItems = actualOrderList;
+        });
 
+        console.log(actualOrderList);
+
+        let day = new Date();
+
+        const saveOrder: NewSingleOrder = {
+            date: ordered ? day.toDateString() : undefined,
+            orderItems: []
+        }
+        saveOrder.orderItems = actualOrderList;
+
+        if (!actualOrderId) {
             axios.post("/api/orders",
                 saveOrder
-            ).catch(() => toast.error("Hinzufügen des Produkts zur Bestellung fehlgeschlagen.")
-            );
+            ).then(() => ordered ? toast.info("Erfolgreich bestellt.") : toast.info("Erfolgreich gespeichert"))
+                .then(() => {
+                    props.setActualOrderDetailsItems([]);
+                    setSavedOrders([]);
+                })
+                .catch(() => toast.error("Speichern der Produkte fehlgeschlagen.")
+                );
+        } else {
+            axios.put("/api/orders/" + actualOrderId, saveOrder)
+                .then(() => ordered ? toast.info("Erfolgreich bestellt!") : toast.info("Erfolgreich gespeichert"))
+                .catch(() => toast.error("Speichern fehlgeschlagen."))
         }
+
     }
 
     return (
         <div>
             <div className={"orderCard"}>
-                <h3>Neue Merkliste / ‚Bestellung:</h3>
+                <h3>Neue Merkliste / Bestellung:</h3>
                 <div>
                     <p>Titel</p>
                     <p>Bild</p>
                     <p>Anzahl</p>
                     <p>Preis</p>
                 </div>
-                {props.actualOrderDetailsItems?.map(orderItem =>
+                {props.actualOrderDetailsItems?.concat(savedOrders).map(orderItem =>
                     <div key={crypto.randomUUID()}>
                         <p>
                             {orderItem.product.title}
@@ -75,11 +101,11 @@ export default function UserProductList(props: UserProductListProps) {
 
             </div>
 
-            <h2>Alte Bestellungen / Merklisten:</h2>
+            <h2>Alte Bestellungen:</h2>
             {oldOrders?.map(order =>
                 <div className={"orderCard"} key={order.id}>
-                    <h3>Merkliste/Bestellung Nr.</h3>
-                    <p> {order.id}</p>
+                    <h3>Merkliste/Bestellung vom {order.date}</h3>
+                    <p>id: {order.id}</p>
                     <div>
                         <p>Titel</p>
                         <p>Bild</p>

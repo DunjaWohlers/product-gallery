@@ -9,6 +9,7 @@ import de.neuefische.cgnjava222.productgallery.model.SingleOrderDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,21 +25,40 @@ public class OrderService {
         return singleOrders.stream().map(order -> {
             List<OrderDetailsItem> orderDetailsItems = order.orderItems().stream().map(
                     orderItem -> new OrderDetailsItem(
-                            productService.getDetailsOf(
-                                    orderItem.productId()).orElseThrow(() -> new ProductNotFoundException(orderItem.productId())),
+                            productService
+                                    .getDetailsOf(orderItem.productId())
+                                    .orElseThrow(() -> new ProductNotFoundException(orderItem.productId())),
                             orderItem.count(),
-                            orderItem.price())
+                            orderItem.price()
+                    )
             ).toList();
-            return new SingleOrderDetails(order.id(), order.timeDate(), myName, orderDetailsItems);
+            if (order.date() != null) {
+                return new SingleOrderDetails(order.id(), order.date().toString(), orderDetailsItems);
+            }
+            return new SingleOrderDetails(order.id(), null, orderDetailsItems);
         }).toList();
     }
 
     public SingleOrder addOrder(String name, NewSingleOrder newOrder) {
-        SingleOrder order = new SingleOrder(UUID.randomUUID().toString(), newOrder.timeDate(), name, newOrder.orderItems());
+        LocalDateTime orderDate = LocalDateTime.now();
+        SingleOrder order;
+        if (newOrder.date() != null) {
+            order = new SingleOrder(UUID.randomUUID().toString(), orderDate, name, newOrder.orderItems());
+        } else {
+            order = new SingleOrder(UUID.randomUUID().toString(), null, name, newOrder.orderItems());
+
+        }
         return orderRepo.save(order);
     }
 
-    public SingleOrder changeExistingOrder(SingleOrder order) {
+    public SingleOrder changeExistingOrder(String name, String id, NewSingleOrder newPutOrder) {
+        LocalDateTime orderDate = LocalDateTime.now();
+        SingleOrder order;
+        if (newPutOrder.date() != null) {
+            order = new SingleOrder(id, orderDate, name, newPutOrder.orderItems());
+        } else {
+            order = new SingleOrder(id, null, name, newPutOrder.orderItems());
+        }
         return orderRepo.save(order);
     }
 }
