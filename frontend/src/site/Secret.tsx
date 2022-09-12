@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 export default function Secret(
     props: {
-        authenticationChanged: () => void
+        authenticationChanged: () => void,
         username: string | undefined,
     }) {
     function logout() {
@@ -17,7 +17,11 @@ export default function Secret(
     return <>
         {(!props.username || props.username === "anonymousUser")
             ? <button onClick={() => navigate("/login")}>Login</button>
-            : <button onClick={logout}>Logout</button>
+            :
+            <>
+                <button onClick={logout}>Logout</button>
+                <button onClick={() => navigate("/myproducts")}> *</button>
+            </>
         }
     </>
 }
