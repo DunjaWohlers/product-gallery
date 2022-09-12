@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,8 +43,9 @@ class OrderIntegrationTest {
         Product product1 = new Product("productID6", "title3", "beschreibungbla",
                 List.of(new ImageInfo("url://bla", "publicCloudinaryID")),
                 4, 5);
+        LocalDateTime now = LocalDateTime.now();
         OrderItem orderItem = new OrderItem("productID6", 7, 5);
-        SingleOrder newOrder = new SingleOrder("orderID5", userNAme, List.of(orderItem));
+        SingleOrder newOrder = new SingleOrder("orderID5", now, userNAme, List.of(orderItem));
 
         orderRepo.save(newOrder);
         productRepo.save(product1);
@@ -58,11 +60,10 @@ class OrderIntegrationTest {
         });
 
         OrderDetailsItem orderDetailsItem = new OrderDetailsItem(product1, 7, 5);
-        SingleOrderDetails expected = new SingleOrderDetails("orderID5", userNAme, List.of(orderDetailsItem));
+        SingleOrderDetails expected = new SingleOrderDetails("orderID5", now.toString(), List.of(orderDetailsItem));
 
-        assertThat(myObjects.get(0)).isEqualTo(
-                expected
-        );
+        assertThat(myObjects.get(0).id()).isEqualTo(expected.id());
+        assertThat(myObjects.get(0).orderItems()).isEqualTo(expected.orderItems());
     }
 
     @Test
@@ -101,10 +102,9 @@ class OrderIntegrationTest {
     @WithMockUser(username = "bob", authorities = {"USER"})
     void putOrder() throws Exception {
 
-        mock.perform(put("/api/orders").contentType(MediaType.APPLICATION_JSON)
+        mock.perform(put("/api/orders/" + "60b674df-57c4-474e-bb37-94793f050011").contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                         "id": "60b674df-57c4-474e-bb37-94793f050011",
                                          "userName": "bob",
                                          "orderItems": [
                                              {
