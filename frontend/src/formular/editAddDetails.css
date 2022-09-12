@@ -58,13 +58,27 @@
     font-weight: bold;
 }
 
-.images3flex {
-    display: flex;
-    margin-left: 15px;
+.fullView .cardContainer {
+    width: 90vw;
 }
 
-.images3flex img {
-    width: 30%;
+.fullView .imageContainer {
+    width: 90vw;
+}
+
+.images3flex {
+    display: flex;
+    width: 90vw;
+}
+
+.images3flex .cardContainer {
+    width: 30vw;
+    height: 30vw;
+}
+
+.images3flex .cardContainer .imageContainer {
+    width: 30vw;
+    height: 30vw;
 }
 
 .details {
@@ -82,4 +96,25 @@
 
 .details h3 {
     font-size: 16px;
+}
+
+.details > .cardContainer {
+    width: 90vw;
+    height: 90vw;
+}
+
+.details > .cardContainer > .imageContainer {
+    width: 90vw;
+    height: 90vw;
+}
+
+#saveFavouriteButton {
+    position: relative;
+    background-color: black;
+    border-radius: 5pt;
+    color: white;
+    border: none;
+    top: -35px;
+    left: 100px;
+
 }

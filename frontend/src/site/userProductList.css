@@ -1,0 +1,27 @@
+.orderCard img {
+    max-width: 40px;
+    margin: 3px auto auto auto;
+}
+
+.orderCard {
+    font-size: 18px;
+}
+
+.orderCard > h3 {
+}
+
+.orderCard > p {
+    margin: 0;
+}
+
+.orderCard > div {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr 2fr
+}
+
+.orderCard > div > p {
+    line-height: 22pt;
+    margin: 0;
+    border-top: 1px black solid;
+}

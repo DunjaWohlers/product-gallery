@@ -3,14 +3,15 @@
 }
 
 header {
-    color: white;
+    color: black;
     height: 50px;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    background-color: var(--defaultColor);
     font-size: 23px;
+    border-bottom: 1px black solid;
+    margin-bottom: 15px;
 }
 
 header :first-child {
@@ -36,10 +37,11 @@ main {
 
 footer {
     text-align: center;
-    color: white;
     height: 37px;
     width: 100%;
-    background-color: var(--defaultColor);
+    border-top: 1px black solid;
+    color: black;
+    overflow: hidden;
 }
 
 footer a {
