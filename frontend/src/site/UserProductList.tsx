@@ -19,7 +19,7 @@ export default function UserProductList(props: UserProductListProps) {
             .catch(() => toast.error("Alte Bestellungen konnten nicht geladen werden."))
     }, [])
 
-    const handleSave = () => {
+    const handleSave = (ordered: boolean) => {
         if (props.actualOrderDetailsItems) {
             const actualOrderList = props.actualOrderDetailsItems.map(orderItem => {
                 return {
@@ -30,7 +30,10 @@ export default function UserProductList(props: UserProductListProps) {
             });
             console.log(actualOrderList);
 
+            let day = new Date();
+
             const saveOrder: NewSingleOrder = {
+                date: ordered ? day.toDateString() : undefined,
                 orderItems: []
             }
             saveOrder.orderItems = actualOrderList;
@@ -42,14 +45,10 @@ export default function UserProductList(props: UserProductListProps) {
         }
     }
 
-    const handleOrder = () => {
-
-    }
-
     return (
         <div>
             <div className={"orderCard"}>
-                <h3>Neue Merkliste/Bestellung:</h3>
+                <h3>Neue Merkliste / ‚Bestellung:</h3>
                 <div>
                     <p>Titel</p>
                     <p>Bild</p>
@@ -71,8 +70,8 @@ export default function UserProductList(props: UserProductListProps) {
                         </p>
                     </div>
                 )}
-                <button onClick={handleSave}> Produkte speichern</button>
-                <button onClick={handleOrder}> Produkte bestellen</button>
+                <button onClick={() => handleSave(false)}> Produkte speichern</button>
+                <button onClick={() => handleSave(true)}> Produkte bestellen</button>
 
             </div>
 
