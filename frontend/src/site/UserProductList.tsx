@@ -42,6 +42,10 @@ export default function UserProductList(props: UserProductListProps) {
         }
     }
 
+    const handleOrder = () => {
+
+    }
+
     return (
         <div>
             <div className={"orderCard"}>
@@ -68,6 +72,8 @@ export default function UserProductList(props: UserProductListProps) {
                     </div>
                 )}
                 <button onClick={handleSave}> Produkte speichern</button>
+                <button onClick={handleOrder}> Produkte bestellen</button>
+
             </div>
 
             <h2>Alte Bestellungen / Merklisten:</h2>

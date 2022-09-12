@@ -29,12 +29,12 @@ public class OrderService {
                             orderItem.count(),
                             orderItem.price())
             ).toList();
-            return new SingleOrderDetails(order.id(), myName, orderDetailsItems);
+            return new SingleOrderDetails(order.id(), order.timeDate(), myName, orderDetailsItems);
         }).toList();
     }
 
     public SingleOrder addOrder(String name, NewSingleOrder newOrder) {
-        SingleOrder order = new SingleOrder(UUID.randomUUID().toString(), name, newOrder.orderItems());
+        SingleOrder order = new SingleOrder(UUID.randomUUID().toString(), newOrder.timeDate(), name, newOrder.orderItems());
         return orderRepo.save(order);
     }
 
