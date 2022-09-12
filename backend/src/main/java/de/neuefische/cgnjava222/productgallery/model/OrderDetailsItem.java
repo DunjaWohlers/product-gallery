@@ -5,4 +5,3 @@ public record OrderDetailsItem(
         int count,
         int price) {
 }
-

@@ -3,9 +3,12 @@ import "../formular/editAddDetails.css";
 import {Product} from "../type/Product";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
+import {OrderDetailsItem} from "../type/OrderItem";
 
 type DetailsProductProps = {
     getOneProductPerId: (id: string) => Promise<Product>,
+    setActualOrderDetailsItems: (orderDetailsItems: OrderDetailsItem[]) => void,
+    actualOrderDetailsItems: OrderDetailsItem[] | undefined,
 }
 
 export default function DetailsProduct(props: DetailsProductProps) {
@@ -18,6 +21,16 @@ export default function DetailsProduct(props: DetailsProductProps) {
                 .catch(() => toast.error("Produkt konnte nicht gefunden werden"));
         }
     }, [id, props])
+
+    const handleSave = () => {
+        if (thisProduct && props.actualOrderDetailsItems) {
+            const orderItem: OrderDetailsItem = {product: thisProduct, count: 1, price: thisProduct.price}
+            props.setActualOrderDetailsItems(
+                props.actualOrderDetailsItems.concat(orderItem));
+        } else {
+            toast.error("Produkt wurde nicht gefunden.")
+        }
+    }
 
     return (<>
             {thisProduct && <div className={"fullView details"}>
@@ -49,6 +62,7 @@ export default function DetailsProduct(props: DetailsProductProps) {
                         }
                     </div>
                 }
+                <button onClick={handleSave}> merken</button>
                 <p>{thisProduct.description}</p>
                 <p>{thisProduct?.price} &euro;</p>
                 {thisProduct.availableCount > 0 &&
