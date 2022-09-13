@@ -1,10 +1,12 @@
 package de.neuefische.cgnjava222.productgallery.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.List;
 
-public record NewUser(
-        String username,
-        String password,
+public record UserBookmarks(
+        @Id
+        String name,
         List<OrderItem> bookmarks
 ) {
 }

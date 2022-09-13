@@ -28,9 +28,4 @@ public class OrderController {
     public SingleOrder addOrder(@RequestBody NewSingleOrder order, Principal principal) {
         return orderService.addOrder(principal.getName(), order);
     }
-
-    @PutMapping("/{id}")
-    public SingleOrder changeExistingOrder(@RequestBody NewSingleOrder newSingleOrder, @PathVariable String id, Principal principal) {
-        return orderService.changeExistingOrder(principal.getName(), id, newSingleOrder);
-    }
 }

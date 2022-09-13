@@ -9,7 +9,7 @@ import de.neuefische.cgnjava222.productgallery.model.SingleOrderDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,32 +32,19 @@ public class OrderService {
                             orderItem.price()
                     )
             ).toList();
-            if (order.date() != null) {
-                return new SingleOrderDetails(order.id(), order.date().toString(), orderDetailsItems);
-            }
-            return new SingleOrderDetails(order.id(), null, orderDetailsItems);
+            return new SingleOrderDetails(order.id(), order.date(), orderDetailsItems);
         }).toList();
     }
 
+
     public SingleOrder addOrder(String name, NewSingleOrder newOrder) {
-        LocalDateTime orderDate = LocalDateTime.now();
+        Instant orderDate = Instant.now();
         SingleOrder order;
         if (newOrder.date() != null) {
             order = new SingleOrder(UUID.randomUUID().toString(), orderDate, name, newOrder.orderItems());
         } else {
             order = new SingleOrder(UUID.randomUUID().toString(), null, name, newOrder.orderItems());
 
-        }
-        return orderRepo.save(order);
-    }
-
-    public SingleOrder changeExistingOrder(String name, String id, NewSingleOrder newPutOrder) {
-        LocalDateTime orderDate = LocalDateTime.now();
-        SingleOrder order;
-        if (newPutOrder.date() != null) {
-            order = new SingleOrder(id, orderDate, name, newPutOrder.orderItems());
-        } else {
-            order = new SingleOrder(id, null, name, newPutOrder.orderItems());
         }
         return orderRepo.save(order);
     }
