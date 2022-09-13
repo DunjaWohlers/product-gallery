@@ -1,46 +1,29 @@
-# Getting Started with Create React App
+[![GitHub commits](https://badgen.net/github/commits/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/commit/)
+[![GitHub issues](https://img.shields.io/github/issues/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/issues/)
+[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/pulls?q=is%3Amerged)
+[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=DunjaWohlers&theme=blue-green)](https://github.com/DunjaWohlers/github-readme-stats)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://github.com/DunjaWohlers/product-gallery
+This Application is under Construction.
+It shall help a friend of mine to present his self-made wooden articles to attract people buying them.
+Optional it will help him and Visitors to make an order, but ints important that visitors of the page must contact the
+Vendor,
+because this App doesnt aim to save personal data from visitors.
 
-## Available Scripts
+If the Project doesn run, you can do following steps:
 
-In the project directory, you can run:
+In the Terminal go to the frontend folder with:
 
-### `npm start`
+### `cd frontend`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `npm install`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+If the Maven-Project is not loaded by your CLI, you can find the pom.xml in the backend-folder and rebuild the project.
 
-### `npm test`
+For being able to use all Features you need to have following keys defined in your application.properties:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### CLOUDINARY_URL
 
-### `npm run build`
+For Deploying this App you can set a secret for
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### MONGO_DB_URI
