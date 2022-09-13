@@ -5,6 +5,7 @@
     padding: 5px;
     text-align: left;
     color: black;
+    display: none;
 }
 
 .addedImagesForProduct {
@@ -19,7 +20,7 @@
 }
 
 .cardContainer {
-    width: 47vw;
+    width: 125px;
     margin: 2px 2px 10px 4px;
     text-align: center;
 }
@@ -29,8 +30,8 @@
     justify-content: center;
     align-items: center;
     margin: 0;
-    width: 45vw;
-    height: 45vw;
+    width: 125px;
+    height: 125px;
     background-color: rgb(241, 241, 238);
     border-radius: 10px;
 }
@@ -52,20 +53,20 @@
 
 .cardContainer > .navLink > div > p {
     color: #000000;
-    font-size: 15px;
+    font-size: 13px;
     position: relative;
     margin: 0;
-    height: 17px;
+    height: 13px;
     background-color: #fffefe;
     z-index: 10;
-    top: -22px;
-    left: -10px;
+    top: -16px;
+    left: 0;
     width: 70px;
     border-left: 1px black solid;
     border-top: 1px black solid;
     border-top-left-radius: 12px;
     border-bottom-right-radius: 12px;
-    padding: 2px;
+    padding: 1px;
     font-weight: bold;
 }
 
@@ -78,8 +79,8 @@
     background-color: black;
     border-radius: 5px;
     padding: 2px 5px 2px 5px;
-    top: 35px;
-    left: 11vw;
+    top: 33px;
+    left: 24px;
     border: none;
     box-shadow: 0 0 2px 2px #102d4c;
 }
