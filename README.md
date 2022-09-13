@@ -1,7 +1,7 @@
-[![GitHub commits](https://badgen.net/github/commits/Naereen/Strapdown.js)](https://GitHub.com/Naereen/StrapDown.js/commit/)
-[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues/)
-[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/pulls?q=is%3Amerged)
-[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=Naereen&theme=blue-green)](https://github.com/anuraghazra/github-readme-stats)
+[![GitHub commits](https://badgen.net/github/commits/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/commit/)
+[![GitHub issues](https://img.shields.io/github/issues/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/issues/)
+[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/pulls?q=is%3Amerged)
+[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=DunjaWohlers&theme=blue-green)](https://github.com/DunjaWohlers/github-readme-stats)
 
 https://github.com/DunjaWohlers/product-gallery
 This Application is under Construction.
