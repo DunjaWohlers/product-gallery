@@ -14,9 +14,6 @@ export default function HeaderNav(props: {
             <button onClick={() => navigate("/")}>
                 Product - Gallery
             </button>
-            <button>
-                Search
-            </button>
             <Secret authenticationChanged={props.authenticationChanged} username={props.username}/>
         </header>
     )

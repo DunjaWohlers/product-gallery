@@ -2,7 +2,7 @@ import axios from "axios";
 import {UserInfo} from "../type/UserInfo";
 import {NewSingleOrder, SingleOrderDetails} from "../type/SingleOrder";
 import {toast} from "react-toastify";
-import {OrderDetailsItem} from "../type/OrderItem";
+import {OrderDetailsItem, OrderItem} from "../type/OrderItem";
 import {useEffect, useState} from "react";
 import "./userProductList.css";
 
@@ -15,20 +15,34 @@ type UserProductListProps = {
 export default function UserProductList(props: UserProductListProps) {
     const [oldOrders, setOldOrders] = useState<SingleOrderDetails[]>();
     const [savedOrders, setSavedOrders] = useState<OrderDetailsItem[]>([])
-    const [actualOrderId, setActualOrderId] = useState<string>();
 
     useEffect(() => {
+        loadOrders();
+    }, [])
+
+    const loadOrders = () => {
         axios.get("/api/orders")
             .then(response => {
-                console.log(response.data);
-                let actualOrder: SingleOrderDetails = response.data.find((orde: SingleOrderDetails) => (orde.date === null));
-                let oldorders: SingleOrderDetails[] = response.data.filter((orde: SingleOrderDetails) => (orde.date !== null));
-                actualOrder && setSavedOrders(actualOrder.orderItems);
-                actualOrder && setActualOrderId(actualOrder.id);
-                setOldOrders(oldorders);
+                const oldorders: SingleOrderDetails[] = response.data;
+                const oldOrdersMapped = oldorders.map(order => {
+                    if (order.date) {
+                        const orderDate = new Date(Date.parse(order.date.toString()));
+                        return {
+                            id: order.id, date: orderDate, orderItems: order.orderItems
+                        }
+                    }
+                    return order;
+                })
+                setOldOrders(oldOrdersMapped);
             })
             .catch(() => toast.error("Alte Bestellungen konnten nicht geladen werden."))
-    }, [])
+
+        axios.get("/api/users/bookmarks")
+            .then(response => {
+                setSavedOrders(response.data)
+            })
+            .catch(() => toast.error("Merkliste konnte nicht geladen werden"));
+    }
 
     const handleSave = (ordered: boolean) => {
         let allActualItems: OrderDetailsItem[] = [];
@@ -43,38 +57,41 @@ export default function UserProductList(props: UserProductListProps) {
             }
         });
 
-        console.log(actualOrderList);
-
         let day = new Date();
 
         const saveOrder: NewSingleOrder = {
-            date: ordered ? day.toDateString() : undefined,
+            date: ordered ? day : undefined,
             orderItems: []
         }
         saveOrder.orderItems = actualOrderList;
 
-        if (!actualOrderId) {
+        if (ordered) {
             axios.post("/api/orders",
                 saveOrder
-            ).then(() => ordered ? toast.info("Erfolgreich bestellt.") : toast.info("Erfolgreich gespeichert"))
+            ).then(() => toast.info("Erfolgreich bestellt."))
                 .then(() => {
                     props.setActualOrderDetailsItems([]);
                     setSavedOrders([]);
+                    setBookmarkAxios([]);
+                    loadOrders();
                 })
-                .catch(() => toast.error("Speichern der Produkte fehlgeschlagen.")
+                .catch(() => toast.error("Bestellung fehlgeschlagen.")
                 );
         } else {
-            axios.put("/api/orders/" + actualOrderId, saveOrder)
-                .then(() => ordered ? toast.info("Erfolgreich bestellt!") : toast.info("Erfolgreich gespeichert"))
-                .catch(() => toast.error("Speichern fehlgeschlagen."))
+            setBookmarkAxios(actualOrderList);
         }
+    }
 
+    const setBookmarkAxios = (array: OrderItem[]) => {
+        axios.post("/api/users/bookmarks", array)
+            .then(() => toast.info("Erfolgreich gespeichert"))
+            .catch(() => toast.error("Speichern fehlgeschlagen."))
     }
 
     return (
-        <div>
+        <div id={"orderComponent"}>
             <div className={"orderCard"}>
-                <h3>Neue Merkliste / Bestellung:</h3>
+                <h3>Merkliste:</h3>
                 <div>
                     <p>Titel</p>
                     <p>Bild</p>
@@ -88,46 +105,57 @@ export default function UserProductList(props: UserProductListProps) {
                         </p>
                         <p>
                             <img src={orderItem.product.pictureObj[0].url} alt={"bild"}/>
-                        </p><p>
-                        {orderItem.count}
-                    </p>
+                        </p>
+                        <p>
+                            {orderItem.count}
+                        </p>
                         <p>
                             {orderItem.price}
                         </p>
                     </div>
                 )}
-                <button onClick={() => handleSave(false)}> Produkte speichern</button>
-                <button onClick={() => handleSave(true)}> Produkte bestellen</button>
-
             </div>
+            <button onClick={() => handleSave(false)}> speichern</button>
+            <button onClick={() => handleSave(true)}> bestellen</button>
 
-            <h2>Alte Bestellungen:</h2>
-            {oldOrders?.map(order =>
-                <div className={"orderCard"} key={order.id}>
-                    <h3>Merkliste/Bestellung vom {order.date}</h3>
-                    <p>id: {order.id}</p>
-                    <div>
-                        <p>Titel</p>
-                        <p>Bild</p>
-                        <p>Anzahl</p>
-                        <p>Preis</p>
+            <div id={"oldOrders"}>
+                <h2>Alte Bestellungen:</h2>
+                {oldOrders?.map(order =>
+                    <div className={"orderCard"} key={order.id}>
+                        <h3>Bestellung vom
+                            {" " + order.date?.getDate()
+                            }.
+                            {" " + order.date?.getMonth()
+                            }.
+                            {" " + order.date?.getFullYear()
+                            }
+                        </h3>
+                        <p>id: {order.id}</p>
+                        <div>
+                            <p>Titel</p>
+                            <p>Bild</p>
+                            <p>Anzahl</p>
+                            <p>Preis</p>
+                        </div>
+                        {order.orderItems.map(product =>
+                            <div key={crypto.randomUUID()}>
+                                <p>
+                                    {product.product.title}
+                                </p>
+                                <p>
+                                    <img src={product.product.pictureObj[0].url} alt={"bild"}/>
+                                </p>
+                                <p>
+                                    {product.count}
+                                </p>
+                                <p>
+                                    {product.price}
+                                </p>
+                            </div>)
+                        }
                     </div>
-                    {order.orderItems.map(product =>
-                        <div key={crypto.randomUUID()}>
-                            <p>
-                                {product.product.title}
-                            </p>
-                            <p>
-                                <img src={product.product.pictureObj[0].url} alt={"bild"}/>
-                            </p><p>
-                            {product.count}
-                        </p>
-                            <p>
-                                {product.price}
-                            </p>
-                        </div>)}
-                </div>
-            )}
+                )}
+            </div>
         </div>
     )
 }

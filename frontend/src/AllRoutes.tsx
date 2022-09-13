@@ -40,6 +40,7 @@ export default function AllRoutes(
                                actualOrderDetailsItems={actualOrderDetailsItems}
                                setActualOrderDetailsItems={setActualOrderDetailsItems}
                                getOneProductPerId={getOneProductPerId}
+                               username={props.userInfo?.name}
                            />}/>
                 <Route path={"product/edit/:id"}
                        element={

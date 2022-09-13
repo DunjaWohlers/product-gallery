@@ -40,32 +40,6 @@
     box-shadow: 0 0 2px 2px #102d4c;
 }
 
-.fullView img {
-    max-width: 90vw;
-    min-width: 50vw;
-    max-height: 50vh;
-    border-radius: 5px;
-}
-
-.fullView p {
-    font-size: 12px;
-}
-
-.fullView h3 {
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.fullView .cardContainer {
-    width: 90vw;
-}
-
-.fullView .imageContainer {
-    width: 90vw;
-}
-
 .images3flex {
     display: flex;
     width: 90vw;
@@ -79,42 +53,4 @@
 .images3flex .cardContainer .imageContainer {
     width: 30vw;
     height: 30vw;
-}
-
-.details {
-    text-align: center;
-}
-
-.details > p {
-    width: 90vw;
-    text-align: left;
-    padding-left: 10px;
-    margin-left: 10px;
-    font-size: 14px;
-    border-bottom: 1px var(--defaultColor) solid;
-}
-
-.details h3 {
-    font-size: 16px;
-}
-
-.details > .cardContainer {
-    width: 90vw;
-    height: 90vw;
-}
-
-.details > .cardContainer > .imageContainer {
-    width: 90vw;
-    height: 90vw;
-}
-
-#saveFavouriteButton {
-    position: relative;
-    background-color: black;
-    border-radius: 5pt;
-    color: white;
-    border: none;
-    top: -35px;
-    left: 100px;
-
 }
