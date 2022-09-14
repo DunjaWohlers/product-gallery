@@ -1,9 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.controller;
 
-import de.neuefische.cgnjava222.productgallery.model.AppUser;
-import de.neuefische.cgnjava222.productgallery.model.NewUser;
-import de.neuefische.cgnjava222.productgallery.model.UserInfo;
-import de.neuefische.cgnjava222.productgallery.user.UserService;
+import de.neuefische.cgnjava222.productgallery.model.*;
+import de.neuefische.cgnjava222.productgallery.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -52,5 +51,16 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedUser.username());
+    }
+
+    @GetMapping("/bookmarks")
+    public List<OrderDetailsItem> getBookmarksFromUser(Principal principal) {
+        return userService.getMyBookmarks(principal.getName());
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/bookmarks")
+    public List<OrderItem> addBookmarks(@RequestBody List<OrderItem> order, Principal principal) {
+        return userService.addBookmarks(principal, order);
     }
 }

@@ -40,6 +40,7 @@ export default function AllRoutes(
                                actualOrderDetailsItems={actualOrderDetailsItems}
                                setActualOrderDetailsItems={setActualOrderDetailsItems}
                                getOneProductPerId={getOneProductPerId}
+                               username={props.userInfo?.name}
                            />}/>
                 <Route path={"product/edit/:id"}
                        element={
@@ -59,7 +60,9 @@ export default function AllRoutes(
                 <Route path={"/myproducts"} element={
                     <UserProductList
                         actualOrderDetailsItems={actualOrderDetailsItems}
-                        userInfo={props.userInfo}/>}
+                        setActualOrderDetailsItems={setActualOrderDetailsItems}
+                        userInfo={props.userInfo}
+                    />}
                 />
                 <Route path={"*"} element={
                     <Navigate to={"/products"} replace/>

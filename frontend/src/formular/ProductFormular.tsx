@@ -1,7 +1,7 @@
 import {NewProduct, Product} from "../type/Product";
 import React, {FormEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import "./editAddDetails.css";
+import "./productFormular.css";
 import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";

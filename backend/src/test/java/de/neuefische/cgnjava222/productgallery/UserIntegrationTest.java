@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -15,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserIntegrationTest {
 
     @Autowired
@@ -37,5 +40,29 @@ class UserIntegrationTest {
                                 ["horst"]
                                 """
                 ));
+    }
+
+    @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    void getBookmarks() throws Exception {
+        mockMvc.perform(get("/api/users/bookmarks"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    void addBookmarks() throws Exception {
+        mockMvc.perform(post("/api/users/bookmarks").contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        [
+                            {
+                            "productId" : "bla",
+                            "price": 5,
+                            "count": 6
+                            }
+                        ]
+                        """).with(csrf())
+        ).andExpect(status().isCreated());
+
     }
 }

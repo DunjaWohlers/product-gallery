@@ -40,46 +40,17 @@
     box-shadow: 0 0 2px 2px #102d4c;
 }
 
-.fullView img {
-    max-width: 90vw;
-    min-width: 50vw;
-    max-height: 50vh;
-    border-radius: 5px;
-}
-
-.fullView p {
-    font-size: 12px;
-}
-
-.fullView h3 {
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
 .images3flex {
     display: flex;
-    margin-left: 15px;
-}
-
-.images3flex img {
-    width: 30%;
-}
-
-.details {
-    text-align: center;
-}
-
-.details > p {
     width: 90vw;
-    text-align: left;
-    padding-left: 10px;
-    margin-left: 10px;
-    font-size: 14px;
-    border-bottom: 1px var(--defaultColor) solid;
 }
 
-.details h3 {
-    font-size: 16px;
+.images3flex .cardContainer {
+    width: 30vw;
+    height: 30vw;
+}
+
+.images3flex .cardContainer .imageContainer {
+    width: 30vw;
+    height: 30vw;
 }

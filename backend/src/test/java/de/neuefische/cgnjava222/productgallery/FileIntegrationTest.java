@@ -18,7 +18,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.util.Map;
@@ -46,9 +45,6 @@ class FileIntegrationTest {
 
     @MockBean
     private Api api;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})

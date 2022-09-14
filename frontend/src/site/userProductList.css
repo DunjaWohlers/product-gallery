@@ -1,0 +1,73 @@
+#orderComponent button {
+    opacity: 70%;
+    font-size: 14pt;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    background-color: black;
+    border-radius: 5px;
+    padding: 2px 5px 2px 5px;
+    top: 5px;
+    border: none;
+    box-shadow: 0 0 2px 2px #102d4c;
+}
+
+#orderComponent button:nth-child(2) {
+    left: 0;
+}
+
+#orderComponent button:nth-child(3) {
+    left: 44vw;
+}
+
+.orderCard p img {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+.orderCard p:nth-child(2) {
+    display: flex;
+    justify-content: center;
+}
+
+.orderCard {
+    font-size: 18px;
+    display: block;
+    justify-content: center;
+    box-shadow: 0 0 6px var(--defaultColor);
+    border-radius: 5px;
+}
+
+.orderCard > h3 {
+    padding-left: 5pt;
+    margin-bottom: 0;
+    font-size: 18px;
+    border-bottom: 1px black solid;
+}
+
+#oldOrders {
+    margin-top: 50px;
+    display: block;
+    width: 90vw;
+}
+
+.orderCard > p {
+    text-align: left;
+    font-size: 12pt;
+    margin: 0;
+}
+
+.orderCard > div {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 6fr 2fr 2fr 2fr;
+    width: 90vw;
+    align-content: center;
+}
+
+.orderCard > div > p {
+    padding-left: 5px;
+    margin: 0;
+    border-top: 1px black solid;
+    line-height: 30px;
+}
