@@ -1,11 +1,10 @@
 .cardContainer h3 {
     margin: -5px 0 0 0;
-    font-size: 11pt;
     font-weight: normal;
     padding: 5px;
     text-align: left;
     color: black;
-    display: none;
+    font-size: inherit;
 }
 
 .addedImagesForProduct {
@@ -23,6 +22,11 @@
     width: 125px;
     margin: 2px 2px 10px 4px;
     text-align: center;
+    border-radius: 8px;
+    border: 1px rgba(222, 219, 219, 0.42) solid;
+    box-shadow: 0 0 2px 1px rgba(234, 242, 248, 0.53);
+    background-color: rgba(234, 242, 248, 0.14);
+    font-size: 11px;
 }
 
 .cardContainer .imageContainer {
@@ -32,7 +36,6 @@
     margin: 0;
     width: 125px;
     height: 125px;
-    background-color: rgb(241, 241, 238);
     border-radius: 10px;
 }
 
@@ -53,26 +56,17 @@
 
 .cardContainer > .navLink > div > p {
     color: #000000;
-    font-size: 13px;
-    position: relative;
     margin: 0;
     height: 13px;
     background-color: #fffefe;
     z-index: 10;
-    top: -16px;
-    left: 0;
-    width: 70px;
-    border-left: 1px black solid;
-    border-top: 1px black solid;
-    border-top-left-radius: 12px;
     border-bottom-right-radius: 12px;
     padding: 1px;
-    font-weight: bold;
+    font-size: 11px;
 }
 
 .cardContainer > button {
     opacity: 70%;
-    font-size: 14pt;
     color: white;
     font-weight: bold;
     position: relative;

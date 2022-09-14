@@ -6,13 +6,13 @@
     width: 80vw;
     text-align: left;
     margin-left: 40px;
-    font-size: 18px;
+    font-size: 14px;
     border-bottom: 1px var(--defaultColor) solid;
     padding-bottom: 10pt;
 }
 
 .details h3 {
-    font-size: 23px;
+    font-size: 19px;
     margin: 0;
 }
 
@@ -24,6 +24,22 @@
     width: 70vw;
     height: 70vw;
     margin: auto;
+}
+
+.images3flex {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+}
+
+.images3flex .cardContainer {
+    width: 30vw;
+    height: 30vw;
+}
+
+.images3flex .cardContainer .imageContainer {
+    width: 30vw;
+    height: 30vw;
 }
 
 #svgStarContainer {

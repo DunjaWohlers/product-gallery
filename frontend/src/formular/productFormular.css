@@ -40,17 +40,4 @@
     box-shadow: 0 0 2px 2px #102d4c;
 }
 
-.images3flex {
-    display: flex;
-    width: 90vw;
-}
 
-.images3flex .cardContainer {
-    width: 30vw;
-    height: 30vw;
-}
-
-.images3flex .cardContainer .imageContainer {
-    width: 30vw;
-    height: 30vw;
-}

@@ -135,17 +135,16 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
-        {(pictureObjects && pictureObjects.length > 0) ? <>
-                {pictureObjects.map(picObj =>
-                    <div key={picObj.url} className={"cardContainer"}>
-                        <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
-                        <div className={"imageContainer"}>
-                            <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
-                        </div>
+        {(pictureObjects && pictureObjects.length > 0) && <>
+            {pictureObjects.map(picObj =>
+                <div key={picObj.url} className={"cardContainer"}>
+                    <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
+                    <div className={"imageContainer"}>
+                        <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
                     </div>
-                )}
-            </>
-            : <p> Es konnten keine Bilder geladen werden. </p>
+                </div>
+            )}
+        </>
         }
     </>)
 }
