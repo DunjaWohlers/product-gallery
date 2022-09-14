@@ -20,20 +20,24 @@ export default function ProductCard(props: ProductProps) {
     }
 
     return (
-        <div className={"cardContainer"}>
+        <div className={"productCard"}>
             {props.admin && <button onClick={handleDelete}> delete </button>}
-            <NavLink className="navLink"
-                     to={
-                         !props.admin
-                             ? "/product/" + props.product.id
-                             : "/product/edit/" + props.product.id}>
-                <p className={"imageContainer"}>
-                    <img src={props.product.pictureUrl}
-                         alt={"Bild mit dem Titel " + props.product.title + " konnte nicht geladen werden."}/>
-                </p>
-                <div><p>{props.product.price} &euro; </p></div>
-                <h3> {props.product.title}
-                </h3>
+            <NavLink className="navLink" to={
+                !props.admin
+                    ? "/product/" + props.product.id
+                    : "/product/edit/" + props.product.id}>
+                <div className={"cardContainer"}>
+                    <p className={"imageContainer"}>
+                        <img
+                            className={"imgZoom"}
+                            src={props.product.pictureUrl}
+                            alt={"Bild mit dem Titel " + props.product.title + " konnte nicht geladen werden."}/>
+                    </p>
+                </div>
+                <div className={"textField"}>
+                    <h3> {props.product.title}</h3>
+                    <div><p className={"price"}>{props.product.price} &euro; </p></div>
+                </div>
             </NavLink>
         </div>
     )

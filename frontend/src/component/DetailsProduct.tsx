@@ -48,33 +48,41 @@ export default function DetailsProduct(props: DetailsProductProps) {
                             </button>
                         }
                     </h3>
-
                     <div className={"cardContainer"}>
                         <div className={"imageContainer"}>
-                            <img src={thisProduct.pictureObj[0].url} alt={"Loading..."}/>
+                            <img className={"imgZoom"} src={thisProduct.pictureObj[0].url} alt={"Loading..."}/>
                         </div>
                     </div>
                     {thisProduct.pictureObj &&
                         <div className={"images3flex"}>
 
                             {thisProduct.pictureObj.length > 1 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild1" src={thisProduct.pictureObj[1].url}/>
+                                <div className={"productCard"}>
+                                    <div className={"cardContainer"}>
+                                        <div className={"imageContainer"}>
+                                            <img className={"imgViewComplete"} alt="bild1"
+                                                 src={thisProduct.pictureObj[1].url}/>
+                                        </div>
                                     </div>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 2 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild2" src={thisProduct.pictureObj[2].url}/>
+                                <div className={"productCard"}>
+                                    <div className={"cardContainer"}>
+                                        <div className={"imageContainer"}>
+                                            <img className={"imgViewComplete"} alt="bild2"
+                                                 src={thisProduct.pictureObj[2].url}/>
+                                        </div>
                                     </div>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 3 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild3" src={thisProduct.pictureObj[3].url}/>
+                                <div className={"productCard"}>
+                                    <div className={"cardContainer"}>
+                                        <div className={"imageContainer"}>
+                                            <img className={"imgViewComplete"} alt="bild3"
+                                                 src={thisProduct.pictureObj[3].url}/>
+                                        </div>
                                     </div>
                                 </div>
                             }

@@ -1,6 +1,7 @@
 import "./imageUpload.css"
 import {ChangeEvent, useState} from "react";
 import ImageCard from "../component/ImageCard";
+import "../component/imageCard.css";
 
 export default function ImageUpload() {
     const [fileInputs, setFileInputs] = useState<number>(1);
@@ -11,8 +12,8 @@ export default function ImageUpload() {
     }
 
     return (<>
+        <label> Neues Bild hinzufügen: </label>
         <div className={"fileUploadInput"}>
-            <label> Neues Bild hinzufügen: </label>
             {new Array(fileInputs).fill(null).map((_, index) =>
                 <div key={index}>
                     <input type={"file"} name={"file"} onChange={showImage}
@@ -21,7 +22,9 @@ export default function ImageUpload() {
                 </div>)
             }
         </div>
-        {picPreload.map(pic => <ImageCard url={URL.createObjectURL(pic)}/>)
-        }
+        <div className={"images3flex"}>
+            {picPreload.map(pic => <ImageCard url={URL.createObjectURL(pic)}/>)
+            }
+        </div>
     </>)
 }

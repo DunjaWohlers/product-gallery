@@ -6,9 +6,10 @@
     background-color: rgba(247, 216, 216, 0.6);
 }
 
-.form > label {
+.form label {
     font-family: arial, sans-serif;
     font-size: .75em;
+    margin-left: 30px;
 }
 
 .form > input[type="text"], .form > textarea {
@@ -40,4 +41,8 @@
     box-shadow: 0 0 2px 2px #102d4c;
 }
 
-
+.imgViewComplete {
+    box-shadow: 0 0 2px 1px rgba(30, 39, 47, 0.67);
+    max-width: 98%;
+    max-height: 98%;
+}

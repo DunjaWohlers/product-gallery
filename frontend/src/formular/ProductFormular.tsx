@@ -41,11 +41,11 @@ export default function ProductFormular(props: ProductFormProps) {
         return axios.post("/api/image/uploadFile", formData,
         ).then(data => data.data)
             .then(response => {
-                toast.info("Bild wurde gespeichert")
+                //toast.info("Bild wurde gespeichert")
                 return response;
             })
             .catch(() => {
-                    toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
+                //   toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
                     return [];
                 }
             );
@@ -135,12 +135,19 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
+
         {(pictureObjects && pictureObjects.length > 0) && <>
             {pictureObjects.map(picObj =>
-                <div key={picObj.url} className={"cardContainer"}>
-                    <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
-                    <div className={"imageContainer"}>
-                        <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
+                <div className={"productCard"}>
+                    <div key={picObj.url} className={"cardContainer"}>
+                        <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
+                        <div className={"imageContainer"}>
+                            <img
+                                className={"imgViewComplete"}
+                                alt={"Bild"}
+                                key={picObj.url}
+                                src={picObj.url}></img>
+                        </div>
                     </div>
                 </div>
             )}

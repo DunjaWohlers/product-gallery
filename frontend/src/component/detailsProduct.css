@@ -17,7 +17,8 @@
 }
 
 .details > .cardContainer {
-    width: 100vw;
+    display: inline-block;
+    width: 80vw;
 }
 
 .details > .cardContainer > .imageContainer {

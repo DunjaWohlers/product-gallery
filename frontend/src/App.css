@@ -7,10 +7,11 @@ header {
     height: 50px;
     display: grid;
     grid-template-columns: 50vw 30vw 10vw;
-    align-items: center;
+    align-items: flex-end;
     font-size: 23px;
     border-bottom: 1px black solid;
     margin-bottom: 15px;
+    padding-bottom: 5px;
 }
 
 header button:first-child {
@@ -57,6 +58,8 @@ footer {
     border: none;
     width: 25px;
     height: 25px;
+    margin-left: 15px;
+    margin-bottom: 5px;
 }
 
 .greenBg {
