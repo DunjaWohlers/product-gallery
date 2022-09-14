@@ -8,9 +8,7 @@ import java.util.List;
 public record SingleOrder(
         @Id
         String id,
-
         Instant date,
-
         String userName,
         List<OrderItem> orderItems
 ) {
