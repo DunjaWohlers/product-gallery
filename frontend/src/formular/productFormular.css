@@ -22,6 +22,7 @@
     border-radius: 5px;
     border: 0 var(--defaultColor) solid;
     padding: 5px;
+    min-height: 20px;
 }
 
 .form > textarea {
