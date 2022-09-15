@@ -1,10 +1,15 @@
 Zum Testen:
 
-### Admin:      
+### Admin:     
+
 username:  ***frank***
+
 password: ***Frank007***
+
 ### User: 
+
 username: ***horst***
+
 password: ***Horst007***
 
 [![GitHub commits](https://badgen.net/github/commits/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/commit/)
