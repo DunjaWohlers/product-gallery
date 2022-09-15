@@ -17,8 +17,8 @@
 }
 
 .details > .cardContainer {
-    display: inline-block;
     width: 80vw;
+    margin: 5px auto 15px auto;
 }
 
 .details > .cardContainer > .imageContainer {
@@ -41,21 +41,4 @@
 .images3flex .cardContainer .imageContainer {
     width: 30vw;
     height: 30vw;
-}
-
-#svgStarContainer {
-    padding: 0;
-    border-radius: 5pt;
-    display: block;
-    border: none;
-    width: 30px;
-    position: relative;
-    top: -33px;
-    left: 326px;
-    background-color: transparent;
-}
-
-#svgStarContainer svg {
-    opacity: 0.7;
-    filter: drop-shadow(1px 1px 1px grey) drop-shadow(3px 2px 2px grey);
 }

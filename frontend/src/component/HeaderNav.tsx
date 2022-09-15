@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import Secret from "../site/Secret";
 import React from "react";
+import "./headerNav.css";
 
 export default function HeaderNav(props: {
                                       authenticationChanged: () => void,

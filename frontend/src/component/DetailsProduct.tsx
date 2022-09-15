@@ -56,7 +56,6 @@ export default function DetailsProduct(props: DetailsProductProps) {
                     </div>
                     {thisProduct.pictureObj &&
                         <div className={"images3flex"}>
-
                             {thisProduct.pictureObj.length > 1 &&
                                 <div className={"productCard"}>
                                     <ImageCard url={thisProduct.pictureObj[1].url} isZoomed={false}/>

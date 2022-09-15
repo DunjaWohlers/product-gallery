@@ -40,9 +40,3 @@
     border: none;
     box-shadow: 0 0 2px 2px #102d4c;
 }
-
-.imgViewComplete {
-    box-shadow: 0 0 2px 1px rgba(30, 39, 47, 0.67);
-    max-width: 98%;
-    max-height: 98%;
-}

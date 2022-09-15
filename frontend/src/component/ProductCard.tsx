@@ -22,7 +22,11 @@ export default function ProductCard(props: ProductProps) {
 
     return (
         <div className={"productCard"}>
-            {props.admin && <button onClick={handleDelete}> delete </button>}
+            {props.admin &&
+                <div className={"nullHeightBoxForOverflow"}>
+                    <button onClick={handleDelete}> delete</button>
+                </div>
+            }
             <NavLink className="navLink" to={
                 !props.admin
                     ? "/product/" + props.product.id

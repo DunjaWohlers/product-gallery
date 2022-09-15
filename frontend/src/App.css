@@ -2,31 +2,6 @@
     text-decoration: none;
 }
 
-header {
-    color: black;
-    height: 50px;
-    display: grid;
-    grid-template-columns: 50vw 30vw 10vw;
-    align-items: flex-end;
-    font-size: 23px;
-    border-bottom: 1px black solid;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-}
-
-header button:first-child {
-    width: 50vw;
-}
-
-header button {
-    background-color: transparent;
-    border: none;
-    color: inherit;
-    font-size: inherit;
-    margin: 0;
-    opacity: 80%;
-}
-
 main {
     display: flex;
     flex-wrap: wrap;
@@ -50,22 +25,18 @@ footer {
     justify-content: center;
 }
 
-.starButton {
-    padding: 0;
-    border-radius: 5px;
-    filter: drop-shadow(1px 1px 1px grey) drop-shadow(2px 2px 2px grey);
-    display: block;
-    border: none;
-    width: 25px;
-    height: 25px;
-    margin-left: 15px;
-    margin-bottom: 5px;
-}
-
 .greenBg {
     background-color: #e3ffe3;
 }
 
 .redBg {
     background-color: #ffd5d5;
+}
+
+.nullHeightBoxForOverflow {
+    height: 0;
+}
+
+.boxShadow {
+    box-shadow: 0 0 2px 1px rgba(30, 39, 47, 0.67);
 }

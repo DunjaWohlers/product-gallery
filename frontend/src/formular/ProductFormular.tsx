@@ -136,11 +136,12 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
-
         {(pictureObjects && pictureObjects.length > 0) && <>
             {pictureObjects.map(picObj =>
                 <div key={picObj.url} className={"productCard"}>
-                    <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
+                    <div className={"nullHeightBoxForOverflow"}>
+                        <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
+                    </div>
                     <ImageCard url={picObj.url} isZoomed={false}/>
                 </div>
             )}
