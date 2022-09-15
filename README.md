@@ -1,9 +1,11 @@
 Zum Testen:
 
 ### Admin:      
-username:  ***frank***. password: ***Frank007***
+username:  ***frank***
+password: ***Frank007***
 ### User: 
-username: ***horst***. password: ***Horst007***
+username: ***horst***
+password: ***Horst007***
 
 [![GitHub commits](https://badgen.net/github/commits/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/commit/)
 [![GitHub issues](https://img.shields.io/github/issues/DunjaWohlers/product-gallery)](https://github.com/DunjaWohlers/product-gallery/issues/)
