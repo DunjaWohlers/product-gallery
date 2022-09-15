@@ -1,7 +1,7 @@
 import {OrderDetailsItem, OrderItem} from "./OrderItem";
 
 export type SingleOrderDetails = {
-    id: string,
+    id?: string,
     date?: Date,
     orderItems: OrderDetailsItem[]
 }

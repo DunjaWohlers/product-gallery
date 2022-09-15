@@ -1,4 +1,6 @@
 body {
+    font-family: Verdana, "Lucida Sans Unicode", sans-serif;
+
     margin: 0;
     --defaultColor: rgba(102, 109, 114, 0.98);
     --brown: rgba(136, 98, 38, 0.49);

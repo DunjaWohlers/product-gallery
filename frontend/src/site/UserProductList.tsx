@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import {OrderDetailsItem, OrderItem} from "../type/OrderItem";
 import {useEffect, useState} from "react";
 import "./userProductList.css";
+import OrderCard from "../component/OrderCard";
 
 type UserProductListProps = {
     userInfo: UserInfo | undefined,
@@ -72,88 +73,38 @@ export default function UserProductList(props: UserProductListProps) {
                 .then(() => {
                     props.setActualOrderDetailsItems([]);
                     setSavedOrders([]);
-                    setBookmarkAxios([]);
+                    setBookmarkAxios(ordered, []);
                     loadOrders();
                 })
                 .catch(() => toast.error("Bestellung fehlgeschlagen.")
                 );
         } else {
-            setBookmarkAxios(actualOrderList);
+            setBookmarkAxios(ordered, actualOrderList);
         }
     }
 
-    const setBookmarkAxios = (array: OrderItem[]) => {
+    const setBookmarkAxios = (ordered: boolean, array: OrderItem[]) => {
         axios.post("/api/users/bookmarks", array)
-            .then(() => toast.info("Erfolgreich gespeichert"))
+            .then(() => !ordered && toast.info("Erfolgreich gespeichert"))
             .catch(() => toast.error("Speichern fehlgeschlagen."))
     }
 
     return (
         <div id={"orderComponent"}>
-            <div className={"orderCard"}>
-                <h3>Merkliste:</h3>
-                <div>
-                    <p>Titel</p>
-                    <p>Bild</p>
-                    <p>Anzahl</p>
-                    <p>Preis</p>
-                </div>
-                {props.actualOrderDetailsItems?.concat(savedOrders).map(orderItem =>
-                    <div key={crypto.randomUUID()}>
-                        <p>
-                            {orderItem.product.title}
-                        </p>
-                        <p>
-                            <img src={orderItem.product.pictureObj[0].url} alt={"bild"}/>
-                        </p>
-                        <p>
-                            {orderItem.count}
-                        </p>
-                        <p>
-                            {orderItem.price}
-                        </p>
-                    </div>
-                )}
-            </div>
-            <button onClick={() => handleSave(false)}> speichern</button>
-            <button onClick={() => handleSave(true)}> bestellen</button>
+            <h2>Warenkorb:</h2>
+            <OrderCard order={{
+                id: undefined, date: undefined, orderItems:
+                    props.actualOrderDetailsItems?.concat(savedOrders) ?
+                        props.actualOrderDetailsItems?.concat(savedOrders)
+                        : []
+            }}/>
+            <button id="saveProducts" onClick={() => handleSave(false)}> speichern</button>
+            <button id={"saveOrder"} onClick={() => handleSave(true)}> bestellen</button>
 
             <div id={"oldOrders"}>
                 <h2>Alte Bestellungen:</h2>
                 {oldOrders?.map(order =>
-                    <div className={"orderCard"} key={order.id}>
-                        <h3>Bestellung vom
-                            {" " + order.date?.getDate()
-                            }.
-                            {" " + order.date?.getMonth()
-                            }.
-                            {" " + order.date?.getFullYear()
-                            }
-                        </h3>
-                        <p>id: {order.id}</p>
-                        <div>
-                            <p>Titel</p>
-                            <p>Bild</p>
-                            <p>Anzahl</p>
-                            <p>Preis</p>
-                        </div>
-                        {order.orderItems.map(product =>
-                            <div key={crypto.randomUUID()}>
-                                <p>
-                                    {product.product.title}
-                                </p>
-                                <p>
-                                    <img src={product.product.pictureObj[0].url} alt={"bild"}/>
-                                </p>
-                                <p>
-                                    {product.count}
-                                </p>
-                                <p>
-                                    {product.price}
-                                </p>
-                            </div>)
-                        }
-                    </div>
+                    <OrderCard order={order}/>
                 )}
             </div>
         </div>

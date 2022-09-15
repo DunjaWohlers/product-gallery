@@ -6,39 +6,29 @@
     width: 80vw;
     text-align: left;
     margin-left: 40px;
-    font-size: 18px;
+    font-size: 14px;
     border-bottom: 1px var(--defaultColor) solid;
     padding-bottom: 10pt;
 }
 
 .details h3 {
-    font-size: 23px;
+    font-size: 19px;
     margin: 0;
 }
 
 .details > .cardContainer {
-    width: 100vw;
+    width: 270px;
+    margin: 5px auto 15px auto;
 }
 
 .details > .cardContainer > .imageContainer {
-    width: 70vw;
-    height: 70vw;
+    width: inherit;
+    height: 270px;
     margin: auto;
 }
 
-#svgStarContainer {
-    padding: 0;
-    border-radius: 5pt;
-    display: block;
-    border: none;
-    width: 30px;
-    position: relative;
-    top: -33px;
-    left: 326px;
-    background-color: transparent;
-}
-
-#svgStarContainer svg {
-    opacity: 0.7;
-    filter: drop-shadow(1px 1px 1px grey) drop-shadow(3px 2px 2px grey);
+.images3flex {
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
 }

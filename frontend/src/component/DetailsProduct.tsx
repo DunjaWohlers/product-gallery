@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import {OrderDetailsItem} from "../type/OrderItem";
 import "./detailsProduct.css";
 import StarElement from "./StarElement";
+import ImageCard from "./ImageCard";
 
 type DetailsProductProps = {
     getOneProductPerId: (id: string) => Promise<Product>,
@@ -48,34 +49,22 @@ export default function DetailsProduct(props: DetailsProductProps) {
                             </button>
                         }
                     </h3>
-
-                    <div className={"cardContainer"}>
-                        <div className={"imageContainer"}>
-                            <img src={thisProduct.pictureObj[0].url} alt={"Loading..."}/>
-                        </div>
-                    </div>
+                    <ImageCard url={thisProduct.pictureObj[0].url} isZoomed={true}/>
                     {thisProduct.pictureObj &&
                         <div className={"images3flex"}>
-
                             {thisProduct.pictureObj.length > 1 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild1" src={thisProduct.pictureObj[1].url}/>
-                                    </div>
+                                <div className={"productCard"}>
+                                    <ImageCard url={thisProduct.pictureObj[1].url} isZoomed={false}/>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 2 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild2" src={thisProduct.pictureObj[2].url}/>
-                                    </div>
+                                <div className={"productCard"}>
+                                    <ImageCard url={thisProduct.pictureObj[2].url} isZoomed={false}/>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 3 &&
-                                <div className={"cardContainer"}>
-                                    <div className={"imageContainer"}>
-                                        <img alt="bild3" src={thisProduct.pictureObj[3].url}/>
-                                    </div>
+                                <div className={"productCard"}>
+                                    <ImageCard url={thisProduct.pictureObj[3].url} isZoomed={false}/>
                                 </div>
                             }
                         </div>

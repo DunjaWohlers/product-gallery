@@ -6,9 +6,10 @@
     background-color: rgba(247, 216, 216, 0.6);
 }
 
-.form > label {
+.form label {
     font-family: arial, sans-serif;
     font-size: .75em;
+    margin-left: 30px;
 }
 
 .form > input[type="text"], .form > textarea {
@@ -20,6 +21,8 @@
     margin: 0 auto 3px auto;
     border-radius: 5px;
     border: 0 var(--defaultColor) solid;
+    padding: 5px;
+    min-height: 20px;
 }
 
 .form > textarea {
@@ -38,19 +41,4 @@
     padding: 1px 5px 1px 5px;
     border: none;
     box-shadow: 0 0 2px 2px #102d4c;
-}
-
-.images3flex {
-    display: flex;
-    width: 90vw;
-}
-
-.images3flex .cardContainer {
-    width: 30vw;
-    height: 30vw;
-}
-
-.images3flex .cardContainer .imageContainer {
-    width: 30vw;
-    height: 30vw;
 }

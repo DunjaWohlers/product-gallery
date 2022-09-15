@@ -1,0 +1,24 @@
+header {
+    color: black;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 50vw 30vw 10vw;
+    align-items: flex-end;
+    font-size: 23px;
+    border-bottom: 1px black solid;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+header button:first-child {
+    width: 55vw;
+}
+
+header button {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+    opacity: 80%;
+}

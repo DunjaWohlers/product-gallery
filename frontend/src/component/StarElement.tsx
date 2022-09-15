@@ -1,4 +1,5 @@
 import React from "react";
+import "./starElement.css";
 
 type StartElementProps = {
     width: number,

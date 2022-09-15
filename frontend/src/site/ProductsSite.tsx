@@ -29,7 +29,7 @@ export default function ProductsSite(props: ProductsSiteProps) {
                 />
             )}
             {admin &&
-                <NavLink to={"/product/new"} className={"addNav cardContainer"}> + </NavLink>
+                <NavLink to={"/product/new"} className={"addNav productCard"}> + </NavLink>
             }
         </>
     )

@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
 import axios from "axios";
+import ImageCard from "../component/ImageCard";
 
 type ProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -41,11 +42,11 @@ export default function ProductFormular(props: ProductFormProps) {
         return axios.post("/api/image/uploadFile", formData,
         ).then(data => data.data)
             .then(response => {
-                toast.info("Bild wurde gespeichert")
+                //toast.info("Bild wurde gespeichert")
                 return response;
             })
             .catch(() => {
-                    toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
+                //   toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
                     return [];
                 }
             );
@@ -89,7 +90,7 @@ export default function ProductFormular(props: ProductFormProps) {
 
     const deleteSinglePictureFromProduct = (picObjToDelete: PicObj) => {
         if (pictureObjects && pictureObjects.length > 1) {
-            axios.delete("/api/product/" + id + "/" + picObjToDelete.publicId)
+            axios.delete("/api/products/" + id + "/" + picObjToDelete.publicId)
                 .catch(() => toast.error("Bild löschen fehlgeschlagen."))
                 .then(() => navigate("/product/edit/" + id));
         } else {
@@ -135,17 +136,16 @@ export default function ProductFormular(props: ProductFormProps) {
             <button type={"submit"}> save
             </button>
         </form>
-        {(pictureObjects && pictureObjects.length > 0) ? <>
-                {pictureObjects.map(picObj =>
-                    <div key={picObj.url} className={"cardContainer"}>
+        {(pictureObjects && pictureObjects.length > 0) && <>
+            {pictureObjects.map(picObj =>
+                <div key={picObj.url} className={"productCard"}>
+                    <div className={"nullHeightBoxForOverflow"}>
                         <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
-                        <div className={"imageContainer"}>
-                            <img alt={"Bild"} key={picObj.url} src={picObj.url}></img>
-                        </div>
                     </div>
-                )}
-            </>
-            : <p> Es konnten keine Bilder geladen werden. </p>
+                    <ImageCard url={picObj.url} isZoomed={false}/>
+                </div>
+            )}
+        </>
         }
     </>)
 }

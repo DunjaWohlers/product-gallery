@@ -1,0 +1,30 @@
+.cardContainer {
+    width: 125px;
+    text-align: center;
+    background-color: rgba(234, 242, 248, 0.14);
+    border-radius: 10px;
+    z-index: 12;
+}
+
+.cardContainer .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 125px;
+    height: 125px;
+    background-color: rgba(241, 241, 238, 0.66);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.imgZoom {
+    max-width: 180%;
+    max-height: 180%;
+}
+
+.imgViewComplete {
+    box-shadow: 0 0 2px 1px rgba(30, 39, 47, 0.67);
+    max-width: 99%;
+    max-height: 98%;
+}
