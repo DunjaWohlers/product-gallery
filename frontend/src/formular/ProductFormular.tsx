@@ -90,7 +90,7 @@ export default function ProductFormular(props: ProductFormProps) {
 
     const deleteSinglePictureFromProduct = (picObjToDelete: PicObj) => {
         if (pictureObjects && pictureObjects.length > 1) {
-            axios.delete("/api/product/" + id + "/" + picObjToDelete.publicId)
+            axios.delete("/api/products/" + id + "/" + picObjToDelete.publicId)
                 .catch(() => toast.error("Bild löschen fehlgeschlagen."))
                 .then(() => navigate("/product/edit/" + id));
         } else {
