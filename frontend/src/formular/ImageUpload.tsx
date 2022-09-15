@@ -23,7 +23,12 @@ export default function ImageUpload() {
             }
         </div>
         <div className={"images3flex"}>
-            {picPreload.map(pic => <ImageCard url={URL.createObjectURL(pic)}/>)
+            {
+                picPreload.map(pic => <ImageCard
+                    key={pic.name}
+                    isZoomed={false}
+                    url={URL.createObjectURL(pic)
+                    }/>)
             }
         </div>
     </>)

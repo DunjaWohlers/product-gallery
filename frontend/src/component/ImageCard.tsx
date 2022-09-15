@@ -1,13 +1,16 @@
 import React from "react";
 
 type ImageCardProps = {
-    url: string;
+    url: string,
+    isZoomed: boolean,
 }
+
 export default function ImageCard(props: ImageCardProps) {
+    const className = props.isZoomed ? "imgZoom" : "imgViewComplete";
     return (
-        <div className={"cardContainerX"}>
-            <p className={"imageContainerX"}>
-                <img className={"imgViewComplete"} src={props.url}
+        <div className={"cardContainer"}>
+            <p className={"imageContainer"}>
+                <img className={className} src={props.url}
                      alt={"img"}/>
             </p>
         </div>

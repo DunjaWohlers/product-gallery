@@ -4,6 +4,7 @@ import {NavLink} from "react-router-dom";
 import "./productCard.css";
 import {ProductReducedInfo} from "../type/ProductReducedInfo";
 import {toast} from "react-toastify";
+import ImageCard from "./ImageCard";
 
 type ProductProps = {
     product: ProductReducedInfo,
@@ -26,14 +27,7 @@ export default function ProductCard(props: ProductProps) {
                 !props.admin
                     ? "/product/" + props.product.id
                     : "/product/edit/" + props.product.id}>
-                <div className={"cardContainer"}>
-                    <p className={"imageContainer"}>
-                        <img
-                            className={"imgZoom"}
-                            src={props.product.pictureUrl}
-                            alt={"Bild mit dem Titel " + props.product.title + " konnte nicht geladen werden."}/>
-                    </p>
-                </div>
+                <ImageCard url={props.product.pictureUrl} isZoomed={true}/>
                 <div className={"textField"}>
                     <h3> {props.product.title}</h3>
                     <div><p className={"price"}>{props.product.price} &euro; </p></div>

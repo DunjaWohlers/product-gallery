@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
 import axios from "axios";
+import ImageCard from "../component/ImageCard";
 
 type ProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -138,17 +139,9 @@ export default function ProductFormular(props: ProductFormProps) {
 
         {(pictureObjects && pictureObjects.length > 0) && <>
             {pictureObjects.map(picObj =>
-                <div className={"productCard"}>
-                    <div key={picObj.url} className={"cardContainer"}>
-                        <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
-                        <div className={"imageContainer"}>
-                            <img
-                                className={"imgViewComplete"}
-                                alt={"Bild"}
-                                key={picObj.url}
-                                src={picObj.url}></img>
-                        </div>
-                    </div>
+                <div key={picObj.url} className={"productCard"}>
+                    <button onClick={() => deleteSinglePictureFromProduct(picObj)}> delete</button>
+                    <ImageCard url={picObj.url} isZoomed={false}/>
                 </div>
             )}
         </>

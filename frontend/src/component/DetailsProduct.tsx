@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import {OrderDetailsItem} from "../type/OrderItem";
 import "./detailsProduct.css";
 import StarElement from "./StarElement";
+import ImageCard from "./ImageCard";
 
 type DetailsProductProps = {
     getOneProductPerId: (id: string) => Promise<Product>,
@@ -58,32 +59,17 @@ export default function DetailsProduct(props: DetailsProductProps) {
 
                             {thisProduct.pictureObj.length > 1 &&
                                 <div className={"productCard"}>
-                                    <div className={"cardContainer"}>
-                                        <div className={"imageContainer"}>
-                                            <img className={"imgViewComplete"} alt="bild1"
-                                                 src={thisProduct.pictureObj[1].url}/>
-                                        </div>
-                                    </div>
+                                    <ImageCard url={thisProduct.pictureObj[1].url} isZoomed={false}/>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 2 &&
                                 <div className={"productCard"}>
-                                    <div className={"cardContainer"}>
-                                        <div className={"imageContainer"}>
-                                            <img className={"imgViewComplete"} alt="bild2"
-                                                 src={thisProduct.pictureObj[2].url}/>
-                                        </div>
-                                    </div>
+                                    <ImageCard url={thisProduct.pictureObj[2].url} isZoomed={false}/>
                                 </div>
                             }
                             {thisProduct.pictureObj.length > 3 &&
                                 <div className={"productCard"}>
-                                    <div className={"cardContainer"}>
-                                        <div className={"imageContainer"}>
-                                            <img className={"imgViewComplete"} alt="bild3"
-                                                 src={thisProduct.pictureObj[3].url}/>
-                                        </div>
-                                    </div>
+                                    <ImageCard url={thisProduct.pictureObj[3].url} isZoomed={false}/>
                                 </div>
                             }
                         </div>
