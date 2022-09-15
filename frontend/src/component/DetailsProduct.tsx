@@ -49,11 +49,7 @@ export default function DetailsProduct(props: DetailsProductProps) {
                             </button>
                         }
                     </h3>
-                    <div className={"cardContainer"}>
-                        <div className={"imageContainer"}>
-                            <img className={"imgZoom"} src={thisProduct.pictureObj[0].url} alt={"Loading..."}/>
-                        </div>
-                    </div>
+                    <ImageCard url={thisProduct.pictureObj[0].url} isZoomed={true}/>
                     {thisProduct.pictureObj &&
                         <div className={"images3flex"}>
                             {thisProduct.pictureObj.length > 1 &&

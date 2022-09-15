@@ -18,13 +18,14 @@
 }
 
 .textField h3 {
+    font-family: Helvetica, sans-serif;
     margin: -5px 0 0 0;
-    font-weight: normal;
     padding: 5px;
     text-align: left;
     color: black;
-    font-size: inherit;
+    font-size: 11px;
     max-width: 80px;
+    font-weight: bold;
 }
 
 .productCard .price {

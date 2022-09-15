@@ -17,28 +17,18 @@
 }
 
 .details > .cardContainer {
-    width: 80vw;
+    width: 270px;
     margin: 5px auto 15px auto;
 }
 
 .details > .cardContainer > .imageContainer {
-    width: 70vw;
-    height: 70vw;
+    width: inherit;
+    height: 270px;
     margin: auto;
 }
 
 .images3flex {
     display: flex;
     width: 100vw;
-    justify-content: center;
-}
-
-.images3flex .cardContainer {
-    width: 30vw;
-    height: 30vw;
-}
-
-.images3flex .cardContainer .imageContainer {
-    width: 30vw;
-    height: 30vw;
+    justify-content: space-around;
 }

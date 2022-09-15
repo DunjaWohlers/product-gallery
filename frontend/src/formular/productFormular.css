@@ -21,6 +21,7 @@
     margin: 0 auto 3px auto;
     border-radius: 5px;
     border: 0 var(--defaultColor) solid;
+    padding: 5px;
 }
 
 .form > textarea {
