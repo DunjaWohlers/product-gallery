@@ -99,7 +99,7 @@ export default function Login(
                     ? <button type="submit" disabled={!userNameMin4Letters() || !isValid()}>
                         Login
                     </button>
-                    : <button type="submit">
+                    : <button type="submit" disabled={!userNameMin4Letters() || !pwIsOkay()}>
                         Register
                     </button>
                 }

@@ -8,7 +8,7 @@ export default function ImageUpload() {
     const [imagePreload, setPicPreload] = useState<File[]>([]);
 
     const showImage = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) setPicPreload(imagePreload.concat(event.target.files[0]))
+        if (event.target.files && event.target.files[0]) setPicPreload(imagePreload.concat(event.target.files[0]))
     }
 
     return (<>
