@@ -6,6 +6,12 @@
     margin: 0 auto 8px auto;
 }
 
+@media screen and (min-width: 600px) {
+    .fileUploadInput {
+        width: 510px;
+    }
+}
+
 .fileUploadInput > div {
     height: 30px;
     padding: 0;
@@ -18,6 +24,7 @@
     font-size: 15px;
     user-select: none;
     cursor: pointer;
+    line-height: 30px;
 }
 
 .fileUploadInput input[type="file"]::-webkit-file-upload-button {
@@ -27,12 +34,10 @@
 }
 
 .fileUploadInput button {
-    position: relative;
-    top: 2px;
-    left: 48px;
+    float: right;
     border: none;
     user-select: none;
     background-color: inherit;
     font-size: 30px;
-    line-height: 20px;
+    line-height: 25px;
 }
