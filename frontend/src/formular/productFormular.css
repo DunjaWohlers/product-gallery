@@ -9,7 +9,7 @@
 .form label {
     font-family: arial, sans-serif;
     font-size: .75em;
-    margin-left: 30px;
+    margin-left: 5vw;
 }
 
 .form > input[type="text"], .form > textarea {
@@ -25,11 +25,14 @@
     min-height: 20px;
 }
 
-.form > textarea {
+.form textarea {
     height: 100px;
+    min-height: 100px;
 }
 
 .form > button {
+    position: relative;
+    right: 10px;
     display: block;
     margin: 15px 15px 15px auto;
     width: 60px;
@@ -41,4 +44,18 @@
     padding: 1px 5px 1px 5px;
     border: none;
     box-shadow: 0 0 2px 2px #102d4c;
+}
+
+@media screen and (min-width: 600px) {
+    .form label {
+        margin-left: calc(50vw - 250px);
+    }
+
+    .form > input[type="text"], .form > textarea {
+        width: 500px;
+    }
+
+    .form > button {
+        right: calc(50vw - 270px);
+    }
 }
