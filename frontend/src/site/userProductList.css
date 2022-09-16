@@ -28,3 +28,13 @@
     display: block;
     width: 90vw;
 }
+
+@media screen and (min-width: 600px) {
+    #oldOrders {
+        width: 500px;
+    }
+
+    #saveOrder {
+        left: 310px;
+    }
+}

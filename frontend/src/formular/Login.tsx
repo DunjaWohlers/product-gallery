@@ -32,19 +32,19 @@ export default function Login(
         setPassword(e.target.value)
     }
 
-    const pwHasLowerLetter = () => {
-        return !!password.match("(?=.*[a-z])");
+    const hasLowerLetter = () => {
+        return Boolean(password.match("(?=.*[a-z])"));
     }
 
-    const pwHasCapital = () => {
-        return !!password.match("(?=.*[A-Z])");
+    const hasCapital = () => {
+        return Boolean(password.match("(?=.*[A-Z])"));
     }
 
-    const pwContainsNumber = () => {
-        return !!password.match("(?=.*\\d)");
+    const containsNumber = () => {
+        return Boolean(password.match("(?=.*\\d)"));
     }
 
-    const pwHasMin8Letters = () => {
+    const hasMin8Letters = () => {
         return password.length > 7;
     }
 
@@ -52,8 +52,8 @@ export default function Login(
         return username.length > 3;
     }
 
-    const pwIsOkay = () => {
-        return password && pwHasLowerLetter() && pwHasCapital() && pwContainsNumber() && pwHasMin8Letters();
+    const isValid = () => {
+        return password && hasLowerLetter() && hasCapital() && containsNumber() && hasMin8Letters();
     }
 
     return (
@@ -92,11 +92,11 @@ export default function Login(
                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                            required
-                           className={pwIsOkay() ? "greenBg" : "redBg"}
+                           className={isValid() ? "greenBg" : "redBg"}
                     />
                 </div>
                 {(allNames?.find(name => name === username))
-                    ? <button type="submit" disabled={!userNameMin4Letters() || !pwIsOkay()}>
+                    ? <button type="submit" disabled={!userNameMin4Letters() || !isValid()}>
                         Login
                     </button>
                     : <button type="submit" disabled={!userNameMin4Letters() || !pwIsOkay()}>
@@ -104,20 +104,20 @@ export default function Login(
                     </button>
                 }
                 <div id="message">
-                    {!pwIsOkay() && <h3> Es fehlen noch: </h3>}
-                    {!pwHasLowerLetter() &&
+                    {!isValid() && <h3> Es fehlen noch: </h3>}
+                    {!hasLowerLetter() &&
                         <p id="letter" className="invalid">
                             Ein <b>Kleinbuchstabe</b></p>
                     }
-                    {!pwHasCapital() &&
+                    {!hasCapital() &&
                         <p id="capital" className="invalid">
                             Ein <b>Großbuchstabe</b></p>
                     }
-                    {!pwContainsNumber() &&
+                    {!containsNumber() &&
                         <p id="number" className="invalid">
                             Eine <b>Zahl</b></p>
                     }
-                    {!pwHasMin8Letters() && <p id="length" className="invalid">
+                    {!hasMin8Letters() && <p id="length" className="invalid">
                         Mindestens <b>8 Buchstaben</b> Länge</p>
                     }
                 </div>

@@ -28,9 +28,10 @@ export default function ProductCard(props: ProductProps) {
                 </div>
             }
             <NavLink className="navLink" to={
-                !props.admin
-                    ? "/product/" + props.product.id
-                    : "/product/edit/" + props.product.id}>
+                props.admin
+                    ? "/product/edit/" + props.product.id
+                    : "/product/" + props.product.id
+            }>
                 <ImageCard url={props.product.pictureUrl} isZoomed={true}/>
                 <div className={"textField"}>
                     <h3> {props.product.title}</h3>

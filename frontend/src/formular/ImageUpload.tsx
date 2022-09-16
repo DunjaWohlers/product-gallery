@@ -5,10 +5,10 @@ import "../component/imageCard.css";
 
 export default function ImageUpload() {
     const [fileInputs, setFileInputs] = useState<number>(1);
-    const [picPreload, setPicPreload] = useState<File[]>([]);
+    const [imagePreload, setPicPreload] = useState<File[]>([]);
 
     const showImage = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) setPicPreload(picPreload.concat(event.target.files[0]))
+        if (event.target.files && event.target.files[0]) setPicPreload(imagePreload.concat(event.target.files[0]))
     }
 
     return (<>
@@ -24,7 +24,7 @@ export default function ImageUpload() {
         </div>
         <div className={"images3flex"}>
             {
-                picPreload.map(pic => <ImageCard
+                imagePreload.map(pic => <ImageCard
                     key={pic.name}
                     isZoomed={false}
                     url={URL.createObjectURL(pic)

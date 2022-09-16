@@ -8,8 +8,14 @@
     width: 30px;
     position: relative;
     top: -33px;
-    left: 326px;
+    left: calc(50vw + 90px);
     background-color: transparent;
+}
+
+@media screen and (min-width: 600px) {
+    #svgStarContainer {
+        left: calc(80vw)
+    }
 }
 
 #svgStarContainer svg {

@@ -7,6 +7,9 @@ import ImageUpload from "./ImageUpload";
 import {PicObj} from "../type/PicObj";
 import axios from "axios";
 import ImageCard from "../component/ImageCard";
+import InputStringElement from "./inputFormFields/InputStringElement";
+import InputNumberElement from "./inputFormFields/InputNumberElement";
+import TextAreaElement from "./inputFormFields/TextAreaElement";
 
 type ProductFormProps = {
     addProduct: (newProduct: NewProduct) => Promise<Product | void>
@@ -37,16 +40,15 @@ export default function ProductFormular(props: ProductFormProps) {
     const [price, setPrice] = useState<number>();
     const [availableCount, setAvailable] = useState<number>();
 
-    const uploadImages = (htmlForm: HTMLFormElement) => {
-        const formData = new FormData(htmlForm);
+    const uploadImages = (formData: FormData) => {
         return axios.post("/api/image/uploadFile", formData,
         ).then(data => data.data)
             .then(response => {
-                //toast.info("Bild wurde gespeichert")
+                !id && toast.info("Bild wurde gespeichert")
                 return response;
             })
             .catch(() => {
-                //   toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
+                    toast.warn("Bild konnte nicht auf die Cloud geladen werden.");
                     return [];
                 }
             );
@@ -61,25 +63,28 @@ export default function ProductFormular(props: ProductFormProps) {
             && title.length > 0
             && description.length > 0
         ) {
-            let imagesObjList = await uploadImages(event.target as HTMLFormElement);
+
+            const htmlFormElement = event.target as HTMLFormElement;
+            const formData = new FormData(htmlFormElement);
+            const file: FormDataEntryValue | null = formData.get("file") as File;
+
+            let imagesObjList = file.name.length > 0 && await uploadImages(formData);
             imagesObjList = imagesObjList.concat(pictureObjects);
             const newProduct = {
                 title, description,
                 pictureObj: imagesObjList,
                 price, availableCount
             }
-            if (imagesObjList && imagesObjList.length > 0) {
-                if (id) {
-                    props.updateProduct(id, newProduct)
-                        .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
-                        .catch(() => toast.error("Update fehlgeschlagen"))
-                        .then(() => navigate("/"))
-                } else {
-                    props.addProduct(newProduct)
-                        .then(() => toast.success("Produkt wurde gespeichert!"))
-                        .catch(() => toast.error("Produkt konnte nicht gespeichert werden!"))
-                        .then(() => navigate("/"));
-                }
+            if (id) {
+                props.updateProduct(id, newProduct)
+                    .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
+                    .catch(() => toast.error("Update fehlgeschlagen"))
+                    .then(() => navigate("/"))
+            } else if (imagesObjList && imagesObjList.length > 0) {
+                props.addProduct(newProduct)
+                    .then(() => toast.success("Produkt wurde gespeichert!"))
+                    .catch(() => toast.error("Produkt konnte nicht gespeichert werden!"))
+                    .then(() => navigate("/"));
             } else {
                 toast.info("Es muss mindestens ein Bild zum Produkt hinzugefügt werden.")
             }
@@ -99,41 +104,26 @@ export default function ProductFormular(props: ProductFormProps) {
     }
 
     return (<>
-        <form className={"form"} onSubmit={handleSubmit}>
-            <label> Titel: </label>
-            <input type="text"
-                   autoComplete={"off"}
-                   placeholder={"Titel"}
-                   defaultValue={title}
-                   name={"title"}
-                   onChange={(event) => setTitle(event.target.value)}
-                   className={title ? "good" : "bad"}/>
-            <label> Beschreibung: </label>
-            <textarea placeholder={"Beschreibung"}
-                      autoComplete={"off"}
-                      defaultValue={description}
-                      name={"description"}
-                      onChange={(event) => setDescription(event.target.value)}
-                      className={description ? "good" : "bad"}>
-            </textarea>
-            <label> Preis: </label>
-            <input type="text"
-                   autoComplete={"off"}
-                   placeholder={"Preis"}
-                   defaultValue={price}
-                   name={"price"}
-                   onChange={(event) => setPrice(parseInt(event.target.value))}
-                   className={price ? "good" : "bad"}/>
-            <label> Anzahl vorrätig: </label>
-            <input type="text"
-                   autoComplete={"off"}
-                   placeholder={"Anzahl verfügbar"}
-                   defaultValue={availableCount}
-                   name={"available"}
-                   onChange={(event) => setAvailable(parseInt(event.target.value))}
-                   className={availableCount ? "good" : "bad"}/>
+        <form className={"form"}
+              onSubmit={handleSubmit}>
+            <InputStringElement placeholder="Titel"
+                                onChangeSetFunction={setTitle}
+                                value={title}
+            />
+            <TextAreaElement placeholder={"Beschreibung"}
+                             onChangeSetFunction={setDescription}
+                             value={description}
+            />
+            <InputNumberElement placeholder="Preis"
+                                onChangeSetFunction={setPrice}
+                                value={price}
+            />
+            <InputNumberElement placeholder="Anzahl verfügbar"
+                                onChangeSetFunction={setAvailable}
+                                value={availableCount}
+            />
             <ImageUpload/>
-            <button type={"submit"}> save
+            <button className={"opacity"} type={"submit"}> save
             </button>
         </form>
         {(pictureObjects && pictureObjects.length > 0) && <>
