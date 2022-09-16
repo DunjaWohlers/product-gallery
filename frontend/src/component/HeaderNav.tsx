@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import Secret from "../site/Secret";
+import Secret from "../formular/Secret";
 import React from "react";
 import "./headerNav.css";
 

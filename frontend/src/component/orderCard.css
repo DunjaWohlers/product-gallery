@@ -57,3 +57,9 @@
     margin: 13px 0 0 5px;
     line-height: 12px;
 }
+
+@media screen and (min-width: 600px) {
+    .orderLine, .orderHead {
+        width: 500px;
+    }
+}
