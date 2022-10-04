@@ -5,7 +5,7 @@ ADD frontend /frontend
 RUN cd /frontend && npm install &&  npm run build
 
 
-FROM openjdk:18 as backend-builder
+FROM maven:3-openjdk-18 as backend-builder
 
 ADD backend /backend
 
