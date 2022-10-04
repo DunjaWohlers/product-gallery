@@ -16,7 +16,7 @@ RUN cd /backend && mvn -B package
 
 FROM openjdk:18
 
-ENV ENVIRONMENT=prod
+ENV SPRING_PROFILES_ACTIVE=prod
 
 LABEL maintainer="dunjawohlers@gmx.de"
 
