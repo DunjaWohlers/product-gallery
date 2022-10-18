@@ -9,10 +9,6 @@ public record NewProduct(
         @NotNull
         String description,
         @NotNull
-        List<ImageInfo> pictureObj,
-        @NotNull
-        Integer price,
-        @NotNull
-        Integer availableCount
+        List<ImageInfo> pictureObj
 ) {
 }
