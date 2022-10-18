@@ -1,36 +1,22 @@
 import ProductCard from "../component/ProductCard";
 import React from "react";
-import {NewProduct, Product} from "../type/Product";
-import {NavLink} from "react-router-dom";
 import "./productSite.css";
-import {ProductReducedInfo} from "../type/ProductReducedInfo";
-import {UserInfo} from "../type/UserInfo";
+import {Product} from "../type/Product";
 
 type ProductsSiteProps = {
-    allProducts: ProductReducedInfo[] | undefined,
-    addProduct: (newProduct: NewProduct) => Promise<Product | void>,
-    deleteProduct: (id: string) => Promise<void>,
-    updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
-    userInfo: UserInfo | undefined,
+    allProducts: Product[] | undefined,
 }
 
 export default function ProductsSite(props: ProductsSiteProps) {
 
-    const admin: boolean | undefined = props.userInfo?.authorities.includes("ADMIN")
 
     return (<>
             {!props.allProducts && <div> Lade Produkt-Liste... </div>}
             {props.allProducts && props.allProducts.map(product =>
                 <ProductCard product={product}
-                             deleteProduct={props.deleteProduct}
-                             admin={admin}
-                             updateProduct={props.updateProduct}
                              key={product.id}
                 />
             )}
-            {admin &&
-                <NavLink to={"/product/new"} className={"addNav productCard"}> + </NavLink>
-            }
         </>
     )
 }
