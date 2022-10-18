@@ -5,7 +5,6 @@ import de.neuefische.cgnjava222.productgallery.ProductRepo;
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,25 +17,22 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     Product product1 = new Product("1", "Biber", "knuffig, flauschig",
-            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")));
     Product product2 = new Product("2", "Pferd", "braun, holzig",
-            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")));
     Product product3 = new Product("3", "Brett", "Frühstücksbrett, Schneidebrett",
-            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")));
     NewProduct newProduct3 = new NewProduct("Brett", "Frühstücksbrett, Schneidebrett",
-            List.of(new ImageInfo("http://google.de", "publicID2")), 4, 5);
+            List.of(new ImageInfo("http://google.de", "publicID2")));
 
     @Test
     void getProducts() {
-        List<Product> productsFromRepo = List.of(product1, product2, product3);
+        List<Product> expectedProducts = List.of(product1, product2, product3);
         ProductRepo productRepo = mock(ProductRepo.class);
-        when(productRepo.findAll()).thenReturn(productsFromRepo);
+        when(productRepo.findAll()).thenReturn(expectedProducts);
 
-        List<ProductReducedInfo> expectedProducts = productsFromRepo.stream()
-                .map(element -> new ProductReducedInfo(element.id(), element.title(), element.pictureObj().get(0).url(), element.price()))
-                .toList();
         ProductService productService = new ProductService(productRepo, new FileService(new Cloudinary()));
-        List<ProductReducedInfo> actualProducts = productService.getAllProducts();
+        List<Product> actualProducts = productService.getAllProducts();
 
         assertThat(actualProducts).hasSameElementsAs(expectedProducts);
     }

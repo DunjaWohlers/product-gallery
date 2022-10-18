@@ -67,7 +67,9 @@ class ProductIntegrationTest {
     @Test
     @WithAnonymousUser
     void getProductPerId() throws Exception {
-        NewProduct newProduct = new NewProduct("ABC", "def", List.of(new ImageInfo("asd", "asd")), 4, 5);
+        NewProduct newProduct = new NewProduct("ABC", "def",
+
+                List.of(new ImageInfo("asd", "asd")));
         String id = UUID.randomUUID().toString();
         Product product = Product.ProductFactory.create(id, newProduct);
         productRepo.save(product);
@@ -113,9 +115,7 @@ class ProductIntegrationTest {
                                                            "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
                                                            "publicId": "equaeqbgdxv9mkfczq1i"
                                                         }
-                                                    ],
-                                                    "price": 5,
-                                                    "availableCount": 4
+                                                    ]
                                                 }
                                         """)
                                 .with(csrf())
@@ -130,9 +130,7 @@ class ProductIntegrationTest {
                                          "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
                                          "publicId": "equaeqbgdxv9mkfczq1i"
                                          }
-                                      ],
-                                      "price": 5,
-                                      "availableCount": 4
+                                      ]
                                  }
                         """));
     }
@@ -236,7 +234,8 @@ class ProductIntegrationTest {
                 """).with(csrf())).andExpect(status().is(201)).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
 
-        NewProduct newProduct = new NewProduct("Product1", "1a Qualität", List.of(new ImageInfo("http://www.bla.de", "PublicID7")), 5, 6);
+        NewProduct newProduct = new NewProduct("Product1", "1a Qualität",
+                List.of(new ImageInfo("http://www.bla.de", "PublicID7")));
         Product expectedProduct = Product.ProductFactory.create(saveResultProduct.id(), newProduct);
         String updateResponse = mockMvc.perform(
                         put("/api/products/" + saveResultProduct.id())
@@ -301,7 +300,7 @@ class ProductIntegrationTest {
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromProductWithIdNotfound() throws Exception {
         String saveResultId = "BB";
-        Map fileUploadReturn = Map.of("url", "bla", "publicId", "X");
+        Map<String, Object> fileUploadReturn = Map.of("url", "bla", "publicId", "X");
         mockMvc.perform(
                         delete("/api/products/" + saveResultId + "/" + fileUploadReturn.get("publicId")
                         ).with(csrf()
@@ -326,7 +325,8 @@ class ProductIntegrationTest {
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromExistingProductWithFileNotFoundException() throws Exception {
-        NewProduct newProduct = new NewProduct("ABC", "def", List.of(new ImageInfo("asd", "asd")), 4, 5);
+        NewProduct newProduct = new NewProduct("ABC", "def",
+                List.of(new ImageInfo("asd", "asd")));
         String id = UUID.randomUUID().toString();
         Product product = Product.ProductFactory.create(id, newProduct);
         productRepo.save(product);

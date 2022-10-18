@@ -5,7 +5,6 @@ import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundExceptio
 import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import de.neuefische.cgnjava222.productgallery.model.ProductReducedInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,8 @@ public class ProductService {
     private final ProductRepo productRepo;
     private final FileService fileService;
 
-    public List<ProductReducedInfo> getAllProducts() {
-        return productRepo.findAll().stream().map(product -> new ProductReducedInfo(product.id(), product.title(), product.pictureObj().get(0).url(), product.price())).toList();
+    public List<Product> getAllProducts() {
+        return productRepo.findAll();
     }
 
     public Optional<Product> getDetailsOf(String id) {
@@ -54,9 +53,7 @@ public class ProductService {
                 product.id(),
                 product.title(),
                 product.description(),
-                newPicObjects,
-                product.price(),
-                product.availableCount()
+                newPicObjects
         );
         fileService.deletePictures(List.of(picturePublicId));
         productRepo.save(actualProduct);

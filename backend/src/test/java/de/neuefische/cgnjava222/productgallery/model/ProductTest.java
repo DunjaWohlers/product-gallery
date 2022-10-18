@@ -11,7 +11,7 @@ class ProductTest {
     @Test
     void nonCanonicalArgsConstructorCreatesID() {
         NewProduct newProduct = new NewProduct("Biber", "knuffig, flauschig",
-                List.of(new ImageInfo("http://google.de", "publicID7")), 4, 5);
+                List.of(new ImageInfo("http://google.de", "publicID7")));
         Product product = Product.ProductFactory.create(newProduct);
         String productID = product.id();
         Integer expected = 36;

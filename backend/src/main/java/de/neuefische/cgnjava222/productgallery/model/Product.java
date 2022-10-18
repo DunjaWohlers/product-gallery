@@ -15,11 +15,7 @@ public record Product(
         @NotNull
         String description,
         @NotNull
-        List<ImageInfo> pictureObj,
-        @NotNull
-        Integer price,
-        @NotNull
-        Integer availableCount
+        List<ImageInfo> pictureObj
 ) {
     public static class ProductFactory {
         private ProductFactory() {
@@ -30,9 +26,8 @@ public record Product(
                     UUID.randomUUID().toString(),
                     product.title(),
                     product.description(),
-                    product.pictureObj(),
-                    product.price(),
-                    product.availableCount());
+                    product.pictureObj()
+            );
         }
 
         public static Product create(String id, NewProduct product) {
@@ -40,9 +35,8 @@ public record Product(
                     id,
                     product.title(),
                     product.description(),
-                    product.pictureObj(),
-                    product.price(),
-                    product.availableCount());
+                    product.pictureObj()
+            );
         }
     }
 }
