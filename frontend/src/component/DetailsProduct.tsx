@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from "react";
-import "../formular/productFormular.css";
 import {Product} from "../type/Product";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
-import {OrderDetailsItem} from "../type/OrderItem";
 import "./detailsProduct.css";
-import StarElement from "./StarElement";
 import ImageCard from "./ImageCard";
 
 type DetailsProductProps = {
     getOneProductPerId: (id: string) => Promise<Product>,
-    setActualOrderDetailsItems: (orderDetailsItems: OrderDetailsItem[]) => void,
-    actualOrderDetailsItems: OrderDetailsItem[] | undefined,
-    username: string | undefined,
 }
 
 export default function DetailsProduct(props: DetailsProductProps) {
@@ -26,28 +20,10 @@ export default function DetailsProduct(props: DetailsProductProps) {
         }
     }, [id, props])
 
-    const handleSave = () => {
-        if (thisProduct && props.actualOrderDetailsItems) {
-            const orderItem: OrderDetailsItem = {product: thisProduct, count: 1, price: thisProduct.price}
-            props.setActualOrderDetailsItems(
-                props.actualOrderDetailsItems.concat(orderItem));
-            toast.success("Produkt wurde der Merkliste hinzugefügt.")
-        } else {
-            toast.error("Produkt wurde nicht gefunden.")
-        }
-    }
-
     return (<>
             {thisProduct &&
                 <div className={"details"}>
                     <h3>{thisProduct.title}
-                        {
-                            (props.username && props.username !== "anonymousUser") &&
-                            <button
-                                id={"svgStarContainer"} onClick={handleSave}>
-                                <StarElement height={30} width={30}/>
-                            </button>
-                        }
                     </h3>
                     <ImageCard url={thisProduct.pictureObj[0].url} isZoomed={true}/>
                     {thisProduct.pictureObj &&

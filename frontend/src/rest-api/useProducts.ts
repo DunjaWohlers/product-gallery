@@ -1,14 +1,10 @@
 import {useEffect, useState} from "react";
-import {NewProduct} from "../type/Product";
+import {Product} from "../type/Product";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {ProductReducedInfo} from "../type/ProductReducedInfo";
 
 export default function useProducts() {
 
-    const [allProducts, setAllProducts] = useState<ProductReducedInfo[]>();
-
-    const navigate = useNavigate();
+    const [allProducts, setAllProducts] = useState<Product[]>();
 
     const getAllProducts = () => {
         axios.get("/api/products/")
@@ -25,30 +21,8 @@ export default function useProducts() {
             .then(response => response.data)
     }
 
-    const addProduct = (newProduct: NewProduct) => {
-        return axios.post("/api/products", newProduct)
-            .then(response => response.data)
-            .catch(error => console.error(error))
-            .then(getAllProducts)
-            .then(() => navigate("/"))
-    }
-
-    const deleteProduct = (id: string) => {
-        return axios.delete(`/api/products/${id}`)
-            .then(response => response.status)
-            .then(() => getAllProducts());
-    }
-
-    const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
-        return axios.put("/api/products/" + id, newUpdateProduct)
-            .then(getAllProducts)
-    }
-
     return {
         allProducts,
-        addProduct,
-        deleteProduct,
-        updateProduct,
         getOneProductPerId,
     }
 }
