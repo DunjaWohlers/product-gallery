@@ -19,17 +19,21 @@
 }
 
 .details > .cardContainer {
-    width: 270px;
+    max-width: 100%;
+    width: auto;
+    display: flex;
     margin: 5px auto 15px auto;
 }
 
 .details > .cardContainer > .imageContainer {
-    width: inherit;
-    height: 270px;
+    max-width: 100%;
+    max-height: 370px;
+    width: auto;
+    height: auto;
     margin: auto;
 }
 
-.images3flex {
+.imagesPreviewContainer {
     display: flex;
     width: 100vw;
     justify-content: space-around;

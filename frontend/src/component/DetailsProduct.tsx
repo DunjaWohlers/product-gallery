@@ -25,9 +25,9 @@ export default function DetailsProduct(props: DetailsProductProps) {
                 <div className={"details"}>
                     <h3>{thisProduct.title}
                     </h3>
-                    <ImageCard url={thisProduct.pictureObj[0].url} isZoomed={true}/>
+                    <ImageCard url={thisProduct.pictureObj[0].url} isZoomed={false}/>
                     {thisProduct.pictureObj &&
-                        <div className={"images3flex"}>
+                        <div className={"imagesPreviewContainer"}>
                             {thisProduct.pictureObj.length > 1 &&
                                 <div className={"productCard"}>
                                     <ImageCard url={thisProduct.pictureObj[1].url} isZoomed={false}/>

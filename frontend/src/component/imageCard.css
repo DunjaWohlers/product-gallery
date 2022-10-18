@@ -23,8 +23,7 @@
     max-height: 180%;
 }
 
-.imgViewComplete {
+img.imgViewComplete {
     box-shadow: 0 0 2px 1px rgba(30, 39, 47, 0.67);
-    max-width: 99%;
-    max-height: 98%;
+    width: 98%;
 }

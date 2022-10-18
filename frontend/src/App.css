@@ -9,9 +9,10 @@
 main {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     min-height: calc(100vh - 110px);
-    justify-content: center;
-    align-content: flex-start;
+    justify-content: start;
+    align-content: space-around;
 }
 
 footer {

@@ -11,16 +11,18 @@ type ProductProps = {
 
 export default function ProductCard(props: ProductProps) {
 
-
     return (
         <div className={"productCard"}>
             <NavLink className="navLink" to={
                 "/product/" + props.product.id
             }>
-                <ImageCard url={props.product.pictureObj[0].url} isZoomed={true}/>
-                <div className={"textField"}>
-                    <h3> {props.product.title}</h3>
-                    <div><p className={"price"}>{props.product.price} &euro; </p></div>
+                <h3> {props.product.title}</h3>
+                <div className={"imageAndText"}>
+                    <ImageCard url={props.product.pictureObj[0].url} isZoomed={true}/>
+                    <p> {props.product.description}
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aperiam assumenda at aut cumque
+                        ex, impedit laudantium obcaecati perferendis quia repellendus sunt. Earum, exercitationem libero
+                        maiores mollitia nobis sapiente?</p>
                 </div>
             </NavLink>
         </div>
