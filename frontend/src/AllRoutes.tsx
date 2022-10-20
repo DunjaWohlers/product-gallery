@@ -6,7 +6,6 @@ import useProducts from "./rest-api/useProducts";
 import ProductFormular from "./formular/ProductFormular";
 import Login from "./formular/Login";
 import {UserInfo} from "./type/UserInfo";
-import UserProductList from "./site/UserProductList";
 import {OrderDetailsItem} from "./type/OrderItem";
 
 export default function AllRoutes(
@@ -55,13 +54,6 @@ export default function AllRoutes(
                         addProduct={addProduct}
                         updateProduct={updateProduct}
                         getOneProductPerId={getOneProductPerId}
-                    />}
-                />
-                <Route path={"/myproducts"} element={
-                    <UserProductList
-                        actualOrderDetailsItems={actualOrderDetailsItems}
-                        setActualOrderDetailsItems={setActualOrderDetailsItems}
-                        userInfo={props.userInfo}
                     />}
                 />
                 <Route path={"*"} element={

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import StarElement from "../component/StarElement";
 
 export default function Secret(
     props: {
@@ -23,7 +22,6 @@ export default function Secret(
                 <button onClick={logout}>Logout</button>
                 <button className={"starButton"}
                         onClick={() => navigate("/myproducts")}>
-                    <StarElement width={25} height={25}/>
                 </button>
             </>
         }

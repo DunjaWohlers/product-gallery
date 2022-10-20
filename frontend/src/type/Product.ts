@@ -5,8 +5,6 @@ export type Product = {
     title: string,
     description: string,
     pictureObj: PicObj[]
-    price: number,
-    availableCount: number,
 }
 
 export type NewProduct = Omit<Product, "id">

@@ -1,13 +1,12 @@
 import React from "react";
-import {NewProduct} from "../type/Product";
+import {NewProduct, Product} from "../type/Product";
 import {NavLink} from "react-router-dom";
 import "./productCard.css";
-import {ProductReducedInfo} from "../type/ProductReducedInfo";
 import {toast} from "react-toastify";
 import ImageCard from "./ImageCard";
 
 type ProductProps = {
-    product: ProductReducedInfo,
+    product: Product,
     deleteProduct: (id: string) => Promise<number | void>,
     admin: boolean | undefined,
     updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
@@ -32,10 +31,9 @@ export default function ProductCard(props: ProductProps) {
                     ? "/product/edit/" + props.product.id
                     : "/product/" + props.product.id
             }>
-                <ImageCard url={props.product.pictureUrl} isZoomed={true}/>
+                <ImageCard url={props.product.pictureObj[0].url} isZoomed={true}/>
                 <div className={"textField"}>
                     <h3> {props.product.title}</h3>
-                    <div><p className={"price"}>{props.product.price} &euro; </p></div>
                 </div>
             </NavLink>
         </div>

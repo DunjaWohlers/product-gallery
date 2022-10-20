@@ -8,7 +8,6 @@ import {PicObj} from "../type/PicObj";
 import axios from "axios";
 import ImageCard from "../component/ImageCard";
 import InputStringElement from "./inputFormFields/InputStringElement";
-import InputNumberElement from "./inputFormFields/InputNumberElement";
 import TextAreaElement from "./inputFormFields/TextAreaElement";
 
 type ProductFormProps = {
@@ -26,8 +25,6 @@ export default function ProductFormular(props: ProductFormProps) {
                 .then((data) => {
                     setTitle(data.title);
                     setDescription(data.description);
-                    setAvailable(data.availableCount);
-                    setPrice(data.price);
                     setPictureObjects(data.pictureObj)
                 })
                 .catch(() => toast.error("Daten des Produkts konnten nicht geladen werden."));
@@ -37,8 +34,6 @@ export default function ProductFormular(props: ProductFormProps) {
     const [title, setTitle] = useState<string>();
     const [description, setDescription] = useState<string>();
     const [pictureObjects, setPictureObjects] = useState<PicObj[]>([]);
-    const [price, setPrice] = useState<number>();
-    const [availableCount, setAvailable] = useState<number>();
 
     const uploadImages = (formData: FormData) => {
         return axios.post("/api/image/uploadFile", formData,
@@ -58,12 +53,9 @@ export default function ProductFormular(props: ProductFormProps) {
         event.preventDefault();
         if (title
             && description
-            && price
-            && availableCount
             && title.length > 0
             && description.length > 0
         ) {
-
             const htmlFormElement = event.target as HTMLFormElement;
             const formData = new FormData(htmlFormElement);
             const file: FormDataEntryValue | null = formData.get("file") as File;
@@ -72,8 +64,7 @@ export default function ProductFormular(props: ProductFormProps) {
             imagesObjList = imagesObjList.concat(pictureObjects);
             const newProduct = {
                 title, description,
-                pictureObj: imagesObjList,
-                price, availableCount
+                pictureObj: imagesObjList
             }
             if (id) {
                 props.updateProduct(id, newProduct)
@@ -113,14 +104,6 @@ export default function ProductFormular(props: ProductFormProps) {
             <TextAreaElement placeholder={"Beschreibung"}
                              onChangeSetFunction={setDescription}
                              value={description}
-            />
-            <InputNumberElement placeholder="Preis"
-                                onChangeSetFunction={setPrice}
-                                value={price}
-            />
-            <InputNumberElement placeholder="Anzahl verfügbar"
-                                onChangeSetFunction={setAvailable}
-                                value={availableCount}
             />
             <ImageUpload/>
             <button className={"opacity"} type={"submit"}> save
