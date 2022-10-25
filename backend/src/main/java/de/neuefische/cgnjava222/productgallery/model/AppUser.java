@@ -1,13 +1,18 @@
 package de.neuefische.cgnjava222.productgallery.model;
 
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public record AppUser(
-        @Id
-        String username,
-        String password,
-        List<String> authorities
-) {
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AppUser {
+    @Id
+    String username;
+    String password;
 }

@@ -3,7 +3,6 @@ import axios from "axios";
 import "./login.css";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import useUser from "../rest-api/useUser";
 
 export default function Login(
     props: {
@@ -11,7 +10,6 @@ export default function Login(
     }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const {allNames} = useUser();
 
     const navigate = useNavigate();
     const login = (e: FormEvent<HTMLFormElement>) => {
@@ -20,12 +18,6 @@ export default function Login(
             .then(props.authenticationChanged)
             .then(() => navigate("/products"))
             .catch(() => toast.error("Login fehlgeschlagen"))
-    }
-
-    const register = () => {
-        const newUser = {username, password}
-        axios.post("/api/users", newUser)
-            .catch(() => toast.error("Registrierung fehlgeschlagen"));
     }
 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +50,7 @@ export default function Login(
 
     return (
         <div className="login">
-            <form onSubmit={(allNames?.find(name => name === username)) ? login : register}
+            <form onSubmit={login}
                   autoComplete={"off"}>
                 <div>
                     <label>Name</label>
@@ -95,13 +87,9 @@ export default function Login(
                            className={isValid() ? "greenBg" : "redBg"}
                     />
                 </div>
-                {(allNames?.find(name => name === username))
-                    ? <button type="submit" disabled={!userNameMin4Letters() || !isValid()}>
-                        Login
-                    </button>
-                    : <button type="submit" disabled={!userNameMin4Letters() || !isValid()}>
-                        Register
-                    </button>
+                {<button type="submit" disabled={!userNameMin4Letters() || !isValid()}>
+                    Login
+                </button>
                 }
                 <div id="message">
                     {!isValid() && <h3> Es fehlen noch: </h3>}

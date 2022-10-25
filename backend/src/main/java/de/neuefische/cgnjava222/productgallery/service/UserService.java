@@ -14,6 +14,6 @@ public class UserService {
     private final UserRepo userRepo;
 
     public List<String> getAllNames() {
-        return userRepo.findAll().stream().map(AppUser::username).toList();
+        return userRepo.findAll().stream().map(AppUser::getUsername).toList();
     }
 }

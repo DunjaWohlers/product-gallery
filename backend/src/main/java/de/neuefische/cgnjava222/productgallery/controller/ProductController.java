@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public Product getDetailsPerId(@PathVariable String id) {
+    public Product getDetailsPerId(@PathVariable Long id) {
         return productService.getDetailsOf(id).orElseThrow(() ->
                 new ProductNotFoundException(id));
     }
@@ -35,27 +35,27 @@ public class ProductController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public Product addProduct(@RequestBody NewProduct newProduct) {
         return productService.addProduct(
-                Product.ProductFactory.create(newProduct)
+                newProduct
         );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         boolean deleteSuccess = productService.deleteProduct(id);
         return new ResponseEntity<>(deleteSuccess ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Product updateProduct(@PathVariable String id, @RequestBody NewProduct newProduct) {
+    public Product updateProduct(@PathVariable Long id, @RequestBody NewProduct newProduct) {
         return productService.updateProduct(id, newProduct);
     }
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}/{publicImageId}")
     public void deleteImageFromProductWithId(
-            @PathVariable String id,
-            @PathVariable String publicImageId) {
-        productService.deletePictureFromProduct(publicImageId, id);
+            @PathVariable Long id,
+            @PathVariable Long imageId) {
+        productService.deletePicture(imageId);
     }
 }

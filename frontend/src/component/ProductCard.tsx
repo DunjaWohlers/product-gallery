@@ -31,7 +31,7 @@ export default function ProductCard(props: ProductProps) {
                     ? "/product/edit/" + props.product.id
                     : "/product/" + props.product.id
             }>
-                <ImageCard url={props.product.pictureObj[0].url} isZoomed={true}/>
+                <ImageCard url={props.product.pictureObj[0]?.url} isZoomed={true}/>
                 <div className={"textField"}>
                     <h3> {props.product.title}</h3>
                 </div>

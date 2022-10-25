@@ -9,7 +9,7 @@ export default function TextAreaElement(props: InputFormElementProps) {
                 autoComplete={"off"}
                 placeholder={props.placeholder.toString()}
                 defaultValue={props.value}
-                name={"title"}
+                name={"description"}
                 onChange={(event) =>
                     props.onChangeSetFunction(
                         event.target.value

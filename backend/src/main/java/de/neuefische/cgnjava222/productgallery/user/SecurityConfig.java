@@ -30,7 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String admin = "ADMIN";
         return http
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers("/h2-console/**")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/users/login").permitAll()
@@ -40,11 +42,16 @@ public class SecurityConfig {
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers("/api/orders/**").hasAnyAuthority("USER", admin)
                 .antMatchers(HttpMethod.POST, "/api/product/**").hasAuthority(admin)
+                .antMatchers("/api/image/*").permitAll()
                 .antMatchers("/api/image/**").hasAuthority(admin)
                 .antMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority(admin)
                 .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(admin)
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll()
-                .and().httpBasic().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and().httpBasic()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .headers().frameOptions().sameOrigin()
                 .and()
                 .build();
     }

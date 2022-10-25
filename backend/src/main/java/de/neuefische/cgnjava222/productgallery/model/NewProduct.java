@@ -1,14 +1,22 @@
 package de.neuefische.cgnjava222.productgallery.model;
 
+import lombok.*;
+
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public record NewProduct(
-        @NotNull
-        String title,
-        @NotNull
-        String description,
-        @NotNull
-        List<ImageInfo> pictureObj
-) {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class NewProduct {
+    @NotNull
+    private String title;
+    @NotNull
+    private String description;
+    @NotNull
+    @OneToMany
+    private List<ImageInfo> pictureObj;
 }
