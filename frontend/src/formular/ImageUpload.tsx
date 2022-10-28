@@ -22,7 +22,7 @@ export default function ImageUpload() {
                 </div>)
             }
         </div>
-        <div className={"images3flex"}>
+        <div className={"imagesPreview"}>
             {
                 imagePreload.map(pic => <ImageCard
                     key={pic.name}
