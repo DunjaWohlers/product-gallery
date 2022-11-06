@@ -1,19 +1,12 @@
 package de.neuefische.cgnjava222.productgallery;
 
-import com.cloudinary.Api;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.http44.api.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.Product;
-import org.apache.http.HttpVersion;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.message.BasicStatusLine;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -21,11 +14,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -44,12 +35,6 @@ class ProductIntegrationTest {
 
     @Autowired
     ProductRepo productRepo;
-
-    @MockBean
-    private Api api;
-
-    @MockBean
-    private Cloudinary cloudinary;
 
     @Test
     @WithAnonymousUser
@@ -177,19 +162,19 @@ class ProductIntegrationTest {
 
         Product addedProductResult = objectMapper.readValue(addPromise, Product.class);
 
-        when(cloudinary.api()).thenReturn(api);
-        when(api.deleteResources(
-                List.of("bma"), Map.of()))
-                .thenReturn(
-                        new Response(
-                                new BasicHttpResponse(
-                                        new BasicStatusLine(
-                                                new HttpVersion(3, 4), 4, "bl"
-                                        )
-                                ),
-                                Map.of("url", "bla://blub", "public_id", "bma", "deleted", Map.of("bma", "deleted")
-                                )
-                        ));
+        //Hier hab ich was gelöscht :)
+        //  when(api.deleteResources(
+        //          List.of("bma"), Map.of()))
+        //          .thenReturn(
+        //                  new Response(
+        //                          new BasicHttpResponse(
+        //                                  new BasicStatusLine(
+        //                                          new HttpVersion(3, 4), 4, "bl"
+        //                                  )
+        //                          ),
+        //                          Map.of("url", "bla://blub", "public_id", "bma", "deleted", Map.of("bma", "deleted")
+        //                          )
+        //                  ));
 
         Long id = addedProductResult.getId();
         mockMvc.perform(
@@ -269,19 +254,19 @@ class ProductIntegrationTest {
         Product saveResultProduct = objectMapper.readValue(saveResult, Product.class);
         Long saveResultId = saveResultProduct.getId();
         String filePublicId = "XYZ";
-        when(cloudinary.api()).thenReturn(api);
-        when(api.deleteResources(
-                List.of(filePublicId), Map.of()))
-                .thenReturn(
-                        new Response(
-                                new BasicHttpResponse(
-                                        new BasicStatusLine(
-                                                new HttpVersion(3, 4), 4, "bl"
-                                        )
-                                ),
-                                Map.of("url", "bla://blub", "public_id", filePublicId, "deleted", Map.of("XYZ", "found"))
-                        )
-                );
+        // when(cloudinary.api()).thenReturn(api);
+        //when(api.deleteResources(
+        //        List.of(filePublicId), Map.of()))
+        //        .thenReturn(
+        //                new Response(
+        //                        new BasicHttpResponse(
+        //                                new BasicStatusLine(
+        //                                        new HttpVersion(3, 4), 4, "bl"
+        //                                )
+        //                        ),
+        //                        Map.of("url", "bla://blub", "public_id", filePublicId, "deleted", Map.of("XYZ", "found"))
+        //                )
+        //        );
 
         //delete
         mockMvc.perform(

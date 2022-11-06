@@ -16,7 +16,7 @@ export default function Login(
         e.preventDefault();
         axios.get("/api/users/login", {auth: {username, password}})
             .then(props.authenticationChanged)
-            .then(() => navigate("/products"))
+            .then(() => navigate("/"))
             .catch(() => toast.error("Login fehlgeschlagen"))
     }
 

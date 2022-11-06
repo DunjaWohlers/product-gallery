@@ -2,13 +2,11 @@
     z-index: 1;
     box-shadow: 0 0 6px var(--defaultColor);
     border-radius: 6px;
-    width: 92vw;
     margin: 0 auto 8px auto;
 }
 
 @media screen and (min-width: 600px) {
     .fileUploadInput {
-        width: 510px;
     }
 }
 
@@ -18,6 +16,8 @@
 }
 
 .fileUploadInput > div > input {
+    width: 100%;
+    height: 100%;
     margin: 0;
     z-index: 1;
     border-radius: 7px 0 0 7px;
@@ -25,6 +25,7 @@
     user-select: none;
     cursor: pointer;
     line-height: 30px;
+    background-color: grey;
 }
 
 .fileUploadInput input[type="file"]::-webkit-file-upload-button {
@@ -34,10 +35,9 @@
 }
 
 .fileUploadInput button {
-    float: right;
     border: none;
     user-select: none;
-    background-color: inherit;
+    background-color: blue;
     font-size: 30px;
-    line-height: 25px;
 }
+

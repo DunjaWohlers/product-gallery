@@ -26,11 +26,6 @@ public class GlobalExceptionHandler {
         return getResponseEntity("File not deleted ", HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = CloudinaryException.class)
-    public ResponseEntity<Object> handleCloudinaryException(CloudinaryException exception) {
-        return getResponseEntity("Cloudinary Exception ", HttpStatus.BAD_REQUEST);
-    }
-
     public ResponseEntity<Object> getResponseEntity(String msg, HttpStatus status) {
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("message", msg);

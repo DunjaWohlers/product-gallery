@@ -3,11 +3,10 @@ package de.neuefische.cgnjava222.productgallery.user;
 import de.neuefische.cgnjava222.productgallery.UserRepo;
 import de.neuefische.cgnjava222.productgallery.model.AppUser;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,18 +25,15 @@ class AppUserServiceTest {
         String name = "fred";
         String pw = "ABC%%$§";
         String encodedPW = encoder.encode(pw);
-        List<SimpleGrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority("USER"));
-
-        when(repo.findById("fred")).thenReturn(Optional.of(new AppUser(name, encodedPW, List.of("USER"))));
+        when(repo.findById("fred")).thenReturn(Optional.of(new AppUser(name, encodedPW)));
 
         repo.save(new AppUser(
                 name,
-                encodedPW,
-                List.of("USER")));
+                encodedPW));
 
         User user = appUserService.loadUserByUsername("fred");
 
         assertThat(user).isEqualTo(
-                new User(name, encodedPW, grantedAuthorities));
+                new User(name, encodedPW, Collections.emptyList()));
     }
 }

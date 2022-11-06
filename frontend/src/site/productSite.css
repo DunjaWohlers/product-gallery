@@ -7,3 +7,33 @@
     border-radius: 5pt;
     color: black;
 }
+
+.addImageForm {
+    background-color: #f1f0f0;
+    margin: 5px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto auto 100px 50px;
+}
+
+.addImageForm input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+.addImageForm input {
+}
+
+.fileInputButton {
+    box-shadow: 0 0 3px 1px black;
+    margin: 3px;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}

@@ -1,6 +1,5 @@
 package de.neuefische.cgnjava222.productgallery.controller;
 
-import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.NewProduct;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import de.neuefische.cgnjava222.productgallery.service.ProductService;
@@ -25,12 +24,6 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/details/{id}")
-    public Product getDetailsPerId(@PathVariable Long id) {
-        return productService.getDetailsOf(id).orElseThrow(() ->
-                new ProductNotFoundException(id));
-    }
-
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Product addProduct(@RequestBody NewProduct newProduct) {
@@ -51,11 +44,4 @@ public class ProductController {
         return productService.updateProduct(id, newProduct);
     }
 
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}/{publicImageId}")
-    public void deleteImageFromProductWithId(
-            @PathVariable Long id,
-            @PathVariable Long imageId) {
-        productService.deletePicture(imageId);
-    }
 }

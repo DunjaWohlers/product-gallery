@@ -1,10 +1,10 @@
-import {PicObj} from "./PicObj";
+import {ImageInfo} from "./ImageInfo";
 
 export type Product = {
-    id: string,
+    id: number,
     title: string,
     description: string,
-    pictureObj: PicObj[]
+    pictureObj?: ImageInfo[]
 }
 
 export type NewProduct = Omit<Product, "id">

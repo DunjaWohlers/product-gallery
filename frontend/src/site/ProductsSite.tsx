@@ -1,35 +1,71 @@
-import ProductCard from "../component/ProductCard";
-import React from "react";
+import React, {useState} from "react";
 import {NewProduct, Product} from "../type/Product";
-import {NavLink} from "react-router-dom";
 import "./productSite.css";
 import {UserInfo} from "../type/UserInfo";
+import ProductFormular from "../component/ProductFormular";
+import useProducts from "../rest-api/useProducts";
+import AddImageDialog from "../component/AddImageDialog";
 
 type ProductsSiteProps = {
-    allProducts: Product[] | undefined,
-    addProduct: (newProduct: NewProduct) => Promise<Product | void>,
-    deleteProduct: (id: string) => Promise<void>,
-    updateProduct: (id: string, newUpdateProduct: NewProduct) => Promise<string | number | void>,
     userInfo: UserInfo | undefined,
 }
 
 export default function ProductsSite(props: ProductsSiteProps) {
 
-    const admin: boolean | undefined = props.userInfo?.authorities.includes("ADMIN")
+    const {
+        allProducts,
+        addProduct,
+        deleteProduct,
+        updateProduct,
+        uploadImage, deleteImage
+    } = useProducts();
+
+    const [actualProduct, setActualProduct] = useState<Product>();
+
+    const newProduct: NewProduct = {title: "", description: "", pictureObj: []};
+
+    const [editPictures, setEditPictures] = useState<boolean>(false);
+
+
+    const toggleEditPictures = () => {
+        console.log(editPictures)
+        editPictures ? setEditPictures(false) : setEditPictures(true);
+    }
+
 
     return (<>
-            {!props.allProducts && <div> Lade Produkt-Liste... </div>}
-            {props.allProducts && props.allProducts.map(product =>
-                <ProductCard product={product}
-                             deleteProduct={props.deleteProduct}
-                             admin={admin}
-                             updateProduct={props.updateProduct}
-                             key={product.id}
+            {!allProducts && <div> Lade Produkt-Liste... </div>}
+            {allProducts && allProducts.map(product =>
+                <ProductFormular
+                    deleteImage={deleteImage}
+                    editPictures={editPictures}
+                    product={product}
+                    emptyProduct={newProduct}
+                    addProduct={addProduct}
+                    updateProduct={updateProduct}
+                    deleteProduct={deleteProduct}
+                    setActualProduct={setActualProduct}
+                    key={product.id}
                 />
             )}
-            {admin &&
-                <NavLink to={"/product/new"} className={"addNav productCard"}> + </NavLink>
+
+            NeuesProdukt hinzufügen:
+            <ProductFormular
+                deleteImage={deleteImage}
+                editPictures={editPictures}
+                product={undefined}
+                emptyProduct={newProduct}
+                addProduct={addProduct}
+                updateProduct={updateProduct}
+                deleteProduct={deleteProduct}
+                setActualProduct={setActualProduct}
+            />
+
+            {actualProduct && <AddImageDialog uploadImage={uploadImage} setActualProduct={setActualProduct}
+                                              actualProduct={actualProduct}/>
             }
+
+            <button onClick={() => toggleEditPictures()}> Bilder bearbeiten</button>
         </>
     )
 }

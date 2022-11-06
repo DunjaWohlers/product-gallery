@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/image")
 
@@ -20,9 +18,12 @@ public class FileUploadController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/uploadFile")
-    public ResponseEntity<List<ImageInfo>> addPicture(@RequestParam("file") MultipartFile[] files) {
-        return new ResponseEntity<>(fileService.uploadPictures(files), HttpStatus.CREATED);
+    @PostMapping("/uploadFile/{productId}")
+    public ResponseEntity<ImageInfo> addPicture(
+            @PathVariable Long productId,
+            @RequestParam("file") MultipartFile file
+    ) {
+        return new ResponseEntity<>(fileService.uploadPicture(file, productId), HttpStatus.CREATED);
     }
 
     @ResponseBody
@@ -34,10 +35,10 @@ public class FileUploadController {
                 .body(imageInfo.getImageData());
     }
 
-    @DeleteMapping("/delete/{publicID}")
+    @DeleteMapping("/delete/{imageId}")
     public ResponseEntity<Void> deletePicture(@PathVariable Long imageId) {
         try {
-            fileService.deletePictures(List.of(imageId));
+            fileService.deletePicture(imageId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

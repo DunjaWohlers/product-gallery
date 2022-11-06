@@ -1,15 +1,14 @@
 import {useEffect, useState} from "react";
 import {NewProduct, Product} from "../type/Product";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function useProducts() {
 
     const [allProducts, setAllProducts] = useState<Product[]>();
 
-    const navigate = useNavigate();
-
     const getAllProducts = () => {
+        console.log("get ausgeführt")
         axios.get("/api/products/")
             .then(response => response.data)
             .then(setAllProducts)
@@ -19,28 +18,42 @@ export default function useProducts() {
         getAllProducts, []
     );
 
-    const getOneProductPerId = (id: string) => {
-        return axios.get("/api/products/details/" + id)
-            .then(response => response.data)
-    }
-
     const addProduct = (newProduct: NewProduct) => {
         return axios.post("/api/products", newProduct)
             .then(response => response.data)
-            .catch(error => console.error(error))
+            .then(() => toast.success("Produkt wurde gespeichert!"))
+            .catch(() => toast.error("Produkt konnte nicht gespeichert werden!"))
             .then(getAllProducts)
-            .then(() => navigate("/"))
     }
 
-    const deleteProduct = (id: string) => {
+    const deleteProduct = (id: number) => {
         return axios.delete(`/api/products/${id}`)
             .then(response => response.status)
-            .then(() => getAllProducts());
+            .then(() => toast.success("Produkt wurde gelöscht", {theme: "light"}))
+            .catch(() => toast.error("Löschen fehlgeschlagen!", {theme: "light"}))
+            .then(getAllProducts);
     }
 
-    const updateProduct = (id: string, newUpdateProduct: NewProduct) => {
+    const updateProduct = (id: number, newUpdateProduct: NewProduct) => {
         return axios.put("/api/products/" + id, newUpdateProduct)
+            .then(() => toast.success("Produkt wurde erfolgreich editiert!"))
+            .catch(() => toast.error("Update fehlgeschlagen"))
             .then(getAllProducts)
+    }
+
+
+    const uploadImage = (formData: FormData, id: number) => {
+        return axios.post("/api/image/uploadFile/" + id, formData,
+        ).then(data => data.data)
+            .then(getAllProducts)
+            .then(() => toast.info("Bild wurde gespeichert"))
+            .catch(() => toast.warn("Bild konnte nicht gespeichert werden."));
+    }
+
+    const deleteImage = (imageId: number) => {
+        return axios.delete("/api/image/delete/" + imageId)
+            .then(getAllProducts)
+            .catch(() => toast.error("Bild löschen fehlgeschlagen."))
     }
 
     return {
@@ -48,6 +61,8 @@ export default function useProducts() {
         addProduct,
         deleteProduct,
         updateProduct,
-        getOneProductPerId,
+        uploadImage,
+        deleteImage
     }
 }
+

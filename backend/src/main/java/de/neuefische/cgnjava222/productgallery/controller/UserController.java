@@ -1,7 +1,6 @@
 package de.neuefische.cgnjava222.productgallery.controller;
 
 import de.neuefische.cgnjava222.productgallery.model.UserInfo;
-import de.neuefische.cgnjava222.productgallery.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-
-    private final UserService userService;
 
     @GetMapping("/login")
     public UserInfo login() {
@@ -37,11 +34,6 @@ public class UserController {
     @GetMapping("/logout")
     public void logout(HttpSession session) {
         session.invalidate();
-    }
-
-    @GetMapping("/")
-    public List<String> getAllNames() {
-        return userService.getAllNames();
     }
 
 }
