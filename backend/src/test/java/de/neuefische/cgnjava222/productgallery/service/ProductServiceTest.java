@@ -1,21 +1,7 @@
 package de.neuefische.cgnjava222.productgallery.service;
 
-import com.cloudinary.Cloudinary;
-import de.neuefische.cgnjava222.productgallery.ProductRepo;
-import de.neuefische.cgnjava222.productgallery.model.ImageInfo;
-import de.neuefische.cgnjava222.productgallery.model.NewProduct;
-import de.neuefische.cgnjava222.productgallery.model.Product;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
 class ProductServiceTest {
-
+/*
     Product product1 = new Product("1", "Biber", "knuffig, flauschig",
             List.of(new ImageInfo("http://google.de", "publicID2")));
     Product product2 = new Product("2", "Pferd", "braun, holzig",
@@ -81,4 +67,6 @@ class ProductServiceTest {
         Product actual = productService.updateProduct(expected.id(), newProduct3);
         Assertions.assertEquals(expected, actual);
     }
+
+ */
 }
