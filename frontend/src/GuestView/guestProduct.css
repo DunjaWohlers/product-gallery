@@ -1,0 +1,74 @@
+.lineGuest {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.lineGuest .title {
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.lineGuest .description {
+    padding: 5px;
+    width: 78vw;
+    font-size: 12px;
+}
+
+/* IMAGES and Container */
+
+.lineGuest .imageContainer {
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.lineGuest img {
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 120px;
+    box-shadow: 0 0 6px 3px lightgrey;
+}
+
+.lineGuest .imageContainer .picPresentation {
+    width: 100%;
+    text-align: center;
+}
+
+.lineGuest .imageContainer .allImages {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lineGuest .imageContainer .allImages div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-top: 1px black solid;
+}
+
+.lineGuest .imageContainer .allImages div img {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+
+@media screen and (max-width: 500px) {
+    .lineGuest .imageContainer {
+        width: 100vw
+    }
+
+    .lineGuest .description {
+        width: 100vw
+    }
+}

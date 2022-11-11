@@ -4,10 +4,7 @@ import "./login.css";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
-export default function Login(
-    props: {
-        authenticationChanged: () => void
-    }) {
+export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -15,7 +12,7 @@ export default function Login(
     const login = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios.get("/api/users/login", {auth: {username, password}})
-            .then(props.authenticationChanged)
+            //  .then(props.authenticationChanged)
             .then(() => navigate("/"))
             .catch(() => toast.error("Login fehlgeschlagen"))
     }

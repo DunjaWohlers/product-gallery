@@ -1,25 +1,26 @@
 import {Route, Routes,} from "react-router-dom";
 import ProductsSite from "./site/ProductsSite";
 import Login from "./formular/Login";
-import {UserInfo} from "./type/UserInfo";
+import useUser from "./rest-api/useUser";
+import GuestProductsSite from "./GuestView/GuestProductsSite";
 
-export default function AllRoutes(
-    props: {
-        userInfo: UserInfo | undefined,
-        authenticationChanged: () => void,
-    }) {
+export default function AllRoutes() {
 
+    const {userInfo} = useUser();
 
     return (<>
             <Routes>
-                <Route path={"/login"} element={
-                    <Login authenticationChanged={props.authenticationChanged}/>}/>
                 <Route path={"/"} element={
-                    <ProductsSite
-                        userInfo={props.userInfo}
+                    <GuestProductsSite
+
                     />}
                 />
-
+                <Route path={"/admin"} element={
+                    <ProductsSite userInfo={userInfo}/>
+                }
+                />
+                <Route path={"/login"} element={
+                    <Login/>}/>
             </Routes>
         </>
     )

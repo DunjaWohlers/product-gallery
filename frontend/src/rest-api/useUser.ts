@@ -1,21 +1,23 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
-import {toast} from "react-toastify";
+import {UserInfo} from "../type/UserInfo";
 
 export default function useUser() {
 
-    const [allNames, setAllNames] = useState<string[]>();
+    const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
-    const getAllNames = () => {
-        axios.get("/api/users/")
-            .then(response => response.data)
-            .then(setAllNames)
-            .catch(() => toast.error("Benutzernamen konnten nicht geladen werden."));
+    function fetchUsername() {
+        return axios.get("/api/users/me")
+            .then(response =>
+                response.data
+            )
+            .then(data => {
+                setUserInfo(data);
+            })
+            .catch(() => {
+                setUserInfo(undefined)
+            });
     }
 
-    useEffect(
-        getAllNames, []
-    );
-
-    return {allNames}
+    return {userInfo}
 }
