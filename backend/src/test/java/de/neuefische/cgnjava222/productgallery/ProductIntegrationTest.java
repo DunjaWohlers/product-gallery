@@ -1,7 +1,6 @@
 package de.neuefische.cgnjava222.productgallery;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.neuefische.cgnjava222.productgallery.exception.ProductNotFoundException;
 import de.neuefische.cgnjava222.productgallery.model.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -79,39 +73,39 @@ class ProductIntegrationTest {
     //             });
     // }
 
-    @Test
-    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
-    void addProducts() throws Exception {
-        mockMvc.perform(
-                        post("/api/products").contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                            {
-                                                   "title": "Brett",
-                                                   "description": "Zum Frühstücken oder sonstiger Verwendung",
-                                                   "pictureObj": [
-                                                        {
-                                                           "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                                           "publicId": "equaeqbgdxv9mkfczq1i"
-                                                        }
-                                                    ]
-                                                }
-                                        """)
-                                .with(csrf())
-                )
-                .andExpect(status().is(201))
-                .andExpect(content().json("""
-                                {
-                                     "title": "Brett",
-                                     "description": "Zum Frühstücken oder sonstiger Verwendung",
-                                     "pictureObj": [
-                                        {
-                                         "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
-                                         "publicId": "equaeqbgdxv9mkfczq1i"
-                                         }
-                                      ]
-                                 }
-                        """));
-    }
+    // @Test
+    // @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    // void addProducts() throws Exception {
+    //     mockMvc.perform(
+    //                     post("/api/products").contentType(MediaType.APPLICATION_JSON)
+    //                             .content("""
+    //                                         {
+    //                                                "title": "Brett",
+    //                                                "description": "Zum Frühstücken oder sonstiger Verwendung",
+    //                                                "pictureObj": [
+    //                                                     {
+    //                                                        "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+    //                                                        "publicId": "equaeqbgdxv9mkfczq1i"
+    //                                                     }
+    //                                                 ]
+    //                                             }
+    //                                     """)
+    //                             .with(csrf())
+    //             )
+    //             .andExpect(status().is(201))
+    //             .andExpect(content().json("""
+    //                             {
+    //                                  "title": "Brett",
+    //                                  "description": "Zum Frühstücken oder sonstiger Verwendung",
+    //                                  "pictureObj": [
+    //                                     {
+    //                                      "url": "http://res.cloudinary.com/dcnqizhmg/image/upload/v1661501086/equaeqbgdxv9mkfczq1i.jpg",
+    //                                      "publicId": "equaeqbgdxv9mkfczq1i"
+    //                                      }
+    //                                   ]
+    //                              }
+    //                     """));
+    // }
 
     @Test
     @WithAnonymousUser
@@ -227,6 +221,7 @@ class ProductIntegrationTest {
     //     Assertions.assertEquals(expectedProduct, actualProduct);
     // }
 
+    /*
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromExistingProduct() throws Exception {
@@ -274,6 +269,9 @@ class ProductIntegrationTest {
         ).andExpect(status().isNoContent());
     }
 
+     */
+
+    /*
     @Test
     @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     void deleteImageFromProductWithIdNotfound() throws Exception {
@@ -299,6 +297,8 @@ class ProductIntegrationTest {
                 })
         ;
     }
+
+     */
 
     // @Test
     // @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
