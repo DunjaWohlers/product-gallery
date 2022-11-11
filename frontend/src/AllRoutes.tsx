@@ -6,21 +6,19 @@ import GuestProductsSite from "./GuestView/GuestProductsSite";
 
 export default function AllRoutes() {
 
-    const {userInfo} = useUser();
+    const {userInfo, loginUser} = useUser();
 
     return (<>
             <Routes>
                 <Route path={"/"} element={
-                    <GuestProductsSite
-
-                    />}
+                    <GuestProductsSite/>}
                 />
-                <Route path={"/admin"} element={
+                {userInfo?.authorities.includes("ADMIN") && <Route path={"/admin"} element={
                     <ProductsSite userInfo={userInfo}/>
                 }
-                />
+                />}
                 <Route path={"/login"} element={
-                    <Login/>}/>
+                    <Login loginUser={loginUser}/>}/>
             </Routes>
         </>
     )

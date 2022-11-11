@@ -8,7 +8,7 @@ export default function HeaderNav() {
     return (
         <header>
             <button onClick={() => navigate("/")}>
-                Product - Gallery
+                Artikel aus der Werkstatt
             </button>
         </header>
     )

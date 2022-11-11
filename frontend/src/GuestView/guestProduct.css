@@ -1,21 +1,34 @@
 .lineGuest {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 0 3px 2px rgba(30, 94, 118, 0.46);
+    width: 98vw;
+    border-radius: 5px;
 }
 
 
-.lineGuest .title {
-    width: 100%;
+.title {
+    margin: 0 2px 5px 2px;
+    width: 98%;
     text-align: center;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .lineGuest .description {
-    padding: 5px;
-    width: 78vw;
+    box-shadow: 0 0 4px 1px #e6e8f2;
+    width: 70vw;
+    border-radius: 10px;
     font-size: 12px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+
 }
 
 /* IMAGES and Container */

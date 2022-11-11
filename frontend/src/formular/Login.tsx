@@ -1,20 +1,15 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import axios from "axios";
 import "./login.css";
-import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
 
-export default function Login() {
+export default function Login(props: {
+    loginUser: (username: string, password: string) => void
+}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
     const login = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.get("/api/users/login", {auth: {username, password}})
-            //  .then(props.authenticationChanged)
-            .then(() => navigate("/"))
-            .catch(() => toast.error("Login fehlgeschlagen"))
+        props.loginUser(username, password);
     }
 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {

@@ -19,9 +19,9 @@ export default function GuestProduct(props: ProductFormProps) {
         url && setViewUrl(url)
     }
 
-    return (
+    return (<>
+        <div className={"title"}> {props.product?.title}</div>
         <div className={"lineGuest"}>
-            <div className={"title"}> {props.product?.title}</div>
             <div className={"imageContainer"}>
                 <PicturePresentation picUrl={viewUrl}/>
                 <div className={"allImages"}>
@@ -35,6 +35,7 @@ export default function GuestProduct(props: ProductFormProps) {
                 </div>
             </div>
             <div className={"description"}> {props.product?.description} </div>
-        </div>)
+        </div>
+    </>)
 }
 
