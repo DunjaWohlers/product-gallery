@@ -65,7 +65,8 @@ export default function ProductsSite(props: ProductsSiteProps) {
                                               actualProduct={actualProduct}/>
             }
 
-            <button onClick={() => toggleEditPictures()}> Bilder bearbeiten</button>
+            <button className={"switchPicEditButton"}
+                    onClick={() => toggleEditPictures()}> {editPictures ? "Beschreibung bearbeiten" : "Bilder bearbeiten"} </button>
         </>
     )
 }

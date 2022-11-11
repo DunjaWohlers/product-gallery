@@ -30,10 +30,14 @@
     margin: 3px;
 }
 
-.visible {
-    visibility: visible;
-}
 
-.invisible {
-    visibility: hidden;
+.switchPicEditButton {
+    margin-top: 20px;
+    display: block;
+    background-color: transparent;
+    border: none;
+    box-shadow: 0 0 4px 3px black;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
 }

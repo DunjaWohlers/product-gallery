@@ -16,6 +16,8 @@
 }
 
 .line > input[type="text"], .line > textarea {
+    height: 100%;
+    width: 95%;
     margin: 0 5px 0 5px;
     display: block;
     text-align: center;
