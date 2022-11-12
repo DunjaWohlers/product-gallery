@@ -56,7 +56,8 @@ export default function AddImageDialog({uploadImage, setActualProduct, actualPro
                                id="fileInput" type={"file"} name={"file"} onChange={showImage}/>
                     </div>
                     <label htmlFor={"fileInput"} className={"imageContainer"}>
-                        <img src={imagePreload && URL.createObjectURL(imagePreload)} alt={"img"}/>
+                        {imagePreload && <img src={imagePreload && URL.createObjectURL(imagePreload)} alt={"img"}/>
+                        }
                     </label>
                     <button type="submit"> &#10003; </button>
                 </form>
