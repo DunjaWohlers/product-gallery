@@ -47,8 +47,8 @@ export default function ProductsSite(props: ProductsSiteProps) {
                             key={product.id}
                         />
                     )}
-
-                    NeuesProdukt hinzufügen:
+                    <div className={"newProductLabel"}> NeuesProdukt hinzufügen:
+                    </div>
                     <ProductFormular
                         deleteImage={deleteImage}
                         editPictures={editPictures}
