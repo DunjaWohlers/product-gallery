@@ -12,10 +12,8 @@ export default function GuestProduct(props: ProductFormProps) {
     const [viewUrl, setViewUrl] = useState<string>(props.product?.pictureObj ? props.product.pictureObj[0].url : "")
 
     const mouseEnter: MouseEventHandler<HTMLImageElement> = (e) => {
-        console.log(e.target);
         const htmlElement = e.target as HTMLElement;
         const url: string | null = htmlElement.getAttribute("src");
-        console.log(url);
         url && setViewUrl(url)
     }
 

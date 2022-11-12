@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class NewProduct {
+    int position;
     @NotNull
     private String title;
     @NotNull
