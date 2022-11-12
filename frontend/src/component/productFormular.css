@@ -13,6 +13,7 @@
     margin: 5px;
     border-radius: 5px;
     align-items: center;
+    height: auto;
 }
 
 .line > input[type="text"], .line > textarea {

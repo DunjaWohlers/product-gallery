@@ -31,6 +31,10 @@ export default function ProductFormular(props: ProductFormProps) {
         } else {
             toast.info("Gib bitte mindestens einen Titel an!");
         }
+        if (!props.product) {
+            setTitle("");
+            setDescription("");
+        }
     }
 
     const handleDelete = () => {
@@ -56,7 +60,7 @@ export default function ProductFormular(props: ProductFormProps) {
             <input type="text"
                    autoComplete={"off"}
                    placeholder={"Titel"}
-                   defaultValue={title}
+                   value={title}
                    name={"title"}
                    onChange={(event) =>
                        setTitle(
@@ -67,7 +71,7 @@ export default function ProductFormular(props: ProductFormProps) {
             {(!props.editPictures || !props.product) && <textarea
                 autoComplete={"off"}
                 placeholder={"Beschreibung"}
-                defaultValue={description}
+                value={description}
                 name={"description"}
                 onChange={(event) =>
                     setDescription(
