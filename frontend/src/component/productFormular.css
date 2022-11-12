@@ -8,7 +8,7 @@
 
 .line {
     display: grid;
-    grid-template-columns: 20vw auto 5vw 5vw;
+    grid-template-columns: 5vw 20vw auto 5vw 5vw;
     box-shadow: 0 0 6px black;
     margin: 5px;
     border-radius: 5px;

@@ -8,15 +8,22 @@ export default function useProducts() {
     const [allProducts, setAllProducts] = useState<Product[]>();
 
     const getAllProducts = () => {
-        console.log("get ausgeführt")
         axios.get("/api/products/")
             .then(response => response.data)
-            .then(setAllProducts)
+            .then((data) => {
+                data.sort(sortArray(data))
+                setAllProducts(data);
+            })
             .catch(error => console.error(error));
     }
     useEffect(
         getAllProducts, []
     );
+
+    const sortArray = (arr: Product[]) => {
+        arr.sort((objA, objB) => objA.position - objB.position,
+        )
+    }
 
     const addProduct = (newProduct: NewProduct) => {
         return axios.post("/api/products", newProduct)

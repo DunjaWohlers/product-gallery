@@ -16,13 +16,14 @@ type ProductFormProps = {
 
 export default function ProductFormular(props: ProductFormProps) {
 
+    const [position, setPosition] = useState<number>(props.product?.position ? props.product.position : 10000);
     const [title, setTitle] = useState<string>(props.product ? props.product.title : "");
     const [description, setDescription] = useState<string>(props.product ? props.product.description : "");
     const [deletableImage, setDeleteableImage] = useState<boolean>(false);
 
     const handleSubmit = async () => {
         const newProduct = {
-            title, description
+            position, title, description
         }
         if (!props.product && title && title.length > 0) {
             await props.addProduct(newProduct);
@@ -34,6 +35,7 @@ export default function ProductFormular(props: ProductFormProps) {
         if (!props.product) {
             setTitle("");
             setDescription("");
+            setPosition(10000);
         }
     }
 
@@ -57,6 +59,12 @@ export default function ProductFormular(props: ProductFormProps) {
 
     return (
         <div className={"line"}>
+            <input type={"text"}
+                   value={position}
+                   onChange={(event) => {
+                       setPosition(parseInt(event.target.value))
+                   }}
+            />
             <input type="text"
                    autoComplete={"off"}
                    placeholder={"Titel"}

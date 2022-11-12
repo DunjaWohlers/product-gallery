@@ -17,6 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull(message = "keine Id vorhanden")
     Long id;
+    int position;
     @NotNull(message = "kein Titel vorhanden")
     String title;
     String description;

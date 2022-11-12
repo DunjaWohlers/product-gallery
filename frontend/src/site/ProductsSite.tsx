@@ -22,7 +22,7 @@ export default function ProductsSite(props: ProductsSiteProps) {
 
     const [actualProduct, setActualProduct] = useState<Product>();
 
-    const newProduct: NewProduct = {title: "", description: "", pictureObj: []};
+    const newProduct: NewProduct = {title: "", position: 0, description: "", pictureObj: []};
 
     const [editPictures, setEditPictures] = useState<boolean>(false);
 

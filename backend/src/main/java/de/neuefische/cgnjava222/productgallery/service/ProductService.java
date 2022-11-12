@@ -47,6 +47,7 @@ public class ProductService {
         return productRepo.findById(id).map(product -> {
             product.setTitle(newProduct.getTitle());
             product.setDescription(newProduct.getDescription());
+            product.setPosition(newProduct.getPosition());
             return productRepo.save(product);
         }).orElseThrow();
     }

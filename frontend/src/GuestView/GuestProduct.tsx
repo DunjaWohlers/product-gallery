@@ -9,13 +9,11 @@ type ProductFormProps = {
 
 export default function GuestProduct(props: ProductFormProps) {
 
-    const [viewUrl, setViewUrl] = useState<string>(props.product?.pictureObj ? props.product.pictureObj[0].url : "")
+    const [viewUrl, setViewUrl] = useState<string>(props.product?.pictureObj ? props.product.pictureObj[0]?.url : "")
 
     const mouseEnter: MouseEventHandler<HTMLImageElement> = (e) => {
-        console.log(e.target);
         const htmlElement = e.target as HTMLElement;
         const url: string | null = htmlElement.getAttribute("src");
-        console.log(url);
         url && setViewUrl(url)
     }
 
@@ -27,7 +25,7 @@ export default function GuestProduct(props: ProductFormProps) {
                 <div className={"allImages"}>
                     {(props.product?.pictureObj && props.product.pictureObj.length > 0) && <>
                         {props.product.pictureObj.map(picObj => <div key={picObj.url}>
-                                <img onMouseEnter={mouseEnter} src={picObj.url} alt={"img"}/>
+                            <img onMouseEnter={mouseEnter} src={picObj.url} alt={"img"}/>
                             </div>
                         )}
                     </>
