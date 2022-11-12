@@ -50,6 +50,12 @@
 .lineGuest .imageContainer .picPresentation {
     width: 100%;
     text-align: center;
+    margin-top: 5px;
+}
+
+.picPresentation img {
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .lineGuest .imageContainer .allImages {
@@ -64,15 +70,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     overflow: hidden;
     border-top: 1px black solid;
 }
 
 .lineGuest .imageContainer .allImages div img {
-    max-width: 60px;
-    max-height: 60px;
+    max-width: 40px;
+    max-height: 40px;
+    filter: blur(0.6px) grayscale(0.6);
 }
 
 

@@ -25,6 +25,7 @@ public class ProductService {
         var newProd = Product.builder()
                 .description(newProduct.getDescription())
                 .title(newProduct.getTitle())
+                .position(newProduct.getPosition())
                 .build();
         var product = productRepo.save(newProd);
 
