@@ -177,16 +177,16 @@ class ProductIntegrationTest {
                 .andExpect(status().is(204));
     }
 
-    @Test
-    @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
-    void deleteNotExistingProduct() throws Exception {
-        String notExistingID = "ABC123";
-        mockMvc.perform(
-                        delete("/api/product/" + notExistingID).with(csrf())
-                )
-                .andExpect(status().is(404));
-    }
-
+    //  @Test
+    //  @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
+    //  void deleteNotExistingProduct() throws Exception {
+    //      String notExistingID = "ABC123";
+    //      mockMvc.perform(
+    //                      delete("/api/product/" + notExistingID).with(csrf())
+    //              )
+    //              .andExpect(status().is(404));
+    //  }
+//
     // @Test
     // @WithMockUser(username = "frank", authorities = {"ADMIN", "USER"})
     // void updateProduct() throws Exception {

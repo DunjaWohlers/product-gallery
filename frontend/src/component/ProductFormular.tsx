@@ -64,7 +64,7 @@ export default function ProductFormular(props: ProductFormProps) {
                        )}
                    className={title ? "good" : "bad"}/>
 
-            {!props.editPictures && <textarea
+            {(!props.editPictures || !props.product) && <textarea
                 autoComplete={"off"}
                 placeholder={"Beschreibung"}
                 defaultValue={description}
@@ -75,7 +75,7 @@ export default function ProductFormular(props: ProductFormProps) {
                     )}
                 className={description ? "good" : "bad"}/>
             }
-            {props.editPictures &&
+            {(props.editPictures && props.product) &&
                 <div className={"imageContainer"}>
                     <div className={"imagesBox"}>
                         {(props.product?.pictureObj && props.product.pictureObj.length > 0) && <>
@@ -98,9 +98,10 @@ export default function ProductFormular(props: ProductFormProps) {
                 </div>
             }
 
-            <button className={"opacity"} type={"button"} onClick={handleSubmit}> &#10003;
+            <button className={"submitButton"} type={"button"} onClick={handleSubmit}> &#10003;
             </button>
-            {props.product && <button type={"button"} onClick={handleDelete}>&#10007;</button>}
+            {props.product &&
+                <button className={"deleteButton"} type={"button"} onClick={handleDelete}>&#10007;</button>}
         </div>)
 }
 
