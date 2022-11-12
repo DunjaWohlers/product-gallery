@@ -13,10 +13,8 @@ export default function AllRoutes() {
                 <Route path={"/"} element={
                     <GuestProductsSite/>}
                 />
-                {userInfo?.authorities.includes("ADMIN") && <Route path={"/admin"} element={
-                    <ProductsSite userInfo={userInfo}/>
-                }
-                />}
+                <Route path={"/admin"} element={<ProductsSite userInfo={userInfo}/>}
+                />
                 <Route path={"/login"} element={
                     <Login loginUser={loginUser}/>}/>
             </Routes>

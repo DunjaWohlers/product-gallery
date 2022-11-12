@@ -26,47 +26,49 @@ export default function ProductsSite(props: ProductsSiteProps) {
 
     const [editPictures, setEditPictures] = useState<boolean>(false);
 
-
     const toggleEditPictures = () => {
-        console.log(editPictures)
         editPictures ? setEditPictures(false) : setEditPictures(true);
     }
 
-
     return (<>
-            {!allProducts && <div> Lade Produkt-Liste... </div>}
-            {allProducts && allProducts.map(product =>
-                <ProductFormular
-                    deleteImage={deleteImage}
-                    editPictures={editPictures}
-                    product={product}
-                    emptyProduct={newProduct}
-                    addProduct={addProduct}
-                    updateProduct={updateProduct}
-                    deleteProduct={deleteProduct}
-                    setActualProduct={setActualProduct}
-                    key={product.id}
-                />
-            )}
+            {props.userInfo?.authorities.includes("ADMIN") ?
+                <>
+                    {!allProducts && <div> Lade Produkt-Liste... </div>}
+                    {allProducts && allProducts.map(product =>
+                        <ProductFormular
+                            deleteImage={deleteImage}
+                            editPictures={editPictures}
+                            product={product}
+                            emptyProduct={newProduct}
+                            addProduct={addProduct}
+                            updateProduct={updateProduct}
+                            deleteProduct={deleteProduct}
+                            setActualProduct={setActualProduct}
+                            key={product.id}
+                        />
+                    )}
 
-            NeuesProdukt hinzufügen:
-            <ProductFormular
-                deleteImage={deleteImage}
-                editPictures={editPictures}
-                product={undefined}
-                emptyProduct={newProduct}
-                addProduct={addProduct}
-                updateProduct={updateProduct}
-                deleteProduct={deleteProduct}
-                setActualProduct={setActualProduct}
-            />
+                    NeuesProdukt hinzufügen:
+                    <ProductFormular
+                        deleteImage={deleteImage}
+                        editPictures={editPictures}
+                        product={undefined}
+                        emptyProduct={newProduct}
+                        addProduct={addProduct}
+                        updateProduct={updateProduct}
+                        deleteProduct={deleteProduct}
+                        setActualProduct={setActualProduct}
+                    />
 
-            {actualProduct && <AddImageDialog uploadImage={uploadImage} setActualProduct={setActualProduct}
-                                              actualProduct={actualProduct}/>
+                    {actualProduct && <AddImageDialog uploadImage={uploadImage} setActualProduct={setActualProduct}
+                                                      actualProduct={actualProduct}/>
+                    }
+
+                    <button className={"switchPicEditButton"}
+                            onClick={() => toggleEditPictures()}> {editPictures ? "Beschreibung bearbeiten" : "Bilder bearbeiten"} </button>
+                </> :
+                "Authentifizierung war nicht erfolgreich"
             }
-
-            <button className={"switchPicEditButton"}
-                    onClick={() => toggleEditPictures()}> {editPictures ? "Beschreibung bearbeiten" : "Bilder bearbeiten"} </button>
         </>
     )
 }

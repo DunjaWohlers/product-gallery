@@ -31,6 +31,7 @@ export default function useUser() {
     const loginUser = (username: string, password: string) => {
         axios.get("/api/users/login", {auth: {username, password}})
             //  .then(props.authenticationChanged)
+            .then(() => fetchUsername())
             .then(() => navigate("/admin"))
             .catch(() => toast.error("Login fehlgeschlagen"))
     }
